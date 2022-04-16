@@ -6,7 +6,9 @@ package model;
  */
 public class Book {
     
-    public static final String FILENAME = "Books";
+    public static final String FILENAME = "Books.txt";
+
+    private int entityId;
     
     private String name;
     
@@ -14,10 +16,19 @@ public class Book {
     
     private String releaseDate;
 
-    public Book(String name, String isbn, String releaseDate) {
-        this.name = name;
-        this.isbn = isbn;
-        this.releaseDate = releaseDate;
+    public Book() {
+        this.entityId = 0;
+        this.name = "";
+        this.isbn = "";
+        this.releaseDate = "";
+    }
+
+    public int getEntityId(){
+        return this.entityId;
+    }
+
+    public void setEntityId(int entityId){
+        this.entityId = entityId;
     }
 
     public String getName() {
@@ -43,7 +54,5 @@ public class Book {
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
-    
-    
-    
+
 }
