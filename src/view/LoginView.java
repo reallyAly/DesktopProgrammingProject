@@ -4,16 +4,21 @@
  */
 package view;
 
+import controller.LoginController;
+
 /**
  *
  * @author alysson
  */
 public class LoginView extends javax.swing.JFrame {
-
+    
+    private LoginController loginController;
+    
     /**
      * Creates new form NewLoginView
      */
     public LoginView() {
+        this.loginController = new LoginController();
         initComponents();
     }
 
@@ -26,13 +31,14 @@ public class LoginView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jOptionPane1 = new javax.swing.JOptionPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         passField = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
         passLabel = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        emailLabel = new javax.swing.JLabel();
+        emailField = new javax.swing.JTextField();
         titleLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -63,8 +69,8 @@ public class LoginView extends javax.swing.JFrame {
         passLabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
         passLabel.setText("Password");
 
-        jLabel2.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        jLabel2.setText("E-mail");
+        emailLabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        emailLabel.setText("E-mail");
 
         titleLabel.setFont(new java.awt.Font("Uroob", 1, 48)); // NOI18N
         titleLabel.setText("LIBRARY APP");
@@ -75,7 +81,7 @@ public class LoginView extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(85, 85, 85)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
+                .addComponent(emailField, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
                 .addGap(92, 92, 92))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(303, 303, 303)
@@ -87,7 +93,7 @@ public class LoginView extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(passLabel)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2)
+                            .addComponent(emailLabel)
                             .addComponent(passField, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -101,12 +107,12 @@ public class LoginView extends javax.swing.JFrame {
                 .addGap(44, 44, 44)
                 .addComponent(titleLabel)
                 .addGap(161, 161, 161)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(487, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(213, 213, 213)
-                    .addComponent(jLabel2)
+                    .addComponent(emailLabel)
                     .addGap(129, 129, 129)
                     .addComponent(passLabel)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -137,7 +143,20 @@ public class LoginView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
+        
+        try{
+            int userId = this.loginController.login(this.emailField.getText(), this.passField.getText());
+            this.jOptionPane1.showMessageDialog(this,
+                    "You are logged in",
+                    "Login",
+                    jOptionPane1.INFORMATION_MESSAGE);
+        }catch(IllegalAccessException e){
+            this.jOptionPane1.showMessageDialog(this,
+                    e.getMessage(),
+                    "Invalid credentials",
+                    jOptionPane1.WARNING_MESSAGE);
+        }
+        
     }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
@@ -177,10 +196,11 @@ public class LoginView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField emailField;
+    private javax.swing.JLabel emailLabel;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton loginButton;
     private javax.swing.JPasswordField passField;
     private javax.swing.JLabel passLabel;
