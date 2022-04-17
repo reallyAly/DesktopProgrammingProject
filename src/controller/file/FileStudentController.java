@@ -76,7 +76,7 @@ public class FileStudentController extends FileTextController {
         
     }
     
-    public Student findStudentById(int id) throws IllegalAccessException{
+    public Student findStudentById(int id){
         
         ArrayList<Student> studs = this.getStudents();
         

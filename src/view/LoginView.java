@@ -5,6 +5,10 @@
 package view;
 
 import controller.LoginController;
+import controller.file.FileLibrarianController;
+import controller.file.FileStudentController;
+import model.Librarian;
+import model.Student;
 
 /**
  *
@@ -13,12 +17,16 @@ import controller.LoginController;
 public class LoginView extends javax.swing.JFrame {
     
     private LoginController loginController;
+    private FileLibrarianController fileLibrarianController;
+    private FileStudentController fileStudentController;
     
     /**
      * Creates new form NewLoginView
      */
     public LoginView() {
         this.loginController = new LoginController();
+        this.fileLibrarianController = new FileLibrarianController();
+        this.fileStudentController = new FileStudentController();
         initComponents();
     }
 
@@ -147,10 +155,27 @@ public class LoginView extends javax.swing.JFrame {
         try{
             int userId = this.loginController.login(this.emailField.getText(), this.passField.getText());
             
+            
             this.jOptionPane1.showMessageDialog(this,
                     "You are logged in",
                     "Login",
                     jOptionPane1.INFORMATION_MESSAGE);
+            
+            Librarian lib = this.fileLibrarianController.findLibrarianById(userId);
+            
+            
+            if(lib != null){
+               new LibrarianDashboardView(userId).setVisible(true);
+            }
+            
+            Student stud = this.fileStudentController.findStudentById(userId);
+            
+            if(stud != null){
+                
+            }
+            
+            dispose();
+ 
         }catch(IllegalAccessException e){
             this.jOptionPane1.showMessageDialog(this,
                     e.getMessage(),
