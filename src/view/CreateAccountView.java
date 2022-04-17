@@ -176,16 +176,16 @@ public class CreateAccountView extends javax.swing.JFrame {
                         this.emailField.getText(),
                         this.passField.getText()
                );
+            }else{
+                this.createAccountController.createUser(
+                    this.firstnameField.getText(), 
+                    this.lastnameField.getText(), 
+                    this.emailField.getText(),
+                    this.passField.getText(),
+                    this.RAField.getText()
+                );
             }
         
-            this.createAccountController.createUser(
-                this.firstnameField.getText(), 
-                this.lastnameField.getText(), 
-                this.emailField.getText(),
-                this.passField.getText(),
-                this.RAField.getText()
-            );
-            
             new LoginView().setVisible(true);
             dispose();
             

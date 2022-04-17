@@ -6,7 +6,7 @@ package model;
  */
 public class Book {
     
-    public static final String FILENAME = "Books.txt";
+    public static final String FILENAME = "Books";
 
     private int entityId;
     

@@ -61,4 +61,32 @@ public class FileStudentController extends FileTextController {
     private void addNewStudent(Student student){
         this.students.add(student);
     }
+    
+    public Student findStudentByEmail(String email) throws IllegalAccessException{
+        
+        ArrayList<Student> studs = this.getStudents();
+        
+        for(int i = 0; i < studs.size(); i++){
+            if(studs.get(i).getEmail().equals(email)){
+                return studs.get(i);
+            }
+        }
+        
+        throw new IllegalAccessException("User not found");
+        
+    }
+    
+    public Student findStudentById(int id) throws IllegalAccessException{
+        
+        ArrayList<Student> studs = this.getStudents();
+        
+        for(int i = 0; i < studs.size(); i++){
+            if(studs.get(i).getEntityId() == id){
+                return studs.get(i);
+            }
+        }
+        
+        throw new IllegalAccessException("User not found");
+        
+    }
 }
