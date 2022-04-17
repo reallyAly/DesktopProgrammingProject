@@ -27,13 +27,13 @@ public class LoginController {
     
     public int login(String email, String password) throws IllegalAccessException{
         
-        Student stud = this.findStudentByEmail(email);
+        Student stud = this.fileStudentController.findStudentByEmail(email);
         
         if(!stud.getFirstname().isEmpty() && this.validatePassword(stud, password)){
            return stud.getEntityId();
         }
         
-        Librarian lib = this.findLibrarianByEmail(email);
+        Librarian lib = this.fileLibrarianController.findLibrarianByEmail(email);
         
         if(!lib.getFirstname().isEmpty() && this.validatePassword(lib, password)){
            return lib.getEntityId();
@@ -41,34 +41,6 @@ public class LoginController {
 
         throw new IllegalAccessException("Password may be wrong, please try again");
 
-    }
-    
-    private Student findStudentByEmail(String email) throws IllegalAccessException{
-        
-        ArrayList<Student> studs = this.getStudents();
-        
-        for(int i = 0; i < studs.size(); i++){
-            if(studs.get(i).getEmail().equals(email)){
-                return studs.get(i);
-            }
-        }
-        
-        throw new IllegalAccessException("User not found");
-        
-    }
-    
-    private Librarian findLibrarianByEmail(String email) throws IllegalAccessException{
-        
-        ArrayList<Librarian> libs = this.getLibrarians();
-
-        for(int i = 0; i < libs.size(); i++){
-            if(libs.get(i).getEmail().equals(email)){
-                return libs.get(i);
-            }
-        }
-        
-        throw new IllegalAccessException("User not found");
-        
     }
     
     private boolean validatePassword(Student student, String password){

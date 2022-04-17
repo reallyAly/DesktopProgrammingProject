@@ -52,11 +52,39 @@ public class FileLibrarianController extends FileTextController {
         return this.librarians;
     }
 
-    public Librarian getNewLibrarian(){
+    private Librarian getNewLibrarian(){
         return new Librarian();
     }
 
     private void addNewLibrarian(Librarian librarian){
         this.librarians.add(librarian);
+    }
+    
+    public Librarian findLibrarianByEmail(String email) throws IllegalAccessException{
+        
+        ArrayList<Librarian> libs = this.getLibrarians();
+
+        for(int i = 0; i < libs.size(); i++){
+            if(libs.get(i).getEmail().equals(email)){
+                return libs.get(i);
+            }
+        }
+        
+        throw new IllegalAccessException("User not found");
+        
+    }
+    
+    public Librarian findLibrarianById(int id) throws IllegalAccessException{
+        
+        ArrayList<Librarian> libs = this.getLibrarians();
+
+        for(int i = 0; i < libs.size(); i++){
+            if(libs.get(i).getEntityId() == id){
+                return libs.get(i);
+            }
+        }
+        
+        throw new IllegalAccessException("User not found");
+        
     }
 }

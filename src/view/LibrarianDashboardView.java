@@ -4,16 +4,28 @@
  */
 package view;
 
+import controller.file.FileLibrarianController;
+import model.Librarian;
+
 /**
  *
  * @author alysson
  */
 public class LibrarianDashboardView extends javax.swing.JFrame {
+    
+    private FileLibrarianController fileLibrarianController;
+    
+    private int librarianId;
+    
+    private Librarian librarian;
 
     /**
      * Creates new form Dashboard
+     * @param librarianId
      */
-    public LibrarianDashboardView() {
+    public LibrarianDashboardView(int librarianId) {
+        this.librarianId = librarianId;
+        this.fileLibrarianController = new FileLibrarianController();
         initComponents();
     }
 
@@ -122,7 +134,8 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
     }//GEN-LAST:event_viewLoansButtonActionPerformed
 
     private void addNewBookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewBookButtonActionPerformed
-        // TODO add your handling code here:
+        new AddNewBookView(this.librarianId).setVisible(true);
+        dispose();
     }//GEN-LAST:event_addNewBookButtonActionPerformed
 
     private void viewBooksButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewBooksButtonActionPerformed
