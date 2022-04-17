@@ -144,7 +144,8 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
     }//GEN-LAST:event_viewBooksButtonActionPerformed
 
     private void viewStudentsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewStudentsButtonActionPerformed
-        // TODO add your handling code here:
+        new LibrarianStudentsView(librarianId).setVisible(true);
+        dispose();
     }//GEN-LAST:event_viewStudentsButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
