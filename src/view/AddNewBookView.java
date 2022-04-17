@@ -44,8 +44,8 @@ public class AddNewBookView extends javax.swing.JFrame {
         isbnField = new javax.swing.JTextField();
         isbnLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        releaseDateField = new javax.swing.JTextField();
-        releaseDateLabel = new javax.swing.JLabel();
+        authorField = new javax.swing.JTextField();
+        authorLabel = new javax.swing.JLabel();
         saveBookButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -61,8 +61,8 @@ public class AddNewBookView extends javax.swing.JFrame {
 
         jLabel1.setText("Add New Book");
 
-        releaseDateLabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        releaseDateLabel.setText("Release Date");
+        authorLabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        authorLabel.setText("Author");
 
         saveBookButton.setText("SAVE");
         saveBookButton.addActionListener(new java.awt.event.ActionListener() {
@@ -80,8 +80,8 @@ public class AddNewBookView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(releaseDateLabel)
-                            .addComponent(releaseDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(authorLabel)
+                            .addComponent(authorField, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(isbnField, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(isbnLabel)
                             .addComponent(bookNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -113,9 +113,9 @@ public class AddNewBookView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(isbnField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
-                .addComponent(releaseDateLabel)
+                .addComponent(authorLabel)
                 .addGap(18, 18, 18)
-                .addComponent(releaseDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(authorField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                 .addComponent(saveBookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(66, 66, 66))
@@ -131,7 +131,7 @@ public class AddNewBookView extends javax.swing.JFrame {
             this.createBookController.createBook(
                     this.bookNameField.getText(), 
                     this.isbnField.getText(), 
-                    this.releaseDateField.getText()
+                    this.authorField.getText()
             );
                     
             this.jOptionPane1.showMessageDialog(this,
@@ -194,14 +194,14 @@ public class AddNewBookView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField authorField;
+    private javax.swing.JLabel authorLabel;
     private javax.swing.JTextField bookNameField;
     private javax.swing.JLabel bookNameLabel;
     private javax.swing.JTextField isbnField;
     private javax.swing.JLabel isbnLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JOptionPane jOptionPane1;
-    private javax.swing.JTextField releaseDateField;
-    private javax.swing.JLabel releaseDateLabel;
     private javax.swing.JButton saveBookButton;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
