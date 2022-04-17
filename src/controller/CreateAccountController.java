@@ -26,23 +26,68 @@ public class CreateAccountController {
         this.fileStudentController = new FileStudentController();
         this.student = new Student();
         this.librarian = new Librarian();
+        
+        this.fileStudentController.readStudent();
+        this.fileLibrarianController.readLibrarian();
     }
 
-    public boolean createUser(String firstname, String lastname, String email, String password, String RA) {
+    public boolean createUser(
+            String firstname, 
+            String lastname, 
+            String email, 
+            String password, 
+            String RA
+    ) throws Exception {
+        
+        ArrayList<Student> students = this.fileStudentController.getStudents();
+        ArrayList<Librarian> librarians = this.fileLibrarianController.getLibrarians();
+        
+        // Validations
+        this.validateFields(firstname, lastname, email, password, RA);
+        
+        this.checkIfEmailIsAvailable(
+                email, 
+                students, 
+                librarians
+        );
+        
+        this.checkIfRAIsAvailable(RA, students);
 
-        this.student.setEntityId(this.getNewUniqueId(this.student));
+        this.student.setEntityId(this.getStudentNewUniqueId(students));
         this.student.setFirstname(firstname);
         this.student.setLastname(lastname);
         this.student.setEmail(email);
         this.student.setPassword(password);
         this.student.setRA(RA);
+          
+        boolean result = this.fileStudentController.storeStudent(this.student);
+        
+        if(!result){
+           throw new Exception("Error trying to save the new user");
+        }
 
-        return this.fileStudentController.storeStudent(this.student);
+        return result;
     }
 
-    public boolean createUser(String firstname, String lastname, String email, String password) {
-
-        this.librarian.setEntityId(this.getNewUniqueId(this.librarian));
+    public boolean createUser(
+            String firstname, 
+            String lastname, 
+            String email, 
+            String password
+    ) {
+        
+        ArrayList<Student> students = this.fileStudentController.getStudents();
+        ArrayList<Librarian> librarians = this.fileLibrarianController.getLibrarians();
+        
+        // Validations
+        this.validateFields(firstname, lastname, email, password, "00000");
+        this.checkIfEmailIsAvailable(
+                email, 
+                students, 
+                librarians
+        );
+        
+        this.librarian.setEntityId(this.getLibrarianNewUniqueId(librarians));
         this.librarian.setFirstname(firstname);
         this.librarian.setLastname(lastname);
         this.librarian.setEmail(email);
@@ -51,12 +96,9 @@ public class CreateAccountController {
         return this.fileLibrarianController.storeLibrarian(this.librarian);
     }
 
-    private int getNewUniqueId(Student student) {
+    private int getStudentNewUniqueId(ArrayList<Student> students) {
 
-        this.fileStudentController.readStudent();
-        ArrayList<Student> students = this.fileStudentController.getStudents();
-
-        if(students.size() == 0){
+        if(students.isEmpty()){
             return 1;
         }
 
@@ -66,12 +108,9 @@ public class CreateAccountController {
         return lastId;
     }
 
-    private int getNewUniqueId(Librarian librarian) {
+    private int getLibrarianNewUniqueId(ArrayList<Librarian> librarians) {
 
-        this.fileLibrarianController.readLibrarian();
-        ArrayList<Librarian> librarians = this.fileLibrarianController.getLibrarians();
-
-        if(librarians.size() == 0){
+        if(librarians.isEmpty()){
             return 1;
         }
 
@@ -79,5 +118,84 @@ public class CreateAccountController {
         lastId+=1;
 
         return lastId;
+    }
+    
+    private void validateFields(
+            String firstname, 
+            String lastname, 
+            String email, 
+            String password, 
+            String RA
+    ) throws IllegalArgumentException{
+        
+        if(firstname.isBlank()){
+            
+            throw new IllegalArgumentException(
+                    "The firstname field cannot be empty"
+            );
+            
+        }else if(lastname.isBlank()){
+            
+            throw new IllegalArgumentException(
+                    "The lastname field cannot be empty"
+            );
+            
+        }else if(email.isBlank()){
+            
+            throw new IllegalArgumentException(
+                    "The email field cannot be empty"
+            );
+            
+        }else if(password.isBlank()){
+            
+            throw new IllegalArgumentException(
+                    "The password field cannot be empty"
+            );
+            
+        }else if(RA.isBlank()){
+            
+            throw new IllegalArgumentException(
+                    "The RA field cannot be empty"
+            );
+            
+        }
+        
+    }
+    
+    private void checkIfEmailIsAvailable(
+            String email, 
+            ArrayList<Student> students, 
+            ArrayList<Librarian> librarians
+    ) throws IllegalArgumentException{
+
+        for(Student stud: students){
+                if(stud.getEmail().equals(email)){
+                    throw new IllegalArgumentException(
+                        "The email was registered previously, try another"
+                    );
+                }
+         }
+
+        for(Librarian lib: librarians){
+                if(lib.getEmail().equals(email)){
+                    throw new IllegalArgumentException(
+                            "The email was registered previously, try another "
+                    );
+                }
+        }
+    }
+    
+    private void checkIfRAIsAvailable(String RA, ArrayList<Student> students) throws IllegalArgumentException{
+        
+          if(!students.isEmpty()){
+               for(Student stud: students){
+                   if(stud.getRA().equals(RA)){
+                       throw new IllegalArgumentException(
+                               "The RA was registered previously, try another"
+                       );
+                   }
+               }
+          }
+          
     }
 }

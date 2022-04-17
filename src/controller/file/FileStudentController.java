@@ -27,6 +27,7 @@ public class FileStudentController extends FileTextController {
             this.student.setLastname(tokens.nextToken());
             this.student.setEmail(tokens.nextToken());
             this.student.setPassword(tokens.nextToken());
+            this.student.setRA(tokens.nextToken());
             
             this.addNewStudent(this.student);
         }
@@ -38,7 +39,8 @@ public class FileStudentController extends FileTextController {
                 student.getFirstname()+ ";" +
                 student.getLastname()+ ";" +
                 student.getEmail() + ";" +
-                student.getPassword() + "\n";
+                student.getPassword() + ";" +
+                student.getRA() + "\n";
         
         setText(aux);
         

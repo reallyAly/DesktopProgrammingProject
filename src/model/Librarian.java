@@ -8,7 +8,7 @@ import model.Person;
  */
 public class Librarian extends Person {
     
-    public static final String FILENAME = "Librarians.txt";
+    public static final String FILENAME = "Librarians";
 
     public Librarian() {
         

@@ -4,16 +4,20 @@
  */
 package view;
 
+import controller.CreateAccountController;
+
 /**
  *
  * @author alysson
  */
 public class CreateAccountView extends javax.swing.JFrame {
-
+    
+    private CreateAccountController createAccountController;
     /**
      * Creates new form NewCreateAccount
      */
     public CreateAccountView() {
+        this.createAccountController = new CreateAccountController();
         initComponents();
     }
 
@@ -26,17 +30,18 @@ public class CreateAccountView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jOptionPane1 = new javax.swing.JOptionPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         titleLabel = new javax.swing.JLabel();
         firstnameLabel = new javax.swing.JLabel();
         firstnameField = new javax.swing.JTextField();
-        lastnameLabel1 = new javax.swing.JLabel();
-        lastnameField1 = new javax.swing.JTextField();
-        lastnameLabel2 = new javax.swing.JLabel();
+        lastnameLabel = new javax.swing.JLabel();
         lastnameField = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        RALabel = new javax.swing.JLabel();
+        RAField = new javax.swing.JTextField();
+        emailLabel = new javax.swing.JLabel();
+        emailField = new javax.swing.JTextField();
         passLabel = new javax.swing.JLabel();
         passField = new javax.swing.JPasswordField();
         createAccountButton = new javax.swing.JButton();
@@ -64,14 +69,14 @@ public class CreateAccountView extends javax.swing.JFrame {
         firstnameLabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
         firstnameLabel.setText("Firstname");
 
-        lastnameLabel1.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        lastnameLabel1.setText("Lastname");
+        lastnameLabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        lastnameLabel.setText("Lastname");
 
-        lastnameLabel2.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        lastnameLabel2.setText("RA");
+        RALabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        RALabel.setText("RA");
 
-        jLabel3.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        jLabel3.setText("E-mail");
+        emailLabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        emailLabel.setText("E-mail");
 
         passLabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
         passLabel.setText("Password");
@@ -99,17 +104,17 @@ public class CreateAccountView extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(127, 127, 127)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lastnameLabel2)
-                    .addComponent(lastnameLabel1)
+                    .addComponent(RALabel)
+                    .addComponent(lastnameLabel)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lastnameField1)
-                        .addComponent(jTextField2)
-                        .addComponent(jLabel3)
+                        .addComponent(lastnameField)
+                        .addComponent(emailField)
+                        .addComponent(emailLabel)
                         .addComponent(passLabel)
                         .addComponent(firstnameLabel)
                         .addComponent(firstnameField)
                         .addComponent(passField, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
-                        .addComponent(lastnameField, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addComponent(RAField, javax.swing.GroupLayout.Alignment.TRAILING)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -122,17 +127,17 @@ public class CreateAccountView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(firstnameField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addComponent(lastnameLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lastnameField1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(lastnameLabel2)
+                .addComponent(lastnameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lastnameField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addGap(26, 26, 26)
+                .addComponent(RALabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(RAField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(emailLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(passLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -161,7 +166,45 @@ public class CreateAccountView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAccountButtonActionPerformed
-        // TODO add your handling code here:
+        
+        try{
+            
+            if(this.RAField.getText().equals("00000")){
+                this.createAccountController.createUser(
+                        this.firstnameField.getText(), 
+                        this.lastnameField.getText(), 
+                        this.emailField.getText(),
+                        this.passField.getText()
+               );
+            }
+        
+            this.createAccountController.createUser(
+                this.firstnameField.getText(), 
+                this.lastnameField.getText(), 
+                this.emailField.getText(),
+                this.passField.getText(),
+                this.RAField.getText()
+            );
+            
+            new LoginView().setVisible(true);
+            dispose();
+            
+            this.jOptionPane1.showMessageDialog(this,
+                    "Your account has been created successfully",
+                    "Create Account",
+                    jOptionPane1.INFORMATION_MESSAGE);
+        }catch(IllegalArgumentException e){
+            this.jOptionPane1.showMessageDialog(this,
+                    e.getMessage(),
+                    "Invalid Fields",
+                    jOptionPane1.WARNING_MESSAGE);
+        }catch(Exception e){
+            this.jOptionPane1.showMessageDialog(this,
+                    e.getMessage(),
+                    "Error in save action",
+                    jOptionPane1.WARNING_MESSAGE);
+        }
+        
     }//GEN-LAST:event_createAccountButtonActionPerformed
 
     /**
@@ -201,17 +244,18 @@ public class CreateAccountView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField RAField;
+    private javax.swing.JLabel RALabel;
     private javax.swing.JButton createAccountButton;
+    private javax.swing.JTextField emailField;
+    private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField firstnameField;
     private javax.swing.JLabel firstnameLabel;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField lastnameField;
-    private javax.swing.JTextField lastnameField1;
-    private javax.swing.JLabel lastnameLabel1;
-    private javax.swing.JLabel lastnameLabel2;
+    private javax.swing.JLabel lastnameLabel;
     private javax.swing.JPasswordField passField;
     private javax.swing.JLabel passLabel;
     private javax.swing.JLabel titleLabel;

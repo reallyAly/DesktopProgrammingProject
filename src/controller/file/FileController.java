@@ -27,6 +27,6 @@ public abstract class FileController {
     public void setFile(String filename) {
         file = null;
         String initialDir = System.getProperty("user.dir");
-        this.file = new File("/home/alysson"+"/"+filename);
+        this.file = new File("/home/alysson/MyLibrary"+"/"+filename);
     }
 }
