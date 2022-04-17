@@ -60,21 +60,29 @@ public class FileLibrarianController extends FileTextController {
         this.librarians.add(librarian);
     }
     
-    public Librarian findLibrarianByEmail(String email) throws IllegalAccessException{
+    public Librarian findLibrarianByEmail(String email){
+        
+        if(this.librarians.isEmpty()){
+            this.readLibrarian();
+        }
         
         ArrayList<Librarian> libs = this.getLibrarians();
-
+        
         for(int i = 0; i < libs.size(); i++){
             if(libs.get(i).getEmail().equals(email)){
                 return libs.get(i);
             }
         }
         
-        throw new IllegalAccessException("User not found");
+        return null;
         
     }
     
-    public Librarian findLibrarianById(int id) throws IllegalAccessException{
+    public Librarian findLibrarianById(int id){
+        
+        if(this.librarians.isEmpty()){
+            this.readLibrarian();
+        }
         
         ArrayList<Librarian> libs = this.getLibrarians();
 
@@ -84,7 +92,7 @@ public class FileLibrarianController extends FileTextController {
             }
         }
         
-        throw new IllegalAccessException("User not found");
+        return null;
         
     }
 }

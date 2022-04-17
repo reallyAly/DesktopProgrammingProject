@@ -29,17 +29,21 @@ public class LoginController {
         
         Student stud = this.fileStudentController.findStudentByEmail(email);
         
-        if(!stud.getFirstname().isEmpty() && this.validatePassword(stud, password)){
-           return stud.getEntityId();
+        if(stud != null){
+            if (this.validatePassword(stud, password)) {
+                return stud.getEntityId();
+            }
         }
-        
+             
         Librarian lib = this.fileLibrarianController.findLibrarianByEmail(email);
-        
-        if(!lib.getFirstname().isEmpty() && this.validatePassword(lib, password)){
-           return lib.getEntityId();
+
+        if(lib != null){
+            if (this.validatePassword(lib, password)) {
+                return lib.getEntityId();
+            }
         }
 
-        throw new IllegalAccessException("Password may be wrong, please try again");
+        throw new IllegalAccessException("Email or Password may be wrong, please try again");
 
     }
     
@@ -50,20 +54,5 @@ public class LoginController {
     private boolean validatePassword(Librarian librarian, String password){
         return librarian.getPassword().equals(password);
     }
-   
-    private ArrayList<Librarian> getLibrarians(){
-        
-        this.fileLibrarianController.readLibrarian();
-        return this.fileLibrarianController.getLibrarians();
-        
-    }
-    
-    private ArrayList<Student> getStudents(){
-        
-        this.fileStudentController.readStudent();
-        return this.fileStudentController.getStudents();
-        
-    }
-   
    
 }

@@ -146,6 +146,7 @@ public class LoginView extends javax.swing.JFrame {
         
         try{
             int userId = this.loginController.login(this.emailField.getText(), this.passField.getText());
+            
             this.jOptionPane1.showMessageDialog(this,
                     "You are logged in",
                     "Login",
