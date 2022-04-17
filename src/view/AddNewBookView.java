@@ -7,6 +7,8 @@ package view;
 import controller.CreateBookController;
 import controller.file.FileBookController;
 import java.awt.HeadlessException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,7 +26,7 @@ public class AddNewBookView extends javax.swing.JFrame {
      */
     public AddNewBookView(int librarianId) {
         this.librarianId = librarianId;
-        this.createBookController = new CreateBookController();
+        this.createBookController = new CreateBookController(librarianId);
         initComponents();
     }
 
@@ -139,6 +141,9 @@ public class AddNewBookView extends javax.swing.JFrame {
                 "Book Status",
                 jOptionPane1.INFORMATION_MESSAGE);
             
+            new LibrarianDashboardView(this.librarianId).setVisible(true);
+            dispose();
+            
         }catch(IllegalArgumentException e){
             
             this.jOptionPane1.showMessageDialog(this,
@@ -146,13 +151,11 @@ public class AddNewBookView extends javax.swing.JFrame {
                 "Invalid Fields",
                 jOptionPane1.WARNING_MESSAGE);
             
-        }catch(HeadlessException e){
-            
-            this.jOptionPane1.showMessageDialog(this,
+        }catch (Exception e) {
+             this.jOptionPane1.showMessageDialog(this,
                 e.getMessage(),
                 "Error trying to save the book",
                 jOptionPane1.WARNING_MESSAGE);
-            
         }
 
     }//GEN-LAST:event_saveBookButtonActionPerformed
