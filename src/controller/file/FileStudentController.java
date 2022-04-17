@@ -62,7 +62,7 @@ public class FileStudentController extends FileTextController {
         this.students.add(student);
     }
     
-    public Student findStudentByEmail(String email) throws IllegalAccessException{
+    public Student findStudentByEmail(String email){
         
         ArrayList<Student> studs = this.getStudents();
         
@@ -72,7 +72,7 @@ public class FileStudentController extends FileTextController {
             }
         }
         
-        throw new IllegalAccessException("User not found");
+        return null;
         
     }
     
@@ -86,7 +86,7 @@ public class FileStudentController extends FileTextController {
             }
         }
         
-        throw new IllegalAccessException("User not found");
+        return null;
         
     }
 }
