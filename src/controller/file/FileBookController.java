@@ -26,7 +26,7 @@ public class FileBookController extends FileTextController {
             this.book.setEntityId(Integer.parseInt(tokens.nextToken()));
             this.book.setName(tokens.nextToken());
             this.book.setIsbn(tokens.nextToken());
-            this.book.setReleaseDate(tokens.nextToken());
+            this.book.setAuthor(tokens.nextToken());
             this.addNewBook(this.book);
         }
     }
@@ -38,7 +38,7 @@ public class FileBookController extends FileTextController {
         String aux = this.book.getEntityId()+ ";" +
                 this.book.getName()+ ";" +
                 this.book.getIsbn()+ ";" +
-                this.book.getReleaseDate() + "\n";
+                this.book.getAuthor()+ "\n";
 
         setText(aux);
 

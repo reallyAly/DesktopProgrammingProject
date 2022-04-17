@@ -18,20 +18,20 @@ public class CreateBookController {
         
     }
 
-    public boolean createBook(String name, String isbn, String releaseDate){
+    public boolean createBook(String name, String isbn, String author){
            
-        this.validateFields(name, isbn, releaseDate);
+        this.validateFields(name, isbn, author);
         
         this.book.setEntityId(this.getNewUniqueId());
         this.book.setName(name);
         this.book.setIsbn(isbn);
-        this.book.setReleaseDate(releaseDate);
+        this.book.setAuthor(author);
 
         return this.fileBookController.storeBook(this.book);
 
     }
     
-    public void validateFields(String name, String isbn, String releaseDate) throws IllegalArgumentException {
+    public void validateFields(String name, String isbn, String author) throws IllegalArgumentException {
         if(name.isBlank()){
             
             throw new IllegalArgumentException(
@@ -44,10 +44,10 @@ public class CreateBookController {
                 "The isbn field cannot be empty"
             );
             
-        }else if(releaseDate.isBlank()){
+        }else if(author.isBlank()){
             
             throw new IllegalArgumentException(
-                "The realease Date field cannot be empty"
+                "The author field cannot be empty"
             );
             
         }

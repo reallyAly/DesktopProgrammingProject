@@ -14,13 +14,13 @@ public class Book {
     
     private String isbn;
     
-    private String releaseDate;
+    private String author;
 
     public Book() {
         this.entityId = 0;
         this.name = "";
         this.isbn = "";
-        this.releaseDate = "";
+        this.author = "";
     }
 
     public int getEntityId(){
@@ -32,7 +32,7 @@ public class Book {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -40,19 +40,19 @@ public class Book {
     }
 
     public String getIsbn() {
-        return isbn;
+        return this.isbn;
     }
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
-    public String getReleaseDate() {
-        return releaseDate;
+    public String getAuthor() {
+        return this.author;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
 }
