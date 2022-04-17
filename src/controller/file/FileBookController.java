@@ -33,12 +33,10 @@ public class FileBookController extends FileTextController {
 
     public boolean storeBook(Book book) {
 
-        this.book = this.getNewBook();
-
-        String aux = this.book.getEntityId()+ ";" +
-                this.book.getName()+ ";" +
-                this.book.getIsbn()+ ";" +
-                this.book.getAuthor()+ "\n";
+        String aux = book.getEntityId()+ ";" +
+                book.getName()+ ";" +
+                book.getIsbn()+ ";" +
+                book.getAuthor() + "\n";
 
         setText(aux);
 
