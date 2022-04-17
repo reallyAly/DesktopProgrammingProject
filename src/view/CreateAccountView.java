@@ -8,12 +8,12 @@ package view;
  *
  * @author alysson
  */
-public class CreateAccount extends javax.swing.JFrame {
+public class CreateAccountView extends javax.swing.JFrame {
 
     /**
-     * Creates new form CreateAccountView
+     * Creates new form NewCreateAccount
      */
-    public CreateAccount() {
+    public CreateAccountView() {
         initComponents();
     }
 
@@ -28,24 +28,20 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        passField = new javax.swing.JPasswordField();
-        firstnameField = new javax.swing.JTextField();
-        passLabel = new javax.swing.JLabel();
-        firstnameLabel = new javax.swing.JLabel();
         titleLabel = new javax.swing.JLabel();
-        createAccountButton = new javax.swing.JButton();
+        firstnameLabel = new javax.swing.JLabel();
+        firstnameField = new javax.swing.JTextField();
+        lastnameLabel1 = new javax.swing.JLabel();
+        lastnameField1 = new javax.swing.JTextField();
+        lastnameLabel2 = new javax.swing.JLabel();
+        lastnameField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
-        lastnameField = new javax.swing.JTextField();
-        lastnameField1 = new javax.swing.JTextField();
-        lastnameLabel1 = new javax.swing.JLabel();
-        lastnameLabel2 = new javax.swing.JLabel();
+        passLabel = new javax.swing.JLabel();
+        passField = new javax.swing.JPasswordField();
+        createAccountButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(255, 255, 255));
-        setEnabled(false);
-        setName("CreateAccountView"); // NOI18N
-        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -53,7 +49,7 @@ public class CreateAccount extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 414, Short.MAX_VALUE)
+            .addGap(0, 342, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -62,14 +58,23 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        passLabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        passLabel.setText("Password");
+        titleLabel.setFont(new java.awt.Font("Uroob", 1, 48)); // NOI18N
+        titleLabel.setText("LIBRARY APP");
 
         firstnameLabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
         firstnameLabel.setText("Firstname");
 
-        titleLabel.setFont(new java.awt.Font("Uroob", 1, 48)); // NOI18N
-        titleLabel.setText("LIBRARY APP");
+        lastnameLabel1.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        lastnameLabel1.setText("Lastname");
+
+        lastnameLabel2.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        lastnameLabel2.setText("RA");
+
+        jLabel3.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        jLabel3.setText("E-mail");
+
+        passLabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        passLabel.setText("Password");
 
         createAccountButton.setText("CREATE");
         createAccountButton.addActionListener(new java.awt.event.ActionListener() {
@@ -78,21 +83,12 @@ public class CreateAccount extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        jLabel3.setText("E-mail");
-
-        lastnameLabel1.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        lastnameLabel1.setText("Lastname");
-
-        lastnameLabel2.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        lastnameLabel2.setText("RA");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(360, Short.MAX_VALUE)
+                .addContainerGap(304, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(createAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -152,14 +148,13 @@ public class CreateAccount extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -186,23 +181,21 @@ public class CreateAccount extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateAccount.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateAccountView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateAccount.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateAccountView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateAccount.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateAccountView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateAccount.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateAccountView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateAccount().setVisible(true);
+                new CreateAccountView().setVisible(true);
             }
         });
     }
