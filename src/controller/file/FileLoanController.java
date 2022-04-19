@@ -50,6 +50,16 @@ public class FileLoanController extends FileTextController {
         return this.write(true);
 
     }
+    
+    public void setLoans(ArrayList<Loan> loans){
+        
+        this.getFile().delete();
+        
+        for(int i = 0; i < loans.size(); i++){
+            this.storeLoan(loans.get(i));
+        }
+
+    }
 
     public ArrayList<Loan> getLoans() {
         return this.loans;

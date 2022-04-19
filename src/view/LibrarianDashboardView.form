@@ -31,7 +31,6 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="viewBooksButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
                   <Component id="addNewBookButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
-                  <Component id="viewStudentsButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
                   <Component id="viewLoansButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="322" max="-2" attributes="0"/>
@@ -62,9 +61,7 @@
               <Component id="viewBooksButton" min="-2" pref="69" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
               <Component id="viewLoansButton" min="-2" pref="69" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-              <Component id="viewStudentsButton" min="-2" pref="69" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="190" max="-2" attributes="0"/>
               <Component id="logoutButton" min="-2" pref="69" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
           </Group>
@@ -102,14 +99,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewBooksButtonActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="viewStudentsButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="View Students"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewStudentsButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="logoutButton">

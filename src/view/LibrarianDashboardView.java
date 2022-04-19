@@ -42,7 +42,6 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
         viewLoansButton = new javax.swing.JButton();
         addNewBookButton = new javax.swing.JButton();
         viewBooksButton = new javax.swing.JButton();
-        viewStudentsButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -72,13 +71,6 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
             }
         });
 
-        viewStudentsButton.setText("View Students");
-        viewStudentsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewStudentsButtonActionPerformed(evt);
-            }
-        });
-
         logoutButton.setText("Logout");
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,7 +87,6 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(viewBooksButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addNewBookButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(viewStudentsButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(viewLoansButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(322, 322, 322))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -119,9 +110,7 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
                 .addComponent(viewBooksButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60)
                 .addComponent(viewLoansButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(viewStudentsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(71, 71, 71)
+                .addGap(190, 190, 190)
                 .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
         );
@@ -130,7 +119,8 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void viewLoansButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewLoansButtonActionPerformed
-        // TODO add your handling code here:
+        new LibrarianViewLoans(this.librarianId).setVisible(true);
+        dispose();
     }//GEN-LAST:event_viewLoansButtonActionPerformed
 
     private void addNewBookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewBookButtonActionPerformed
@@ -142,11 +132,6 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
         new LibrarianBooksView(this.librarianId).setVisible(true);
         dispose();
     }//GEN-LAST:event_viewBooksButtonActionPerformed
-
-    private void viewStudentsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewStudentsButtonActionPerformed
-        new LibrarianStudentsView(librarianId).setVisible(true);
-        dispose();
-    }//GEN-LAST:event_viewStudentsButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         new LoginView().setVisible(true);
@@ -197,6 +182,5 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
     private javax.swing.JLabel titleLabel;
     private javax.swing.JButton viewBooksButton;
     private javax.swing.JButton viewLoansButton;
-    private javax.swing.JButton viewStudentsButton;
     // End of variables declaration//GEN-END:variables
 }
