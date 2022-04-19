@@ -165,7 +165,7 @@ public class LoginView extends javax.swing.JFrame {
             
             
             if(lib != null){
-                System.out.println(lib.getFirstname());
+               
                new LibrarianDashboardView(userId).setVisible(true);
             }
             
