@@ -99,11 +99,12 @@ public class StudentDashboardView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loanBookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loanBookButtonActionPerformed
-        // TODO add your handling code here:
+        new StudentBooksForLoanView(this.studentId).setVisible(true);
+        dispose();
     }//GEN-LAST:event_loanBookButtonActionPerformed
 
     private void myLoansButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myLoansButtonActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_myLoansButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed

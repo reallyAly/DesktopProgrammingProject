@@ -69,7 +69,13 @@ public class FileBookController extends FileTextController {
     }
         
     public Book getBookById(int bookId){
+        
+        if(this.books.isEmpty()){
+            this.readBook();
+        }
+        
         ArrayList<Book> books = this.getBooks();
+        
         
         for(int i = 0; i < books.size(); i++){
             if(books.get(i).getEntityId() == bookId){
