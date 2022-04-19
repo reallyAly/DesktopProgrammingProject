@@ -9,11 +9,14 @@ package view;
  * @author alysson
  */
 public class StudentDashboardView extends javax.swing.JFrame {
+    
+    private int studentId;
 
     /**
      * Creates new form Dashboard
      */
-    public StudentDashboardView() {
+    public StudentDashboardView(int studentId) {
+        this.studentId = studentId;
         initComponents();
     }
 

@@ -64,7 +64,12 @@ public class FileStudentController extends FileTextController {
     
     public Student findStudentByEmail(String email){
         
+        if(this.students.isEmpty()){
+           this.readStudent();
+        }
+        
         ArrayList<Student> studs = this.getStudents();
+        
         
         for(int i = 0; i < studs.size(); i++){
             if(studs.get(i).getEmail().equals(email)){
@@ -77,6 +82,10 @@ public class FileStudentController extends FileTextController {
     }
     
     public Student findStudentById(int id){
+        
+        if(this.students.isEmpty()){
+           this.readStudent();
+        }
         
         ArrayList<Student> studs = this.getStudents();
         
