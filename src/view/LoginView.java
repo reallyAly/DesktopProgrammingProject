@@ -161,17 +161,18 @@ public class LoginView extends javax.swing.JFrame {
                     "Login",
                     jOptionPane1.INFORMATION_MESSAGE);
             
-            Librarian lib = this.fileLibrarianController.findLibrarianById(userId);
+            Librarian lib = this.fileLibrarianController.findLibrarianByEmail(this.emailField.getText());
             
             
             if(lib != null){
+                System.out.println(lib.getFirstname());
                new LibrarianDashboardView(userId).setVisible(true);
             }
             
-            Student stud = this.fileStudentController.findStudentById(userId);
+            Student stud = this.fileStudentController.findStudentByEmail(this.emailField.getText());
             
             if(stud != null){
-                
+                new StudentDashboardView(userId).setVisible(true);
             }
             
             dispose();
