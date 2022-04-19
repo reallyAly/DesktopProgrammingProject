@@ -45,6 +45,16 @@ public class FileBookController extends FileTextController {
         return this.write(true);
 
     }
+    
+    public void setBooks(ArrayList<Book> books){
+        
+        this.getFile().delete();
+        
+        for(int i = 0; i < books.size(); i++){
+            this.storeBook(books.get(i));
+        }
+
+    }
 
     public ArrayList<Book> getBooks() {
         return this.books;
@@ -57,5 +67,16 @@ public class FileBookController extends FileTextController {
     private void addNewBook(Book book){
         this.books.add(book);
     }
-
+        
+    public Book getBookById(int bookId){
+        ArrayList<Book> books = this.getBooks();
+        
+        for(int i = 0; i < books.size(); i++){
+            if(books.get(i).getEntityId() == bookId){
+                return books.get(i);
+            }
+        }
+        
+        return null;
+    }
 }
