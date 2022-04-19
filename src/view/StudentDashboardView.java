@@ -104,7 +104,8 @@ public class StudentDashboardView extends javax.swing.JFrame {
     }//GEN-LAST:event_loanBookButtonActionPerformed
 
     private void myLoansButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myLoansButtonActionPerformed
-        
+        new StudentLoansView(this.studentId).setVisible(true);
+        dispose();
     }//GEN-LAST:event_myLoansButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
