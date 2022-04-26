@@ -193,7 +193,7 @@ public class LibrarianStudentsView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LibrarianStudentsView().setVisible(true);
+                new LibrarianStudentsView(0).setVisible(true);
             }
         });
     }

@@ -191,7 +191,7 @@ public class AddNewBookView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddNewBookView().setVisible(true);
+                new AddNewBookView(0).setVisible(true);
             }
         });
     }

@@ -150,7 +150,7 @@ public class StudentDashboardView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StudentDashboardView().setVisible(true);
+                new StudentDashboardView(0).setVisible(true);
             }
         });
     }

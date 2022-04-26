@@ -218,7 +218,7 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StudentBooksForLoanView().setVisible(true);
+                new StudentBooksForLoanView(0).setVisible(true);
             }
         });
     }

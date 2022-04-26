@@ -171,7 +171,7 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LibrarianDashboardView().setVisible(true);
+                new LibrarianDashboardView(0).setVisible(true);
             }
         });
     }
