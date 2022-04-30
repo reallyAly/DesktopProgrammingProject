@@ -43,7 +43,6 @@ public class FileTextController extends FileController {
             setText(line.toString());
             return true;
         } catch (FileNotFoundException erro) {
-            //erro.printStackTrace(); //usado para debug
             System.err.println(erro.getMessage() + "Arquivo não encontrado.");
             return false;
         } catch (IOException erro) {

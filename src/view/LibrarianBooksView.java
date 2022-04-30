@@ -5,6 +5,7 @@
 package view;
 
 import controller.file.FileBookController;
+import controller.ManagementBookController;
 import controller.DeleteBookController;
 import java.util.ArrayList;
 import model.Book;
@@ -19,6 +20,8 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     
     private DeleteBookController deleteBookController;
     
+    private ManagementBookController managementBookController;
+    
     private int librarianId;
     
     /**
@@ -28,6 +31,7 @@ public class LibrarianBooksView extends javax.swing.JFrame {
         this.librarianId = librarianId;
         this.fileBookController = new FileBookController();
         this.deleteBookController = new DeleteBookController(librarianId);
+        this.managementBookController = new ManagementBookController(librarianId);
         initComponents();
         fillTable();
     }
@@ -186,7 +190,9 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        new LibrarianDashboardView(this.librarianId).setVisible(true);
+        int lineSelected = this.bookTable.getSelectedRow();
+        String bookId = this.bookTable.getModel().getValueAt(lineSelected, 0).toString();
+        new AddNewBookView(librarianId, Integer.parseInt(bookId)).setVisible(true);
         dispose();
     }//GEN-LAST:event_editButtonActionPerformed
 
