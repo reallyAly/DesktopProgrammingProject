@@ -2,10 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view;
+package view.librarian;
 
 import controller.file.FileLibrarianController;
 import model.Librarian;
+import view.LoginView;
 
 /**
  *

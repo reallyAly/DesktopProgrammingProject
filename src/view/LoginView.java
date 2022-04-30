@@ -4,6 +4,8 @@
  */
 package view;
 
+import view.student.StudentDashboardView;
+import view.librarian.LibrarianDashboardView;
 import controller.LoginController;
 import controller.file.FileLibrarianController;
 import controller.file.FileStudentController;

@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view;
+package view.student;
 
 import controller.file.FileBookController;
-import controller.CreateAndUpdateBookController;
-import controller.DeleteBookController;
+import controller.file.FileLoanController;
+import controller.LoanBookController;
 import java.util.ArrayList;
 import model.Book;
 
@@ -14,24 +14,24 @@ import model.Book;
  *
  * @author alysson
  */
-public class LibrarianBooksView extends javax.swing.JFrame {
+public class StudentBooksForLoanView extends javax.swing.JFrame {
     
     private FileBookController fileBookController;
     
-    private DeleteBookController deleteBookController;
+    private FileLoanController fileLoanController;
     
-    private CreateAndUpdateBookController managementBookController;
+    private LoanBookController loanBookController;
     
-    private int librarianId;
+    private int studentId;
     
     /**
      * Creates new form LibrarianBooksView
      */
-    public LibrarianBooksView(int librarianId) {
-        this.librarianId = librarianId;
+    public StudentBooksForLoanView(int studentId) {
+        this.studentId = studentId;
         this.fileBookController = new FileBookController();
-        this.deleteBookController = new DeleteBookController(librarianId);
-        this.managementBookController = new CreateAndUpdateBookController(librarianId);
+        this.fileLoanController = new FileLoanController();
+        this.loanBookController = new LoanBookController(studentId);
         initComponents();
         fillTable();
     }
@@ -47,22 +47,20 @@ public class LibrarianBooksView extends javax.swing.JFrame {
 
         jOptionPane1 = new javax.swing.JOptionPane();
         titleLabel = new javax.swing.JLabel();
-        editButton = new javax.swing.JButton();
+        loanBookButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         bookTable = new javax.swing.JTable();
         backButton1 = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
 
         titleLabel.setFont(new java.awt.Font("Uroob", 1, 48)); // NOI18N
         titleLabel.setText("LIBRARY APP");
 
-        editButton.setText("Edit");
-        editButton.addActionListener(new java.awt.event.ActionListener() {
+        loanBookButton.setText("Loan ");
+        loanBookButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editButtonActionPerformed(evt);
+                loanBookButtonActionPerformed(evt);
             }
         });
 
@@ -143,13 +141,6 @@ public class LibrarianBooksView extends javax.swing.JFrame {
             }
         });
 
-        deleteButton.setText("Delete");
-        deleteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -163,12 +154,10 @@ public class LibrarianBooksView extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(70, 70, 70))
             .addGroup(layout.createSequentialGroup()
-                .addGap(295, 295, 295)
-                .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
-                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addGap(400, 400, 400)
                 .addComponent(backButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77)
+                .addComponent(loanBookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -176,82 +165,89 @@ public class LibrarianBooksView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(titleLabel)
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(backButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(135, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(backButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(loanBookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(15, 15, 15))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+    private void loanBookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loanBookButtonActionPerformed
+        
         int lineSelected = this.bookTable.getSelectedRow();
         String bookId = this.bookTable.getModel().getValueAt(lineSelected, 0).toString();
-        new AddNewBookView(librarianId, Integer.parseInt(bookId)).setVisible(true);
-        dispose();
-    }//GEN-LAST:event_editButtonActionPerformed
-
-    private void backButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton1ActionPerformed
-        new LibrarianDashboardView(this.librarianId).setVisible(true);
-        dispose();
-    }//GEN-LAST:event_backButton1ActionPerformed
-
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        int[] linesSelected = this.bookTable.getSelectedRows();
         
         try{
             
-            for(int i = 0; i < linesSelected.length; i++){
-                String bookId = this.bookTable.getModel().getValueAt(linesSelected[i], 0).toString();
-                this.deleteBookController.deleteBook(Integer.parseInt(bookId));
-            }
-
-            this.jOptionPane1.showMessageDialog(this,
-                "Your book(s) has been deleted!!",
-                "Book Status",
-                jOptionPane1.INFORMATION_MESSAGE);
+            this.loanBookController.loanBook(bookId);
                
-               new LibrarianBooksView(this.librarianId).setVisible(true);
-               dispose();
+            this.jOptionPane1.showMessageDialog(this,
+                "Your loan has been saved!!",
+                "Loan Status",
+                jOptionPane1.INFORMATION_MESSAGE);
+            
+            new StudentLoansView(this.studentId).setVisible(true);
+            dispose();
+            
+        }catch (IllegalArgumentException e) {
+             this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Invalid Fields",
+                jOptionPane1.WARNING_MESSAGE);
         }catch (Exception e) {
              this.jOptionPane1.showMessageDialog(this,
                 e.getMessage(),
-                "Error trying to delete the book",
+                "Error trying to loan the book",
                 jOptionPane1.WARNING_MESSAGE);
         }
+    }//GEN-LAST:event_loanBookButtonActionPerformed
 
-    }//GEN-LAST:event_deleteButtonActionPerformed
+    private void backButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton1ActionPerformed
+        new StudentDashboardView(this.studentId).setVisible(true);
+        dispose();
+    }//GEN-LAST:event_backButton1ActionPerformed
 
     private void fillTable(){
         
         this.fileBookController.readBook();
+        
         ArrayList<Book> books = this.fileBookController.getBooks();
+           
+        if(books.isEmpty() != true){
 
-        for(int i = 0; i < books.size(); i++){
+            for(int i = 0; i < books.size(); i++){
 
-            Book book = books.get(i);
-            
-            this.bookTable.setValueAt(book.getEntityId(), i, 0);
-            this.bookTable.setValueAt(book.getName(), i, 1);
-            this.bookTable.setValueAt(book.getIsbn(), i, 2);
-            this.bookTable.setValueAt(book.getAuthor(), i, 3);
+               Book book = books.get(i);
+
+                boolean isLoan = this.fileLoanController.checkIfBookisLoan(book.getEntityId());
+                
+                if(isLoan != true){
+                    this.bookTable.setValueAt(book.getEntityId(), i, 0);
+                    this.bookTable.setValueAt(book.getName(), i, 1);
+                    this.bookTable.setValueAt(book.getIsbn(), i, 2);
+                    this.bookTable.setValueAt(book.getAuthor(), i, 3);
+                }
+            }
+        
         }
         
     }
-
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton1;
     private javax.swing.JTable bookTable;
-    private javax.swing.JButton deleteButton;
-    private javax.swing.JButton editButton;
     private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton loanBookButton;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }
