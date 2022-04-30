@@ -6,9 +6,9 @@ package view;
 
 import controller.file.FileBookController;
 import controller.file.FileLoanController;
+import controller.LoanBookController;
 import java.util.ArrayList;
 import model.Book;
-import model.Loan;
 
 /**
  *
@@ -20,6 +20,8 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
     
     private FileLoanController fileLoanController;
     
+    private LoanBookController loanBookController;
+    
     private int studentId;
     
     /**
@@ -29,6 +31,7 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
         this.studentId = studentId;
         this.fileBookController = new FileBookController();
         this.fileLoanController = new FileLoanController();
+        this.loanBookController = new LoanBookController(studentId);
         initComponents();
         fillTable();
     }
@@ -42,6 +45,7 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jOptionPane1 = new javax.swing.JOptionPane();
         titleLabel = new javax.swing.JLabel();
         loanBookButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -178,8 +182,33 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loanBookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loanBookButtonActionPerformed
-        new StudentLoanBookView(this.studentId).setVisible(true);
-        dispose();
+        
+        int lineSelected = this.bookTable.getSelectedRow();
+        String bookId = this.bookTable.getModel().getValueAt(lineSelected, 0).toString();
+        
+        try{
+            
+            this.loanBookController.loanBook(bookId);
+               
+            this.jOptionPane1.showMessageDialog(this,
+                "Your loan has been saved!!",
+                "Loan Status",
+                jOptionPane1.INFORMATION_MESSAGE);
+            
+            new StudentLoansView(this.studentId).setVisible(true);
+            dispose();
+            
+        }catch (IllegalArgumentException e) {
+             this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Invalid Fields",
+                jOptionPane1.WARNING_MESSAGE);
+        }catch (Exception e) {
+             this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to loan the book",
+                jOptionPane1.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_loanBookButtonActionPerformed
 
     private void backButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton1ActionPerformed
@@ -213,10 +242,10 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
         
     }
     
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton1;
     private javax.swing.JTable bookTable;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton loanBookButton;
     private javax.swing.JLabel titleLabel;

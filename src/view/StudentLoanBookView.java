@@ -5,9 +5,6 @@
 package view;
 
 import controller.LoanBookController;
-import java.awt.HeadlessException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -119,29 +116,7 @@ public class StudentLoanBookView extends javax.swing.JFrame {
 
     private void loanBookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loanBookButtonActionPerformed
 
-        try{
-            
-            this.loanBookController.loanBook(this.bookIdField.getText());
-               
-            this.jOptionPane1.showMessageDialog(this,
-                "Your loan has been saved!!",
-                "Loan Status",
-                jOptionPane1.INFORMATION_MESSAGE);
-            
-            new StudentBooksForLoanView(this.studentId).setVisible(true);
-            dispose();
-            
-        }catch (IllegalArgumentException e) {
-             this.jOptionPane1.showMessageDialog(this,
-                e.getMessage(),
-                "Invalid Fields",
-                jOptionPane1.WARNING_MESSAGE);
-        }catch (Exception e) {
-             this.jOptionPane1.showMessageDialog(this,
-                e.getMessage(),
-                "Error trying to loan the book",
-                jOptionPane1.WARNING_MESSAGE);
-        }
+        
 
     }//GEN-LAST:event_loanBookButtonActionPerformed
 
