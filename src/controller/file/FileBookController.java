@@ -32,7 +32,6 @@ public class FileBookController extends FileTextController {
     }
 
     public boolean storeBook(Book book) {
-
         String aux = book.getEntityId()+ ";" +
                 book.getName()+ ";" +
                 book.getIsbn()+ ";" +
@@ -43,20 +42,27 @@ public class FileBookController extends FileTextController {
         this.setFile(Book.FILENAME);
 
         return this.write(true);
-
     }
     
-    public void setBooks(ArrayList<Book> books){
+    public Boolean setBooks(ArrayList<Book> books){
         
         this.getFile().delete();
         
         for(int i = 0; i < books.size(); i++){
-            this.storeBook(books.get(i));
+            if(!this.storeBook(books.get(i))){
+                return false;
+            }
         }
-
+        
+        return true;
     }
 
     public ArrayList<Book> getBooks() {
+        
+        if(this.books.isEmpty()){
+            this.readBook();
+        }
+        
         return this.books;
     }
 

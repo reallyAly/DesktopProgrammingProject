@@ -7,6 +7,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -32,24 +33,26 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="returnIdField" min="-2" pref="655" max="-2" attributes="0"/>
-                          <Component id="bookIdLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="authorLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="authorField" min="-2" pref="655" max="-2" attributes="0"/>
+                          <Component id="isbnField" alignment="0" min="-2" pref="655" max="-2" attributes="0"/>
+                          <Component id="isbnLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="bookNameField" min="-2" pref="655" max="-2" attributes="0"/>
+                          <Component id="bookNameLabel" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="271" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="saveBookButton" min="-2" pref="199" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="495" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="titleLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="487" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="backButton" min="-2" pref="199" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                      <Component id="returnButton" min="-2" pref="199" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="381" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="542" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="547" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -63,15 +66,20 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
-              <Component id="bookIdLabel" min="-2" max="-2" attributes="0"/>
+              <Component id="bookNameLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="returnIdField" min="-2" pref="59" max="-2" attributes="0"/>
-              <EmptySpace pref="411" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="returnButton" alignment="3" min="-2" pref="62" max="-2" attributes="0"/>
-                  <Component id="backButton" alignment="3" min="-2" pref="62" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+              <Component id="bookNameField" min="-2" pref="59" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+              <Component id="isbnLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="isbnField" min="-2" pref="59" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+              <Component id="authorLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="authorField" min="-2" pref="59" max="-2" attributes="0"/>
+              <EmptySpace pref="86" max="32767" attributes="0"/>
+              <Component id="saveBookButton" min="-2" pref="62" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -85,35 +93,47 @@
         <Property name="text" type="java.lang.String" value="LIBRARY APP"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="returnIdField">
+    <Component class="javax.swing.JTextField" name="bookNameField">
     </Component>
-    <Component class="javax.swing.JLabel" name="bookIdLabel">
+    <Component class="javax.swing.JLabel" name="bookNameLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Liberation Sans" size="24" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Loan Id"/>
+        <Property name="text" type="java.lang.String" value="Name"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="isbnField">
+    </Component>
+    <Component class="javax.swing.JLabel" name="isbnLabel">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Liberation Sans" size="24" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="ISBN"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Return a book"/>
+        <Property name="text" type="java.lang.String" value="Add New Book"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="returnButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="RETURN"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="returnButtonActionPerformed"/>
-      </Events>
+    <Component class="javax.swing.JTextField" name="authorField">
     </Component>
-    <Component class="javax.swing.JButton" name="backButton">
+    <Component class="javax.swing.JLabel" name="authorLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="BACK"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Liberation Sans" size="24" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Author"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="saveBookButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="SAVE"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveBookButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

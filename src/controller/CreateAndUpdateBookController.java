@@ -2,11 +2,9 @@ package controller;
 
 import controller.file.FileBookController;
 import model.Book;
-
 import java.util.ArrayList;
-import view.LibrarianDashboardView;
 
-public class CreateBookController {
+public class CreateAndUpdateBookController {
 
     private FileBookController fileBookController;
 
@@ -14,7 +12,7 @@ public class CreateBookController {
     
     private int librarianId;
 
-    public CreateBookController(int librarianId){
+    public CreateAndUpdateBookController(int librarianId){
         this.librarianId = librarianId;
         this.fileBookController = new FileBookController();
         this.book = new Book();
@@ -39,7 +37,42 @@ public class CreateBookController {
         return result;
     }
     
-    public void validateFields(String name, String isbn, String author) throws IllegalArgumentException {
+    public boolean updateBook(
+            Book book, 
+            String name, 
+            String isbn, 
+            String author
+    ) throws Exception{
+           
+        this.validateFields(name, isbn, author);
+        
+        book.setName(name);
+        book.setIsbn(isbn);
+        book.setAuthor(author);
+        
+        ArrayList<Book> books = this.fileBookController.getBooks();
+        
+        for(int i = 0; i < books.size(); i++){
+            if(books.get(i).getEntityId() == book.getEntityId()){
+                books.set(i, book);
+                break;
+            }
+        }
+        
+        boolean result = this.fileBookController.setBooks(books);
+
+        if(!result){
+            throw new Exception("Error trying to update the book");
+        }
+        
+        return result;
+    }
+    
+    public void validateFields(
+            String name, 
+            String isbn, 
+            String author
+    ) throws IllegalArgumentException {
         if(name.isBlank()){
             
             throw new IllegalArgumentException(

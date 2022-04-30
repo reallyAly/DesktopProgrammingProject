@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view;
+package view.student;
 
 import controller.file.FileBookController;
 import controller.file.FileLoanController;
+import controller.LoanBookController;
 import java.util.ArrayList;
 import model.Book;
-import model.Loan;
 
 /**
  *
@@ -20,6 +20,8 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
     
     private FileLoanController fileLoanController;
     
+    private LoanBookController loanBookController;
+    
     private int studentId;
     
     /**
@@ -29,6 +31,7 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
         this.studentId = studentId;
         this.fileBookController = new FileBookController();
         this.fileLoanController = new FileLoanController();
+        this.loanBookController = new LoanBookController(studentId);
         initComponents();
         fillTable();
     }
@@ -42,6 +45,7 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jOptionPane1 = new javax.swing.JOptionPane();
         titleLabel = new javax.swing.JLabel();
         loanBookButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -178,8 +182,33 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loanBookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loanBookButtonActionPerformed
-        new StudentLoanBookView(this.studentId).setVisible(true);
-        dispose();
+        
+        int lineSelected = this.bookTable.getSelectedRow();
+        String bookId = this.bookTable.getModel().getValueAt(lineSelected, 0).toString();
+        
+        try{
+            
+            this.loanBookController.loanBook(bookId);
+               
+            this.jOptionPane1.showMessageDialog(this,
+                "Your loan has been saved!!",
+                "Loan Status",
+                jOptionPane1.INFORMATION_MESSAGE);
+            
+            new StudentLoansView(this.studentId).setVisible(true);
+            dispose();
+            
+        }catch (IllegalArgumentException e) {
+             this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Invalid Fields",
+                jOptionPane1.WARNING_MESSAGE);
+        }catch (Exception e) {
+             this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to loan the book",
+                jOptionPane1.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_loanBookButtonActionPerformed
 
     private void backButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton1ActionPerformed
@@ -187,42 +216,6 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_backButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StudentBooksForLoanView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StudentBooksForLoanView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StudentBooksForLoanView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StudentBooksForLoanView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new StudentBooksForLoanView().setVisible(true);
-            }
-        });
-    }
-    
     private void fillTable(){
         
         this.fileBookController.readBook();
@@ -249,10 +242,10 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
         
     }
     
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton1;
     private javax.swing.JTable bookTable;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton loanBookButton;
     private javax.swing.JLabel titleLabel;

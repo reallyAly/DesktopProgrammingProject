@@ -10,14 +10,11 @@ public class ReturnBookController {
 
     private FileLoanController fileLoanController;
    
-    private Loan loan;
-    
     private int librarianId;
 
     public ReturnBookController(int librarianId){
         this.librarianId = librarianId;
         this.fileLoanController = new FileLoanController();
-        this.loan = new Loan();
     }
 
     public void returnBook(String loanId) throws Exception{
@@ -31,13 +28,30 @@ public class ReturnBookController {
         ArrayList<Loan> loans = this.fileLoanController.getLoans();
         
         for(int i = 0; i < loans.size(); i++){
-            if(loans.get(i).getEntityId() == Integer.parseInt(loanId)){
-                loans.get(i).setStatus("RETURNED");
+            
+            if(this.validateLoanToReturn(loans.get(i), loanId)){
+                
+                if(this.validateLoanStatus(loans.get(i))){
+                    loans.get(i).setStatus("RETURNED");
+                    loans.get(i).setDevolutionDate(this.getCurrentDate());
+                }else{
+                    throw new IllegalArgumentException("The loan specified cannot be returned");
+                }
+                
             }
+  
         }
         
         this.fileLoanController.setLoans(loans);
 
+    }
+    
+    private Boolean validateLoanToReturn(Loan loan, String loanId){
+        return loan.getEntityId() == Integer.parseInt(loanId);
+    }
+    
+    private Boolean validateLoanStatus(Loan loan){
+        return loan.getStatus().equals("LOAN");
     }
     
     private void validateFields(String id) throws IllegalArgumentException {
@@ -48,21 +62,6 @@ public class ReturnBookController {
         }
     }
 
-    private int getLoanNewUniqueId(){
-
-        this.fileLoanController.readLoan();
-        ArrayList<Loan> loans = this.fileLoanController.getLoans();
-
-        if(loans.isEmpty()){
-            return 1;
-        }
-
-        int lastId = loans.get(loans.size()-1).getEntityId();
-        lastId+=1;
-
-        return lastId;
-    }
-    
     private String getCurrentDate(){
          DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");  
          LocalDateTime now = LocalDateTime.now();  

@@ -2,9 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view;
+package view.librarian;
 
 import controller.file.FileBookController;
+import controller.CreateAndUpdateBookController;
+import controller.DeleteBookController;
 import java.util.ArrayList;
 import model.Book;
 
@@ -16,14 +18,20 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     
     private FileBookController fileBookController;
     
-    private int librariaId;
+    private DeleteBookController deleteBookController;
+    
+    private CreateAndUpdateBookController managementBookController;
+    
+    private int librarianId;
     
     /**
      * Creates new form LibrarianBooksView
      */
     public LibrarianBooksView(int librarianId) {
-        this.librariaId = librarianId;
+        this.librarianId = librarianId;
         this.fileBookController = new FileBookController();
+        this.deleteBookController = new DeleteBookController(librarianId);
+        this.managementBookController = new CreateAndUpdateBookController(librarianId);
         initComponents();
         fillTable();
     }
@@ -37,6 +45,7 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jOptionPane1 = new javax.swing.JOptionPane();
         titleLabel = new javax.swing.JLabel();
         editButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -45,6 +54,7 @@ public class LibrarianBooksView extends javax.swing.JFrame {
         deleteButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         titleLabel.setFont(new java.awt.Font("Uroob", 1, 48)); // NOI18N
         titleLabel.setText("LIBRARY APP");
@@ -180,55 +190,43 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        new LibrarianDashboardView(this.librariaId).setVisible(true);
+        int lineSelected = this.bookTable.getSelectedRow();
+        String bookId = this.bookTable.getModel().getValueAt(lineSelected, 0).toString();
+        new AddNewBookView(librarianId, Integer.parseInt(bookId)).setVisible(true);
         dispose();
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void backButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton1ActionPerformed
-        new LibrarianDashboardView(this.librariaId).setVisible(true);
+        new LibrarianDashboardView(this.librarianId).setVisible(true);
         dispose();
     }//GEN-LAST:event_backButton1ActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        new LibrarianDeleteBookView(this.librariaId).setVisible(true);
-        dispose();
+        int[] linesSelected = this.bookTable.getSelectedRows();
+        
+        try{
+            
+            for(int i = 0; i < linesSelected.length; i++){
+                String bookId = this.bookTable.getModel().getValueAt(linesSelected[i], 0).toString();
+                this.deleteBookController.deleteBook(Integer.parseInt(bookId));
+            }
+
+            this.jOptionPane1.showMessageDialog(this,
+                "Your book(s) has been deleted!!",
+                "Book Status",
+                jOptionPane1.INFORMATION_MESSAGE);
+               
+               new LibrarianBooksView(this.librarianId).setVisible(true);
+               dispose();
+        }catch (Exception e) {
+             this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to delete the book",
+                jOptionPane1.WARNING_MESSAGE);
+        }
+
     }//GEN-LAST:event_deleteButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LibrarianBooksView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LibrarianBooksView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LibrarianBooksView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LibrarianBooksView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LibrarianBooksView().setVisible(true);
-            }
-        });
-    }
-    
     private void fillTable(){
         
         this.fileBookController.readBook();
@@ -252,6 +250,7 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     private javax.swing.JTable bookTable;
     private javax.swing.JButton deleteButton;
     private javax.swing.JButton editButton;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables

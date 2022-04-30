@@ -124,7 +124,6 @@ public class FileLoanController extends FileTextController {
             Loan loan = loans.get(i);
             
             if((loan.getBookId()== bookId) && loan.getStatus().equals("LOAN")){
-                System.out.println("Hello");
                 isLoan = true;
                 break;
             }
