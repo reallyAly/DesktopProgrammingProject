@@ -5,7 +5,7 @@
 package view;
 
 import controller.file.FileBookController;
-import controller.ManagementBookController;
+import controller.CreateAndUpdateBookController;
 import controller.DeleteBookController;
 import java.util.ArrayList;
 import model.Book;
@@ -20,7 +20,7 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     
     private DeleteBookController deleteBookController;
     
-    private ManagementBookController managementBookController;
+    private CreateAndUpdateBookController managementBookController;
     
     private int librarianId;
     
@@ -31,7 +31,7 @@ public class LibrarianBooksView extends javax.swing.JFrame {
         this.librarianId = librarianId;
         this.fileBookController = new FileBookController();
         this.deleteBookController = new DeleteBookController(librarianId);
-        this.managementBookController = new ManagementBookController(librarianId);
+        this.managementBookController = new CreateAndUpdateBookController(librarianId);
         initComponents();
         fillTable();
     }

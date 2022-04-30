@@ -4,7 +4,7 @@ import controller.file.FileBookController;
 import model.Book;
 import java.util.ArrayList;
 
-public class ManagementBookController {
+public class CreateAndUpdateBookController {
 
     private FileBookController fileBookController;
 
@@ -12,7 +12,7 @@ public class ManagementBookController {
     
     private int librarianId;
 
-    public ManagementBookController(int librarianId){
+    public CreateAndUpdateBookController(int librarianId){
         this.librarianId = librarianId;
         this.fileBookController = new FileBookController();
         this.book = new Book();

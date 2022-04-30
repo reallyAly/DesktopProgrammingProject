@@ -4,7 +4,7 @@
  */
 package view;
 
-import controller.ManagementBookController;
+import controller.CreateAndUpdateBookController;
 import controller.file.FileBookController;
 import java.awt.HeadlessException;
 import java.util.logging.Level;
@@ -23,7 +23,7 @@ public class AddNewBookView extends javax.swing.JFrame {
     
     private FileBookController fileBookController;
     
-    private ManagementBookController managementBookController;
+    private CreateAndUpdateBookController managementBookController;
 
     /**
      * Creates new form AddNewBook
@@ -32,7 +32,7 @@ public class AddNewBookView extends javax.swing.JFrame {
      */
     public AddNewBookView(int librarianId, int bookId) {
         this.librarianId = librarianId;
-        this.managementBookController = new ManagementBookController(librarianId);
+        this.managementBookController = new CreateAndUpdateBookController(librarianId);
         this.fileBookController = new FileBookController();
         initComponents();
         this.fillFields(bookId);
