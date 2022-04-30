@@ -4,11 +4,12 @@
  */
 package view;
 
-import controller.CreateBookController;
+import controller.ManagementBookController;
 import controller.file.FileBookController;
 import java.awt.HeadlessException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Book;
 
 /**
  *
@@ -18,18 +19,37 @@ public class AddNewBookView extends javax.swing.JFrame {
     
     private int librarianId;
     
-    private CreateBookController createBookController;
+    private Book book;
+    
+    private FileBookController fileBookController;
+    
+    private ManagementBookController managementBookController;
 
     /**
      * Creates new form AddNewBook
      * @param librarianId
+     * @param bookId
      */
-    public AddNewBookView(int librarianId) {
+    public AddNewBookView(int librarianId, int bookId) {
         this.librarianId = librarianId;
-        this.createBookController = new CreateBookController(librarianId);
+        this.managementBookController = new ManagementBookController(librarianId);
+        this.fileBookController = new FileBookController();
         initComponents();
+        this.fillFields(bookId);
     }
-
+        
+    private void fillFields(int bookId){
+        if(bookId > 0){
+            Book book = this.fileBookController.getBookById(bookId);
+            
+            this.bookNameField.setText(book.getName());
+            this.isbnField.setText(book.getIsbn());
+            this.authorField.setText(book.getAuthor());
+            this.book = book;
+            this.jLabel1.setText("Update the book");
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,6 +71,7 @@ public class AddNewBookView extends javax.swing.JFrame {
         saveBookButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         titleLabel.setFont(new java.awt.Font("Uroob", 1, 48)); // NOI18N
         titleLabel.setText("LIBRARY APP");
@@ -130,17 +151,34 @@ public class AddNewBookView extends javax.swing.JFrame {
 
         try{
             
-            this.createBookController.createBook(
+            if(this.book != null){
+                this.managementBookController.updateBook(
+                    this.book,
                     this.bookNameField.getText(), 
                     this.isbnField.getText(), 
                     this.authorField.getText()
-            );
-                    
-            this.jOptionPane1.showMessageDialog(this,
+                );
+                
+                this.jOptionPane1.showMessageDialog(this,
+                "Your book has been updated!!",
+                "Book Status",
+                jOptionPane1.INFORMATION_MESSAGE);
+                
+            }else{
+                
+                this.managementBookController.createBook(
+                    this.bookNameField.getText(), 
+                    this.isbnField.getText(), 
+                    this.authorField.getText()
+                );
+                
+                this.jOptionPane1.showMessageDialog(this,
                 "Your book has been saved!!",
                 "Book Status",
                 jOptionPane1.INFORMATION_MESSAGE);
-            
+                
+            }
+
             new LibrarianDashboardView(this.librarianId).setVisible(true);
             dispose();
             
@@ -154,7 +192,7 @@ public class AddNewBookView extends javax.swing.JFrame {
         }catch (Exception e) {
              this.jOptionPane1.showMessageDialog(this,
                 e.getMessage(),
-                "Error trying to save the book",
+                "Error trying to save the bookss",
                 jOptionPane1.WARNING_MESSAGE);
         }
 
