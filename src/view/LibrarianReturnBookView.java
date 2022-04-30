@@ -5,10 +5,6 @@
 package view;
 
 import controller.ReturnBookController;
-import controller.file.FileBookController;
-import java.awt.HeadlessException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -117,27 +113,6 @@ public class LibrarianReturnBookView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void returnButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnButtonActionPerformed
-
-        try{
-            
-            this.returnBookController.returnBook(this.returnIdField.getText());
-                    
-            this.jOptionPane1.showMessageDialog(this,
-                "Your book has been returned!!",
-                "Book Status",
-                jOptionPane1.INFORMATION_MESSAGE);
-            
-            new LibrarianViewLoans(this.librarianId).setVisible(true);
-            dispose();
-            
-        }catch (Exception e) {
-             this.jOptionPane1.showMessageDialog(this,
-                e.getMessage(),
-                "Error trying to return the book",
-                jOptionPane1.WARNING_MESSAGE);
-        }
-        
-        
 
     }//GEN-LAST:event_returnButtonActionPerformed
 
