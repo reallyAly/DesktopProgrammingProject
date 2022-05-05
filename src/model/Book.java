@@ -4,9 +4,9 @@ package model;
  *
  * @author alysson
  */
-public class Book {
+public class Book implements java.io.Serializable{
     
-    public static final String FILENAME = "Books";
+    public static final String FILENAME = "Books.bin";
 
     private int entityId;
     

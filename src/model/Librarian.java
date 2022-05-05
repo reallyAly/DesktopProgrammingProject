@@ -6,9 +6,9 @@ import model.Person;
  *
  * @author alysson
  */
-public class Librarian extends Person {
+public class Librarian extends Person implements java.io.Serializable{
     
-    public static final String FILENAME = "Librarians";
+    public static final String FILENAME = "Librarians.bin";
 
     public Librarian() {
         
