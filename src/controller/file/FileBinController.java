@@ -5,6 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -12,36 +15,43 @@ import java.io.IOException;
  */
 public class FileBinController extends FileController {
 
-    private Object object = null;
+    private ArrayList<Object> object;
     private ObjectInputStream reader = null;
     private ObjectOutputStream writer = null;
+
+    public FileBinController() {
+        this.object = new ArrayList<>();
+    }
 
     /**
      * @return the object
      */
-    public Object getObject() {
+    public ArrayList<?> getObject() {
         return this.object;
     }
 
     /**
      * @param object
      */
-    public void setObject(Object object) {
-        this.object = object;
+    public void setObject(ArrayList<?> object) {
+        this.object = (ArrayList<Object>) object;
+    }
+    
+    public void addNewObject(Object object){
+        this.object.add(object);
     }
 
     @Override
     public boolean read() {
         try {
             this.reader = new ObjectInputStream(new FileInputStream(this.file));
-            this.object = this.reader.readObject();
+            this.object = (ArrayList<Object>) this.reader.readObject();
             this.reader.close(); 
         } catch (ClassNotFoundException ex) {
             System.err.println(ex.getMessage());
         } catch (IOException ex) {
             System.err.println(ex.getMessage() + "Erro ao ler arquivo.");
             return false;
-        
         }
         return true;
     }
@@ -66,5 +76,5 @@ public class FileBinController extends FileController {
             return false;
         }
     }
-
+    
 }
