@@ -1,10 +1,10 @@
 package controller;
 
-import controller.file.FileBinController;
 import model.Student;
 import model.Librarian;
-
+import model.repository.StudentRepository;
 import java.util.ArrayList;
+import model.repository.LibrarianRepository;
 
 /**
  *
@@ -12,14 +12,17 @@ import java.util.ArrayList;
  */
 public class CreateAccountController {
 
-    private FileBinController fileBinController;
+    private StudentRepository studentRepository;
+    
+    private LibrarianRepository librarianRepository;
 
     private Student student;
 
     private Librarian librarian;
 
     public CreateAccountController() {
-        this.fileBinController = new FileBinController();
+        this.studentRepository = new StudentRepository();
+        this.librarianRepository = new LibrarianRepository();
         this.student = new Student();
         this.librarian = new Librarian();
     }
@@ -42,9 +45,8 @@ public class CreateAccountController {
         this.student.setEmail(email);
         this.student.setPassword(password);
         this.student.setRA(RA);
-          
-        this.fileBinController.addNewObject(this.student);
-        return this.fileBinController.write(false);
+        
+        return this.studentRepository.save(this.student);
     }
 
     public boolean createUser(
@@ -64,17 +66,13 @@ public class CreateAccountController {
         this.librarian.setEmail(email);
         this.librarian.setPassword(password);
         
-        this.fileBinController.addNewObject(this.librarian);
-        
-        this.fileBinController.setFile(Librarian.FILENAME);  
-        
-        return this.fileBinController.write(false);
-        
+        return this.librarianRepository.save(this.librarian);
+
     }
 
     private int getStudentNewUniqueId() {
         
-        ArrayList<Student> students = this.getStudents();
+        ArrayList<Student> students = this.studentRepository.get();
         
         if(students.isEmpty()){
             return 1;
@@ -88,7 +86,7 @@ public class CreateAccountController {
 
     private int getLibrarianNewUniqueId() {
         
-        ArrayList<Librarian> librarians = this.getLibrarians();
+        ArrayList<Librarian> librarians = this.librarianRepository.get();
         
         if(librarians.isEmpty()){
             return 1;
@@ -145,9 +143,9 @@ public class CreateAccountController {
     
     private void checkIfEmailIsAvailable(String email) throws IllegalArgumentException{
         
-        ArrayList<Student> students = this.getStudents();
+        ArrayList<Student> students = this.studentRepository.get();
         
-        ArrayList<Librarian> librarians = this.getLibrarians();
+        ArrayList<Librarian> librarians = this.librarianRepository.get();
         
         if(!students.isEmpty()){
             for(Student stud: students){
@@ -173,7 +171,7 @@ public class CreateAccountController {
     
     private void checkIfRAIsAvailable(String RA) throws IllegalArgumentException{
         
-          ArrayList<Student> students = this.getStudents();
+          ArrayList<Student> students = this.studentRepository.get();
           
           if(!students.isEmpty()){
                for(Student stud: students){
@@ -185,27 +183,5 @@ public class CreateAccountController {
                }
           }
           
-    }
-
-    private ArrayList<Student> getStudents(){
-        this.fileBinController.setFile(Student.FILENAME);  
-        boolean result = this.fileBinController.read();
-        
-        if(!result){
-            return new ArrayList<>();
-        }
-  
-        return (ArrayList<Student>) this.fileBinController.getObject();
-    }
-    
-    private ArrayList<Librarian> getLibrarians(){
-        this.fileBinController.setFile(Librarian.FILENAME);
-        boolean result = this.fileBinController.read();
-        
-        if(!result){
-            return new ArrayList<>();
-        }
-        
-        return (ArrayList<Librarian>) this.fileBinController.getObject();
     }
 }
