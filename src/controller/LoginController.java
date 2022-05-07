@@ -46,10 +46,16 @@ public class LoginController {
                 return lib.getEntityId();
             }
         }
-
-        throw new IllegalAccessException(
+        
+        if(lib == null){
+           throw new LibrarianNotExistException("Cannot find a user with this E-mail: "+email); 
+        }else if(stud == null){
+           throw new StudentNotExistException("Cannot find a user with this E-mail: "+email);  
+        }else{
+            throw new IllegalAccessException(
                 "Email or Password may be wrong, please try again"
-        );
+            );
+        }
     }
     
     private boolean validatePassword(Student student, String password){

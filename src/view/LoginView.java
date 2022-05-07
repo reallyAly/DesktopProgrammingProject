@@ -166,8 +166,7 @@ public class LoginView extends javax.swing.JFrame {
             
             Librarian lib = this.librarianRepository.
                     findByEmail(this.emailField.getText());
-            
-            
+
             if(lib != null){
                
                new LibrarianDashboardView(userId).setVisible(true);
@@ -182,7 +181,12 @@ public class LoginView extends javax.swing.JFrame {
             
             dispose();
  
-        }catch(IllegalAccessException | StudentNotExistException | LibrarianNotExistException e){
+        }catch(IllegalAccessException e){
+            this.jOptionPane1.showMessageDialog(this,
+                    e.getMessage(),
+                    "Invalid credentials",
+                    jOptionPane1.WARNING_MESSAGE);
+        }catch(StudentNotExistException | LibrarianNotExistException e){
             this.jOptionPane1.showMessageDialog(this,
                     e.getMessage(),
                     "Invalid credentials",
