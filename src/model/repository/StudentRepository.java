@@ -26,10 +26,9 @@ public class StudentRepository implements Repository {
      *
      * @param id
      * @return Student
-     * @throws StudentNotExistException
      */
     @Override
-    public Student findById(int id) throws StudentNotExistException{
+    public Student findById(int id){
         ArrayList<Student> students = this.get();
         
         for(Student stud: students){
@@ -38,7 +37,7 @@ public class StudentRepository implements Repository {
             }
         }
         
-        throw new StudentNotExistException("Cannot find a Student with the id:"+id);
+        return null;
     }
     
     /**
@@ -76,10 +75,9 @@ public class StudentRepository implements Repository {
      * 
      *
      * @param email
-     * @return
-     * @throws StudentNotExistException
+     * @return student
      */
-    public Student findByEmail(String email) throws StudentNotExistException{
+    public Student findByEmail(String email){
         ArrayList<Student> students = this.get();
         
         for(Student stud: students){
@@ -88,7 +86,7 @@ public class StudentRepository implements Repository {
             }
         }
         
-        throw new StudentNotExistException("Cannot find a Student with the e-mail:"+email);
+        return null;
     }
     
     

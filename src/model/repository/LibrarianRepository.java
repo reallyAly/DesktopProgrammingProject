@@ -29,7 +29,7 @@ public class LibrarianRepository implements Repository{
      * @throws LibrarianNotExistException
      */
     @Override
-    public Librarian findById(int id) throws LibrarianNotExistException{
+    public Librarian findById(int id){
         ArrayList<Librarian> students = this.get();
         
         for(Librarian stud: students){
@@ -38,7 +38,7 @@ public class LibrarianRepository implements Repository{
             }
         }
         
-        throw new LibrarianNotExistException("Cannot find a Librarian with the id:"+id);
+        return null;
     }
     
     /**
@@ -76,10 +76,9 @@ public class LibrarianRepository implements Repository{
      * 
      *
      * @param email
-     * @return
-     * @throws LibrarianNotExistException
+     * @return librarian
      */
-    public Librarian findByEmail(String email) throws LibrarianNotExistException{
+    public Librarian findByEmail(String email){
         ArrayList<Librarian> librarians = this.get();
         
         for(Librarian lib: librarians){
@@ -88,7 +87,7 @@ public class LibrarianRepository implements Repository{
             }
         }
         
-        throw new LibrarianNotExistException("Cannot find a Librarian with the e-mail:"+email);
+        return null;
     }
     
 }
