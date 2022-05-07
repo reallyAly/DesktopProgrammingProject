@@ -4,11 +4,12 @@
  */
 package controller;
 
-import controller.file.FileLibrarianController;
-import controller.file.FileStudentController;
-import java.util.ArrayList;
+import exception.LibrarianNotExistException;
+import exception.StudentNotExistException;
 import model.Librarian;
 import model.Student;
+import model.repository.LibrarianRepository;
+import model.repository.StudentRepository;
 
 /**
  *
@@ -16,18 +17,21 @@ import model.Student;
  */
 public class LoginController {
     
-    private FileStudentController fileStudentController;
-
-    private FileLibrarianController fileLibrarianController;
+    private LibrarianRepository librarianRepository;
+    
+    private StudentRepository studentRepository;
     
     public LoginController(){
-        this.fileLibrarianController = new FileLibrarianController();
-        this.fileStudentController = new FileStudentController();
+        this.librarianRepository = new LibrarianRepository();
+        this.studentRepository = new StudentRepository();
     }
     
-    public int login(String email, String password) throws IllegalAccessException{
-        
-        Student stud = this.fileStudentController.findStudentByEmail(email);
+    public int login(String email, String password) 
+            throws IllegalAccessException, 
+            StudentNotExistException, 
+            LibrarianNotExistException
+    {
+        Student stud = this.studentRepository.findByEmail(email);
         
         if(stud != null){
             if (this.validatePassword(stud, password)) {
@@ -35,7 +39,7 @@ public class LoginController {
             }
         }
              
-        Librarian lib = this.fileLibrarianController.findLibrarianByEmail(email);
+        Librarian lib = this.librarianRepository.findByEmail(email);
 
         if(lib != null){
             if (this.validatePassword(lib, password)) {
@@ -43,8 +47,9 @@ public class LoginController {
             }
         }
 
-        throw new IllegalAccessException("Email or Password may be wrong, please try again");
-
+        throw new IllegalAccessException(
+                "Email or Password may be wrong, please try again"
+        );
     }
     
     private boolean validatePassword(Student student, String password){

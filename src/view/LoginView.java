@@ -7,10 +7,12 @@ package view;
 import view.student.StudentDashboardView;
 import view.librarian.LibrarianDashboardView;
 import controller.LoginController;
-import controller.file.FileLibrarianController;
-import controller.file.FileStudentController;
+import exception.LibrarianNotExistException;
+import exception.StudentNotExistException;
 import model.Librarian;
 import model.Student;
+import model.repository.LibrarianRepository;
+import model.repository.StudentRepository;
 
 /**
  *
@@ -19,16 +21,18 @@ import model.Student;
 public class LoginView extends javax.swing.JFrame {
     
     private LoginController loginController;
-    private FileLibrarianController fileLibrarianController;
-    private FileStudentController fileStudentController;
+    
+    private StudentRepository studentRepository;
+    
+    private LibrarianRepository librarianRepository;
     
     /**
      * Creates new form NewLoginView
      */
     public LoginView() {
         this.loginController = new LoginController();
-        this.fileLibrarianController = new FileLibrarianController();
-        this.fileStudentController = new FileStudentController();
+        this.studentRepository = new StudentRepository();
+        this.librarianRepository = new LibrarianRepository();
         initComponents();
     }
 
@@ -155,15 +159,13 @@ public class LoginView extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         
         try{
-            int userId = this.loginController.login(this.emailField.getText(), this.passField.getText());
+            int userId = this.loginController.login(
+                    this.emailField.getText(), 
+                    this.passField.getText()
+            );
             
-            
-            this.jOptionPane1.showMessageDialog(this,
-                    "You are logged in",
-                    "Login",
-                    jOptionPane1.INFORMATION_MESSAGE);
-            
-            Librarian lib = this.fileLibrarianController.findLibrarianByEmail(this.emailField.getText());
+            Librarian lib = this.librarianRepository.
+                    findByEmail(this.emailField.getText());
             
             
             if(lib != null){
@@ -171,7 +173,8 @@ public class LoginView extends javax.swing.JFrame {
                new LibrarianDashboardView(userId).setVisible(true);
             }
             
-            Student stud = this.fileStudentController.findStudentByEmail(this.emailField.getText());
+            Student stud = this.studentRepository.
+                    findByEmail(this.emailField.getText());
             
             if(stud != null){
                 new StudentDashboardView(userId).setVisible(true);
@@ -179,13 +182,12 @@ public class LoginView extends javax.swing.JFrame {
             
             dispose();
  
-        }catch(IllegalAccessException e){
+        }catch(IllegalAccessException | StudentNotExistException | LibrarianNotExistException e){
             this.jOptionPane1.showMessageDialog(this,
                     e.getMessage(),
                     "Invalid credentials",
                     jOptionPane1.WARNING_MESSAGE);
         }
-        
     }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
