@@ -4,8 +4,6 @@
  */
 package view.librarian;
 
-import controller.file.FileLibrarianController;
-import model.Librarian;
 import view.LoginView;
 
 /**
@@ -14,19 +12,14 @@ import view.LoginView;
  */
 public class LibrarianDashboardView extends javax.swing.JFrame {
     
-    private FileLibrarianController fileLibrarianController;
-    
     private int librarianId;
     
-    private Librarian librarian;
-
     /**
      * Creates new form Dashboard
      * @param librarianId
      */
     public LibrarianDashboardView(int librarianId) {
         this.librarianId = librarianId;
-        this.fileLibrarianController = new FileLibrarianController();
         initComponents();
     }
 
