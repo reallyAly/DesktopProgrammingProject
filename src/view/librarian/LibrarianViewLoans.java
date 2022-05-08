@@ -8,7 +8,9 @@ import model.repository.BookRepository;
 import model.repository.LoanRepository;
 import model.repository.StudentRepository;
 import controller.ReturnBookController;
+import exception.LoanNotExistException;
 import java.util.ArrayList;
+import javax.naming.CannotProceedException;
 import model.Book;
 import model.Loan;
 import model.Student;
@@ -197,12 +199,18 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
             new LibrarianViewLoans(this.librarianId).setVisible(true);
             dispose();
             
-        }catch (IllegalArgumentException e) {
+        }catch (LoanNotExistException e) {
              this.jOptionPane1.showMessageDialog(this,
                 e.getMessage(),
                 "Error trying to return the book",
                 jOptionPane1.WARNING_MESSAGE);
-        }catch (Exception e) {
+        }catch(CannotProceedException e){
+             this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to return the book",
+                jOptionPane1.WARNING_MESSAGE);
+        }
+        catch (Exception e) {
              this.jOptionPane1.showMessageDialog(this,
                 e.getMessage(),
                 "Error trying to return the book",
@@ -212,6 +220,7 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
 
     private void backButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton2ActionPerformed
         new LibrarianDashboardView(this.librarianId).setVisible(true);
+        dispose();
     }//GEN-LAST:event_backButton2ActionPerformed
 
     private void fillTable(){ 
