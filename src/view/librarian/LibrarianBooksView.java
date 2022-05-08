@@ -4,9 +4,8 @@
  */
 package view.librarian;
 
-import controller.file.FileBookController;
+import model.repository.BookRepository;
 import controller.CreateAndUpdateBookController;
-import controller.DeleteBookController;
 import java.util.ArrayList;
 import model.Book;
 
@@ -16,10 +15,8 @@ import model.Book;
  */
 public class LibrarianBooksView extends javax.swing.JFrame {
     
-    private FileBookController fileBookController;
-    
-    private DeleteBookController deleteBookController;
-    
+    private BookRepository bookRepository;
+
     private CreateAndUpdateBookController managementBookController;
     
     private int librarianId;
@@ -29,8 +26,7 @@ public class LibrarianBooksView extends javax.swing.JFrame {
      */
     public LibrarianBooksView(int librarianId) {
         this.librarianId = librarianId;
-        this.fileBookController = new FileBookController();
-        this.deleteBookController = new DeleteBookController(librarianId);
+        this.bookRepository = new BookRepository();
         this.managementBookController = new CreateAndUpdateBookController(librarianId);
         initComponents();
         fillTable();
@@ -208,7 +204,7 @@ public class LibrarianBooksView extends javax.swing.JFrame {
             
             for(int i = 0; i < linesSelected.length; i++){
                 String bookId = this.bookTable.getModel().getValueAt(linesSelected[i], 0).toString();
-                this.deleteBookController.deleteBook(Integer.parseInt(bookId));
+                this.bookRepository.delete(Integer.parseInt(bookId));
             }
 
             this.jOptionPane1.showMessageDialog(this,
@@ -224,13 +220,10 @@ public class LibrarianBooksView extends javax.swing.JFrame {
                 "Error trying to delete the book",
                 jOptionPane1.WARNING_MESSAGE);
         }
-
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void fillTable(){
-        
-        this.fileBookController.readBook();
-        ArrayList<Book> books = this.fileBookController.getBooks();
+        ArrayList<Book> books = this.bookRepository.get();
 
         for(int i = 0; i < books.size(); i++){
 

@@ -3,6 +3,7 @@ package model.repository;
 
 import java.util.ArrayList;
 import controller.file.FileBinController;
+import exception.BookNotExistException;
 import model.Book;
 
 /*
@@ -77,5 +78,35 @@ public class BookRepository implements Repository {
 
         return this.fileBinController.write(false);
     }
+    
+    /**
+     * Remove a book
+     *
+     * @param id
+     * @return Boolean
+     * @throws BookNotExistException
+     */
+    public boolean delete(int id) throws BookNotExistException{
+            
+        this.validateBook(id);
+        
+        ArrayList<Book> books = this.get();
+        
+        for(int i = 0; i < books.size(); i++){
+            if(books.get(i).getEntityId()== id){
+                books.remove(i);
+            }
+        }
+        
+        this.fileBinController.setObject(books);
+        return this.fileBinController.write(false);
+    }
+        
+    private void validateBook(int bookId) throws BookNotExistException{
+        if(this.findById(bookId) == null){
+            throw new BookNotExistException("The book specified does not exist ");
+        }
+    }
+
     
 }
