@@ -4,7 +4,7 @@
  */
 package view.librarian;
 
-import controller.file.FileStudentController;
+import model.repository.StudentRepository;
 import java.util.ArrayList;
 import model.Student;
 
@@ -14,7 +14,7 @@ import model.Student;
  */
 public class LibrarianStudentsView extends javax.swing.JFrame {
     
-    private FileStudentController fileStudentController;
+    private StudentRepository studentRepository;
     
     private int librariaId;
     
@@ -23,7 +23,7 @@ public class LibrarianStudentsView extends javax.swing.JFrame {
      */
     public LibrarianStudentsView(int librarianId) {
         this.librariaId = librarianId;
-        this.fileStudentController = new FileStudentController();
+        this.studentRepository = new StudentRepository();
         initComponents();
         fillTable();
     }
@@ -164,13 +164,10 @@ public class LibrarianStudentsView extends javax.swing.JFrame {
 
     private void fillTable(){
         
-        this.fileStudentController.readStudent();
-        ArrayList<Student> students = this.fileStudentController.getStudents();
+        ArrayList<Student> students = this.studentRepository.get();
 
         for(int i = 0; i < students.size(); i++){
-
             Student student = students.get(i);
-            
             this.studentsTable.setValueAt(student.getEntityId(), i, 0);
             this.studentsTable.setValueAt(student.getFirstname(), i, 1);
             this.studentsTable.setValueAt(student.getLastname(), i, 2);

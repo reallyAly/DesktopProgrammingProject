@@ -5,6 +5,7 @@
 package view.student;
 
 import controller.LoanBookController;
+import exception.BookNotExistException;
 import java.util.ArrayList;
 import model.Book;
 import model.repository.BookRepository;
@@ -202,6 +203,11 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
              this.jOptionPane1.showMessageDialog(this,
                 e.getMessage(),
                 "Invalid Fields",
+                jOptionPane1.WARNING_MESSAGE);
+        }catch (BookNotExistException e) {
+             this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to loan the book",
                 jOptionPane1.WARNING_MESSAGE);
         }catch (Exception e) {
              this.jOptionPane1.showMessageDialog(this,
