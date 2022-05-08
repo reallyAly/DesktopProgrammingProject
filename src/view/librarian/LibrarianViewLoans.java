@@ -4,9 +4,9 @@
  */
 package view.librarian;
 
-import controller.file.FileBookController;
-import controller.file.FileLoanController;
-import controller.file.FileStudentController;
+import model.repository.BookRepository;
+import model.repository.LoanRepository;
+import model.repository.StudentRepository;
 import controller.ReturnBookController;
 import java.util.ArrayList;
 import model.Book;
@@ -19,11 +19,11 @@ import model.Student;
  */
 public class LibrarianViewLoans extends javax.swing.JFrame {
     
-    private FileBookController fileBookController;
+    private BookRepository bookRepository;
     
-    private FileLoanController fileLoanController;
+    private LoanRepository loanRepository;
     
-    private FileStudentController fileStudentController;
+    private StudentRepository studentRepository;
     
     private ReturnBookController returnBookController;
     
@@ -31,13 +31,13 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
     
     /**
      * Creates new form StudentLoansView
-     * @param studentId
+     * @param librarianId
      */
     public LibrarianViewLoans(int librarianId) {
         this.librarianId = librarianId;
-        this.fileBookController = new FileBookController();
-        this.fileLoanController = new FileLoanController();
-        this.fileStudentController = new FileStudentController();
+        this.bookRepository = new BookRepository();
+        this.loanRepository = new LoanRepository();
+        this.studentRepository = new StudentRepository();
         this.returnBookController = new ReturnBookController(librarianId);
         initComponents();
         fillTable();
@@ -60,6 +60,7 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
         backButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         titleLabel.setFont(new java.awt.Font("Uroob", 1, 48)); // NOI18N
         titleLabel.setText("LIBRARY APP");
@@ -213,18 +214,15 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
         new LibrarianDashboardView(this.librarianId).setVisible(true);
     }//GEN-LAST:event_backButton2ActionPerformed
 
-    private void fillTable(){
-        
-        this.fileLoanController.readLoan();
-        
-        ArrayList<Loan> loans = this.fileLoanController.getLoans();
+    private void fillTable(){ 
+        ArrayList<Loan> loans = this.loanRepository.get();
 
         for(int i = 0; i < loans.size(); i++){
 
             Loan loan = loans.get(i);
             
-            Book book = this.fileBookController.getBookById(loan.getBookId());
-            Student stud = this.fileStudentController.findStudentById(loan.getStudentId());
+            Book book = this.bookRepository.findById(loan.getBookId());
+            Student stud = this.studentRepository.findById(loan.getStudentId());
             
                 this.loanTable.setValueAt(loan.getEntityId(), i, 0);
                 this.loanTable.setValueAt(stud.getFirstname(), i, 1);
