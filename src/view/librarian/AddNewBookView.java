@@ -5,10 +5,7 @@
 package view.librarian;
 
 import controller.CreateAndUpdateBookController;
-import controller.file.FileBookController;
-import java.awt.HeadlessException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import model.repository.BookRepository;
 import model.Book;
 
 /**
@@ -21,8 +18,8 @@ public class AddNewBookView extends javax.swing.JFrame {
     
     private Book book;
     
-    private FileBookController fileBookController;
-    
+    private BookRepository bookRepository;
+
     private CreateAndUpdateBookController managementBookController;
 
     /**
@@ -33,14 +30,14 @@ public class AddNewBookView extends javax.swing.JFrame {
     public AddNewBookView(int librarianId, int bookId) {
         this.librarianId = librarianId;
         this.managementBookController = new CreateAndUpdateBookController(librarianId);
-        this.fileBookController = new FileBookController();
+        this.bookRepository = new BookRepository();
         initComponents();
         this.fillFields(bookId);
     }
         
     private void fillFields(int bookId){
         if(bookId > 0){
-            Book book = this.fileBookController.getBookById(bookId);
+            Book book = this.bookRepository.findById(bookId);
             
             this.bookNameField.setText(book.getName());
             this.isbnField.setText(book.getIsbn());

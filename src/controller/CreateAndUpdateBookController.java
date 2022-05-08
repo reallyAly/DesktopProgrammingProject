@@ -1,12 +1,12 @@
 package controller;
 
-import controller.file.FileBookController;
+import model.repository.BookRepository;
 import model.Book;
 import java.util.ArrayList;
 
 public class CreateAndUpdateBookController {
 
-    private FileBookController fileBookController;
+    private BookRepository bookRepository;
 
     private Book book;
     
@@ -14,9 +14,8 @@ public class CreateAndUpdateBookController {
 
     public CreateAndUpdateBookController(int librarianId){
         this.librarianId = librarianId;
-        this.fileBookController = new FileBookController();
+        this.bookRepository = new BookRepository();
         this.book = new Book();
-        
     }
 
     public boolean createBook(String name, String isbn, String author) throws Exception{
@@ -28,7 +27,7 @@ public class CreateAndUpdateBookController {
         this.book.setIsbn(isbn);
         this.book.setAuthor(author);
         
-        boolean result = this.fileBookController.storeBook(this.book);
+        Boolean result = this.bookRepository.save(this.book);
         
         if(!result){
             throw new Exception("Error trying to save the new book");
@@ -50,16 +49,7 @@ public class CreateAndUpdateBookController {
         book.setIsbn(isbn);
         book.setAuthor(author);
         
-        ArrayList<Book> books = this.fileBookController.getBooks();
-        
-        for(int i = 0; i < books.size(); i++){
-            if(books.get(i).getEntityId() == book.getEntityId()){
-                books.set(i, book);
-                break;
-            }
-        }
-        
-        boolean result = this.fileBookController.setBooks(books);
+        boolean result = this.bookRepository.save(book);
 
         if(!result){
             throw new Exception("Error trying to update the book");
@@ -96,8 +86,7 @@ public class CreateAndUpdateBookController {
 
     private int getBookNewUniqueId(){
 
-        this.fileBookController.readBook();
-        ArrayList<Book> books = this.fileBookController.getBooks();
+        ArrayList<Book> books = this.bookRepository.get();
 
         if(books.isEmpty()){
             return 1;
