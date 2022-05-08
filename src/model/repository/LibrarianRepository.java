@@ -26,7 +26,6 @@ public class LibrarianRepository implements Repository{
      *
      * @param id
      * @return Librarian
-     * @throws LibrarianNotExistException
      */
     @Override
     public Librarian findById(int id){

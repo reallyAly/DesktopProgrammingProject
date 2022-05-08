@@ -26,8 +26,11 @@ public class BookRepository implements Repository {
     }
 
     /**
+     * Get book by specific Id
+     * 
      *
      * @param id
+     * 
      * @return Book
      */
     @Override
@@ -43,6 +46,11 @@ public class BookRepository implements Repository {
         return null;
     }
 
+    /**
+     * Get all books
+     *
+     * @return ArrayList
+     */
     @Override
     public ArrayList<Book> get() {
         
@@ -55,6 +63,13 @@ public class BookRepository implements Repository {
         return (ArrayList<Book>) this.fileBinController.getObject();
     }
 
+    /**
+     * Save a new book
+     *
+     * @param b
+     * @return Boolean
+     * @throws Exception
+     */
     @Override
     public boolean save(Object b) throws Exception {
         
