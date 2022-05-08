@@ -1,6 +1,7 @@
 package controller;
 
 
+import exception.BookNotExistException;
 import java.util.ArrayList;
 import model.Loan;
 import java.time.format.DateTimeFormatter;  
@@ -34,7 +35,7 @@ public class LoanBookController {
         }
         
         if(this.bookRepository.findById(Integer.parseInt(bookId)) == null){
-            throw new Exception("The book specified does not exist");
+            throw new BookNotExistException("The book specified does not exist");
         }
         
         this.validateFields(bookId);
