@@ -9,9 +9,9 @@ package model;
  *
  * @author alysson
  */
-public class Loan {
+public class Loan implements java.io.Serializable {
     
-    public static final String FILENAME = "Loans";
+    public static final String FILENAME = "Loans.bin";
     
     private int entityId;
     

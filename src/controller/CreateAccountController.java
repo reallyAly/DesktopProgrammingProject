@@ -1,11 +1,10 @@
 package controller;
 
-import controller.file.FileLibrarianController;
-import controller.file.FileStudentController;
 import model.Student;
 import model.Librarian;
-
+import model.repository.StudentRepository;
 import java.util.ArrayList;
+import model.repository.LibrarianRepository;
 
 /**
  *
@@ -13,22 +12,19 @@ import java.util.ArrayList;
  */
 public class CreateAccountController {
 
-    private FileStudentController fileStudentController;
-
-    private FileLibrarianController fileLibrarianController;
+    private StudentRepository studentRepository;
+    
+    private LibrarianRepository librarianRepository;
 
     private Student student;
 
     private Librarian librarian;
 
     public CreateAccountController() {
-        this.fileLibrarianController = new FileLibrarianController();
-        this.fileStudentController = new FileStudentController();
+        this.studentRepository = new StudentRepository();
+        this.librarianRepository = new LibrarianRepository();
         this.student = new Student();
         this.librarian = new Librarian();
-        
-        this.fileStudentController.readStudent();
-        this.fileLibrarianController.readLibrarian();
     }
 
     public boolean createUser(
@@ -37,36 +33,20 @@ public class CreateAccountController {
             String email, 
             String password, 
             String RA
-    ) throws Exception {
-        
-        ArrayList<Student> students = this.fileStudentController.getStudents();
-        ArrayList<Librarian> librarians = this.fileLibrarianController.getLibrarians();
-        
+    ){
         // Validations
         this.validateFields(firstname, lastname, email, password, RA);
-        
-        this.checkIfEmailIsAvailable(
-                email, 
-                students, 
-                librarians
-        );
-        
-        this.checkIfRAIsAvailable(RA, students);
+        this.checkIfEmailIsAvailable(email);
+        this.checkIfRAIsAvailable(RA);
 
-        this.student.setEntityId(this.getStudentNewUniqueId(students));
+        this.student.setEntityId(this.getStudentNewUniqueId());
         this.student.setFirstname(firstname);
         this.student.setLastname(lastname);
         this.student.setEmail(email);
         this.student.setPassword(password);
         this.student.setRA(RA);
-          
-        boolean result = this.fileStudentController.storeStudent(this.student);
         
-        if(!result){
-           throw new Exception("Error trying to save the new user");
-        }
-
-        return result;
+        return this.studentRepository.save(this.student);
     }
 
     public boolean createUser(
@@ -76,28 +56,24 @@ public class CreateAccountController {
             String password
     ) {
         
-        ArrayList<Student> students = this.fileStudentController.getStudents();
-        ArrayList<Librarian> librarians = this.fileLibrarianController.getLibrarians();
-        
         // Validations
         this.validateFields(firstname, lastname, email, password, "00000");
-        this.checkIfEmailIsAvailable(
-                email, 
-                students, 
-                librarians
-        );
+        this.checkIfEmailIsAvailable(email);
         
-        this.librarian.setEntityId(this.getLibrarianNewUniqueId(librarians));
+        this.librarian.setEntityId(this.getLibrarianNewUniqueId());
         this.librarian.setFirstname(firstname);
         this.librarian.setLastname(lastname);
         this.librarian.setEmail(email);
         this.librarian.setPassword(password);
+        
+        return this.librarianRepository.save(this.librarian);
 
-        return this.fileLibrarianController.storeLibrarian(this.librarian);
     }
 
-    private int getStudentNewUniqueId(ArrayList<Student> students) {
-
+    private int getStudentNewUniqueId() {
+        
+        ArrayList<Student> students = this.studentRepository.get();
+        
         if(students.isEmpty()){
             return 1;
         }
@@ -108,8 +84,10 @@ public class CreateAccountController {
         return lastId;
     }
 
-    private int getLibrarianNewUniqueId(ArrayList<Librarian> librarians) {
-
+    private int getLibrarianNewUniqueId() {
+        
+        ArrayList<Librarian> librarians = this.librarianRepository.get();
+        
         if(librarians.isEmpty()){
             return 1;
         }
@@ -118,6 +96,7 @@ public class CreateAccountController {
         lastId+=1;
 
         return lastId;
+        
     }
     
     private void validateFields(
@@ -162,31 +141,38 @@ public class CreateAccountController {
         
     }
     
-    private void checkIfEmailIsAvailable(
-            String email, 
-            ArrayList<Student> students, 
-            ArrayList<Librarian> librarians
-    ) throws IllegalArgumentException{
-
-        for(Student stud: students){
+    private void checkIfEmailIsAvailable(String email) throws IllegalArgumentException{
+        
+        ArrayList<Student> students = this.studentRepository.get();
+        
+        ArrayList<Librarian> librarians = this.librarianRepository.get();
+        
+        if(!students.isEmpty()){
+            for(Student stud: students){
                 if(stud.getEmail().equals(email)){
                     throw new IllegalArgumentException(
                         "The email was registered previously, try another"
                     );
                 }
-         }
+            } 
+        }
 
-        for(Librarian lib: librarians){
+        if(!librarians.isEmpty()){
+            for(Librarian lib: librarians){
                 if(lib.getEmail().equals(email)){
                     throw new IllegalArgumentException(
-                            "The email was registered previously, try another "
+                        "The email was registered previously, try another "
                     );
                 }
+            }
         }
+        
     }
     
-    private void checkIfRAIsAvailable(String RA, ArrayList<Student> students) throws IllegalArgumentException{
+    private void checkIfRAIsAvailable(String RA) throws IllegalArgumentException{
         
+          ArrayList<Student> students = this.studentRepository.get();
+          
           if(!students.isEmpty()){
                for(Student stud: students){
                    if(stud.getRA().equals(RA)){

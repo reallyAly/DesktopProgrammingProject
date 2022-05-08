@@ -1,55 +1,43 @@
 package controller;
 
-import controller.file.FileLoanController;
-import java.util.ArrayList;
+import exception.LoanNotExistException;
+import model.repository.LoanRepository;
 import model.Loan;
 import java.time.format.DateTimeFormatter;  
 import java.time.LocalDateTime;    
+import javax.naming.CannotProceedException;
 
 public class ReturnBookController {
 
-    private FileLoanController fileLoanController;
-   
     private int librarianId;
+    
+    private LoanRepository loanRepository;
 
     public ReturnBookController(int librarianId){
         this.librarianId = librarianId;
-        this.fileLoanController = new FileLoanController();
+        this.loanRepository = new LoanRepository();
     }
 
-    public void returnBook(String loanId) throws Exception{
+    public void returnBook(String loanId) throws CannotProceedException, Exception{
         
-        if(this.fileLoanController.findLoanById(Integer.parseInt(loanId)) == null){
-            throw new Exception("The loan specified does not exist");
+        if(this.loanRepository.findById(Integer.parseInt(loanId)) == null){
+            throw new LoanNotExistException("The loan specified does not exist");
         }
         
         this.validateFields(loanId);
         
-        ArrayList<Loan> loans = this.fileLoanController.getLoans();
+        Loan loan = this.loanRepository.findById(Integer.parseInt(loanId));
         
-        for(int i = 0; i < loans.size(); i++){
-            
-            if(this.validateLoanToReturn(loans.get(i), loanId)){
-                
-                if(this.validateLoanStatus(loans.get(i))){
-                    loans.get(i).setStatus("RETURNED");
-                    loans.get(i).setDevolutionDate(this.getCurrentDate());
-                }else{
-                    throw new IllegalArgumentException("The loan specified cannot be returned");
-                }
-                
-            }
-  
+        if(this.validateLoanStatus(loan)){
+            loan.setStatus("RETURNED");
+            loan.setDevolutionDate(this.getCurrentDate());
+        }else{
+            throw new CannotProceedException("The book was returned previously");
         }
-        
-        this.fileLoanController.setLoans(loans);
 
+        this.loanRepository.save(loan);
     }
-    
-    private Boolean validateLoanToReturn(Loan loan, String loanId){
-        return loan.getEntityId() == Integer.parseInt(loanId);
-    }
-    
+
     private Boolean validateLoanStatus(Loan loan){
         return loan.getStatus().equals("LOAN");
     }
