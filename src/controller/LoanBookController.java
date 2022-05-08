@@ -1,17 +1,18 @@
 package controller;
 
-import controller.file.FileLoanController;
-import controller.file.FileBookController;
+
 import java.util.ArrayList;
 import model.Loan;
 import java.time.format.DateTimeFormatter;  
 import java.time.LocalDateTime;    
+import model.repository.BookRepository;
+import model.repository.LoanRepository;
 
 public class LoanBookController {
 
-    private FileLoanController fileLoanController;
+    private LoanRepository loanRepository;
     
-    private FileBookController fileBookController;
+    private BookRepository bookRepository;
 
     private Loan loan;
     
@@ -19,20 +20,20 @@ public class LoanBookController {
 
     public LoanBookController(int studentId){
         this.studentId = studentId;
-        this.fileLoanController = new FileLoanController();
-        this.fileBookController = new FileBookController();
+        this.loanRepository = new LoanRepository();
+        this.bookRepository = new BookRepository();
         this.loan = new Loan();
     }
 
     public boolean loanBook(String bookId) throws Exception{
         
-        if(this.fileLoanController.checkIfBookisLoan(Integer.parseInt(bookId))){
+        if(this.checkIfBookisLoan(Integer.parseInt(bookId))){
             throw new IllegalArgumentException(
                 "The book specified cannot be loan"
             );
         }
         
-        if(this.fileBookController.getBookById(Integer.parseInt(bookId)) == null){
+        if(this.bookRepository.findById(Integer.parseInt(bookId)) == null){
             throw new Exception("The book specified does not exist");
         }
         
@@ -45,7 +46,7 @@ public class LoanBookController {
         this.loan.setLoanDate(this.getCurrentDate());
         this.loan.setDevolutionDate("0000000");
         
-        boolean result = this.fileLoanController.storeLoan(this.loan);
+        Boolean result = this.loanRepository.save(this.loan);
         
         if(!result){
             throw new Exception("Error trying to loan the book");
@@ -65,9 +66,7 @@ public class LoanBookController {
     }
 
     private int getLoanNewUniqueId(){
-
-        this.fileLoanController.readLoan();
-        ArrayList<Loan> loans = this.fileLoanController.getLoans();
+        ArrayList<Loan> loans = this.loanRepository.get();
 
         if(loans.isEmpty()){
             return 1;
@@ -84,5 +83,26 @@ public class LoanBookController {
          LocalDateTime now = LocalDateTime.now();  
          return dtf.format(now);
     }
+    
+    public boolean checkIfBookisLoan(int bookId){
+        
+        ArrayList<Loan> loans = this.loanRepository.get();
+        
+        boolean isLoan = false;
+        
+        for(int i = 0; i < loans.size(); i++){
+            
+            Loan loan = loans.get(i);
+            
+            if((loan.getBookId()== bookId) && loan.getStatus().equals("LOAN")){
+                isLoan = true;
+                break;
+            }
+           
+        }
+        
+        return isLoan;
+    }
+    
     
 }

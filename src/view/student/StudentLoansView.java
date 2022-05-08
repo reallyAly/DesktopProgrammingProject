@@ -4,11 +4,11 @@
  */
 package view.student;
 
-import controller.file.FileBookController;
-import controller.file.FileLoanController;
 import java.util.ArrayList;
 import model.Book;
 import model.Loan;
+import model.repository.LoanRepository;
+import model.repository.BookRepository;
 
 /**
  *
@@ -16,11 +16,11 @@ import model.Loan;
  */
 public class StudentLoansView extends javax.swing.JFrame {
     
-    private FileBookController fileBookController;
-    
-    private FileLoanController fileLoanController;
-    
     private int studentId;
+    
+    private LoanRepository loanRepository;
+    
+    private BookRepository bookRepository;
     
     /**
      * Creates new form StudentLoansView
@@ -28,8 +28,8 @@ public class StudentLoansView extends javax.swing.JFrame {
      */
     public StudentLoansView(int studentId) {
         this.studentId = studentId;
-        this.fileBookController = new FileBookController();
-        this.fileLoanController = new FileLoanController();
+        this.loanRepository = new LoanRepository();
+        this.bookRepository = new BookRepository();
         initComponents();
         fillTable();
     }
@@ -49,6 +49,7 @@ public class StudentLoansView extends javax.swing.JFrame {
         backButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         titleLabel.setFont(new java.awt.Font("Uroob", 1, 48)); // NOI18N
         titleLabel.setText("LIBRARY APP");
@@ -162,16 +163,14 @@ public class StudentLoansView extends javax.swing.JFrame {
     }//GEN-LAST:event_backButton1ActionPerformed
 
     private void fillTable(){
-        
-        this.fileLoanController.readLoan();
-        
-        ArrayList<Loan> loans = this.fileLoanController.getLoans();
+
+        ArrayList<Loan> loans = this.loanRepository.get();
 
         for(int i = 0; i < loans.size(); i++){
 
             Loan loan = loans.get(i);
             
-            Book book = this.fileBookController.getBookById(loan.getBookId());
+            Book book = this.bookRepository.findById(loan.getBookId());
             
             if(loan.getStudentId()== this.studentId){
                 this.bookTable.setValueAt(loan.getEntityId(), i, 0);

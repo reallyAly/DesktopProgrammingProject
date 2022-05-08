@@ -4,23 +4,23 @@
  */
 package view.student;
 
-import controller.file.FileBookController;
-import controller.file.FileLoanController;
 import controller.LoanBookController;
 import java.util.ArrayList;
 import model.Book;
+import model.repository.BookRepository;
+import model.repository.LoanRepository;
 
 /**
  *
  * @author alysson
  */
 public class StudentBooksForLoanView extends javax.swing.JFrame {
-    
-    private FileBookController fileBookController;
-    
-    private FileLoanController fileLoanController;
-    
+
     private LoanBookController loanBookController;
+    
+    private BookRepository bookRepository;
+    
+    private LoanRepository loanRepository;
     
     private int studentId;
     
@@ -29,9 +29,9 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
      */
     public StudentBooksForLoanView(int studentId) {
         this.studentId = studentId;
-        this.fileBookController = new FileBookController();
-        this.fileLoanController = new FileLoanController();
         this.loanBookController = new LoanBookController(studentId);
+        this.bookRepository = new BookRepository();
+        this.loanRepository = new LoanRepository();
         initComponents();
         fillTable();
     }
@@ -218,9 +218,7 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
 
     private void fillTable(){
         
-        this.fileBookController.readBook();
-        
-        ArrayList<Book> books = this.fileBookController.getBooks();
+        ArrayList<Book> books = this.bookRepository.get();
            
         if(books.isEmpty() != true){
 
@@ -228,7 +226,7 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
 
                Book book = books.get(i);
 
-                boolean isLoan = this.fileLoanController.checkIfBookisLoan(book.getEntityId());
+                boolean isLoan = this.loanBookController.checkIfBookisLoan(book.getEntityId());
                 
                 if(isLoan != true){
                     this.bookTable.setValueAt(book.getEntityId(), i, 0);
