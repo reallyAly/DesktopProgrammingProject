@@ -4,12 +4,10 @@ package model.repository;
 import java.util.ArrayList;
 import controller.file.FileBinController;
 import exception.BookNotExistException;
+import exception.LoanNotExistException;
+import javax.naming.CannotProceedException;
 import model.Book;
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+import model.Loan;
 
 /**
  *
@@ -19,8 +17,12 @@ public class BookRepository implements Repository {
     
     private FileBinController fileBinController;
     
+    private LoanRepository loanRepository;
+    
     public BookRepository(){
         this.fileBinController = new FileBinController();
+        this.loanRepository = new LoanRepository();
+        this.fileBinController.setFile(Book.FILENAME);  
     }
 
     /**
@@ -43,7 +45,7 @@ public class BookRepository implements Repository {
 
     @Override
     public ArrayList<Book> get() {
-        this.fileBinController.setFile(Book.FILENAME);  
+        
         boolean result = this.fileBinController.read();
         
         if(!result){
@@ -85,8 +87,10 @@ public class BookRepository implements Repository {
      * @param id
      * @return Boolean
      * @throws BookNotExistException
+     * @throws javax.naming.CannotProceedException
+     * @throws exception.LoanNotExistException
      */
-    public boolean delete(int id) throws BookNotExistException{
+    public boolean delete(int id) throws BookNotExistException, CannotProceedException, LoanNotExistException{
             
         this.validateBook(id);
         
@@ -94,6 +98,11 @@ public class BookRepository implements Repository {
         
         for(int i = 0; i < books.size(); i++){
             if(books.get(i).getEntityId()== id){
+                Boolean result = this.deleteLoans(books.get(i).getEntityId());
+                
+                if(!result){
+                    throw new CannotProceedException("A loan of this book cannot be deleted");
+                }
                 books.remove(i);
             }
         }
@@ -107,6 +116,17 @@ public class BookRepository implements Repository {
             throw new BookNotExistException("The book specified does not exist ");
         }
     }
-
     
+    private boolean deleteLoans(int id) throws LoanNotExistException{
+        ArrayList<Loan> loans = this.loanRepository.get();
+        
+        for(int i = 0; i < loans.size(); i++){
+            if(loans.get(i).getBookId() == id){
+                return this.loanRepository.delete(loans.get(i).getEntityId());
+            }
+        }
+        
+        return false;
+    }
+
 }

@@ -7,8 +7,10 @@ package view.librarian;
 import model.repository.BookRepository;
 import controller.CreateAndUpdateBookController;
 import exception.BookNotExistException;
+import exception.LoanNotExistException;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
+import javax.naming.CannotProceedException;
 import model.Book;
 
 /**
@@ -216,7 +218,7 @@ public class LibrarianBooksView extends javax.swing.JFrame {
                
                new LibrarianBooksView(this.librarianId).setVisible(true);
                dispose();
-        }catch (BookNotExistException | HeadlessException | NumberFormatException e) {
+        }catch (BookNotExistException | HeadlessException | NumberFormatException | CannotProceedException | LoanNotExistException e) {
              this.jOptionPane1.showMessageDialog(this,
                 e.getMessage(),
                 "Error trying to delete the book",
