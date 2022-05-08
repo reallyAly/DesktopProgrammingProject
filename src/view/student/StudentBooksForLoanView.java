@@ -4,23 +4,24 @@
  */
 package view.student;
 
-import controller.file.FileBookController;
-import controller.file.FileLoanController;
 import controller.LoanBookController;
+import exception.BookNotExistException;
 import java.util.ArrayList;
 import model.Book;
+import model.repository.BookRepository;
+import model.repository.LoanRepository;
 
 /**
  *
  * @author alysson
  */
 public class StudentBooksForLoanView extends javax.swing.JFrame {
-    
-    private FileBookController fileBookController;
-    
-    private FileLoanController fileLoanController;
-    
+
     private LoanBookController loanBookController;
+    
+    private BookRepository bookRepository;
+    
+    private LoanRepository loanRepository;
     
     private int studentId;
     
@@ -29,9 +30,9 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
      */
     public StudentBooksForLoanView(int studentId) {
         this.studentId = studentId;
-        this.fileBookController = new FileBookController();
-        this.fileLoanController = new FileLoanController();
         this.loanBookController = new LoanBookController(studentId);
+        this.bookRepository = new BookRepository();
+        this.loanRepository = new LoanRepository();
         initComponents();
         fillTable();
     }
@@ -53,6 +54,7 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
         backButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         titleLabel.setFont(new java.awt.Font("Uroob", 1, 48)); // NOI18N
         titleLabel.setText("LIBRARY APP");
@@ -145,32 +147,33 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(titleLabel)
-                .addGap(525, 525, 525))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(70, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70))
             .addGroup(layout.createSequentialGroup()
                 .addGap(400, 400, 400)
                 .addComponent(backButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(77, 77, 77)
                 .addComponent(loanBookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(70, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(70, 70, 70))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(titleLabel)
+                        .addGap(457, 457, 457))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(18, 18, 18)
                 .addComponent(titleLabel)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
+                        .addGap(33, 33, 33)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(135, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(backButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -203,6 +206,11 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
                 e.getMessage(),
                 "Invalid Fields",
                 jOptionPane1.WARNING_MESSAGE);
+        }catch (BookNotExistException e) {
+             this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to loan the book",
+                jOptionPane1.WARNING_MESSAGE);
         }catch (Exception e) {
              this.jOptionPane1.showMessageDialog(this,
                 e.getMessage(),
@@ -218,9 +226,7 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
 
     private void fillTable(){
         
-        this.fileBookController.readBook();
-        
-        ArrayList<Book> books = this.fileBookController.getBooks();
+        ArrayList<Book> books = this.bookRepository.get();
            
         if(books.isEmpty() != true){
 
@@ -228,7 +234,7 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
 
                Book book = books.get(i);
 
-                boolean isLoan = this.fileLoanController.checkIfBookisLoan(book.getEntityId());
+                boolean isLoan = this.loanBookController.checkIfBookisLoan(book.getEntityId());
                 
                 if(isLoan != true){
                     this.bookTable.setValueAt(book.getEntityId(), i, 0);

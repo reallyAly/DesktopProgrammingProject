@@ -4,10 +4,13 @@
  */
 package view.librarian;
 
-import controller.file.FileBookController;
+import model.repository.BookRepository;
 import controller.CreateAndUpdateBookController;
-import controller.DeleteBookController;
+import exception.BookNotExistException;
+import exception.LoanNotExistException;
+import java.awt.HeadlessException;
 import java.util.ArrayList;
+import javax.naming.CannotProceedException;
 import model.Book;
 
 /**
@@ -16,10 +19,8 @@ import model.Book;
  */
 public class LibrarianBooksView extends javax.swing.JFrame {
     
-    private FileBookController fileBookController;
-    
-    private DeleteBookController deleteBookController;
-    
+    private BookRepository bookRepository;
+
     private CreateAndUpdateBookController managementBookController;
     
     private int librarianId;
@@ -29,8 +30,7 @@ public class LibrarianBooksView extends javax.swing.JFrame {
      */
     public LibrarianBooksView(int librarianId) {
         this.librarianId = librarianId;
-        this.fileBookController = new FileBookController();
-        this.deleteBookController = new DeleteBookController(librarianId);
+        this.bookRepository = new BookRepository();
         this.managementBookController = new CreateAndUpdateBookController(librarianId);
         initComponents();
         fillTable();
@@ -155,28 +155,29 @@ public class LibrarianBooksView extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(titleLabel)
-                .addGap(525, 525, 525))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(70, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(70, 70, 70))
             .addGroup(layout.createSequentialGroup()
-                .addGap(295, 295, 295)
-                .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
-                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
-                .addComponent(backButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(295, 295, 295)
+                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46)
+                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(backButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(460, 460, 460)
+                        .addComponent(titleLabel)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(21, 21, 21)
                 .addComponent(titleLabel)
-                .addGap(29, 29, 29)
+                .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -208,7 +209,7 @@ public class LibrarianBooksView extends javax.swing.JFrame {
             
             for(int i = 0; i < linesSelected.length; i++){
                 String bookId = this.bookTable.getModel().getValueAt(linesSelected[i], 0).toString();
-                this.deleteBookController.deleteBook(Integer.parseInt(bookId));
+                this.bookRepository.delete(Integer.parseInt(bookId));
             }
 
             this.jOptionPane1.showMessageDialog(this,
@@ -218,19 +219,16 @@ public class LibrarianBooksView extends javax.swing.JFrame {
                
                new LibrarianBooksView(this.librarianId).setVisible(true);
                dispose();
-        }catch (Exception e) {
+        }catch (BookNotExistException | HeadlessException | NumberFormatException | CannotProceedException | LoanNotExistException e) {
              this.jOptionPane1.showMessageDialog(this,
                 e.getMessage(),
                 "Error trying to delete the book",
                 jOptionPane1.WARNING_MESSAGE);
         }
-
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void fillTable(){
-        
-        this.fileBookController.readBook();
-        ArrayList<Book> books = this.fileBookController.getBooks();
+        ArrayList<Book> books = this.bookRepository.get();
 
         for(int i = 0; i < books.size(); i++){
 

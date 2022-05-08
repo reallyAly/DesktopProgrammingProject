@@ -4,7 +4,7 @@
  */
 package view.librarian;
 
-import controller.file.FileStudentController;
+import model.repository.StudentRepository;
 import java.util.ArrayList;
 import model.Student;
 
@@ -14,7 +14,7 @@ import model.Student;
  */
 public class LibrarianStudentsView extends javax.swing.JFrame {
     
-    private FileStudentController fileStudentController;
+    private StudentRepository studentRepository;
     
     private int librariaId;
     
@@ -23,7 +23,7 @@ public class LibrarianStudentsView extends javax.swing.JFrame {
      */
     public LibrarianStudentsView(int librarianId) {
         this.librariaId = librarianId;
-        this.fileStudentController = new FileStudentController();
+        this.studentRepository = new StudentRepository();
         initComponents();
         fillTable();
     }
@@ -128,11 +128,7 @@ public class LibrarianStudentsView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(titleLabel)
-                .addGap(525, 525, 525))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(70, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -140,14 +136,17 @@ public class LibrarianStudentsView extends javax.swing.JFrame {
                         .addGap(524, 524, 524))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70))))
+                        .addGap(70, 70, 70))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(titleLabel)
+                        .addGap(459, 459, 459))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(20, 20, 20)
                 .addComponent(titleLabel)
-                .addGap(29, 29, 29)
+                .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -164,13 +163,10 @@ public class LibrarianStudentsView extends javax.swing.JFrame {
 
     private void fillTable(){
         
-        this.fileStudentController.readStudent();
-        ArrayList<Student> students = this.fileStudentController.getStudents();
+        ArrayList<Student> students = this.studentRepository.get();
 
         for(int i = 0; i < students.size(); i++){
-
             Student student = students.get(i);
-            
             this.studentsTable.setValueAt(student.getEntityId(), i, 0);
             this.studentsTable.setValueAt(student.getFirstname(), i, 1);
             this.studentsTable.setValueAt(student.getLastname(), i, 2);
