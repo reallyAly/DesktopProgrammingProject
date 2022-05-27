@@ -1,17 +1,10 @@
 package model;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
  *
  * @author alysson
  */
-public class Loan implements java.io.Serializable {
-    
-    public static final String FILENAME = "Loans.bin";
+public class Loan {
     
     private int entityId;
     
