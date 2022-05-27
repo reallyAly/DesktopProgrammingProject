@@ -1,15 +1,11 @@
 package model;
 
-import model.Person;
-
 /**
  *
  * @author alysson
  */
-public class Student extends Person implements java.io.Serializable{
-    
-    public static final String FILENAME = "Students.bin";
-
+public class Student extends Person {
+   
     private String RA;
 
     public Student() {

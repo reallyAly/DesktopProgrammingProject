@@ -4,7 +4,7 @@ package model;
  *
  * @author alysson
  */
-abstract class Person implements java.io.Serializable{
+abstract class Person {
     
     private int entityId;
     
