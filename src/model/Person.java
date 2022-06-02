@@ -6,15 +6,15 @@ package model;
  */
 abstract class Person {
     
-    private int entityId;
+    protected int entityId;
     
-    private String firstname;
+    protected String firstname;
     
-    private String lastname;
+    protected String lastname;
     
-    private String email;
+    protected String email;
     
-    private String password;
+    protected String password;
 
     public Person() {
         this.entityId = 0;
@@ -22,6 +22,20 @@ abstract class Person {
         this.lastname = "";
         this.email = "";
         this.password = "";
+    }
+    
+    public Person(
+            int entityId, 
+            String firstname, 
+            String lastname, 
+            String email, 
+            String password
+    ) {
+        this.entityId = entityId;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
     }
     
     public void setEntityId(int entityId){
