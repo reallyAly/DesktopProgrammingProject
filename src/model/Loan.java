@@ -14,38 +14,29 @@ public class Loan {
     
     private String loanDate;
     
-    private String status;
-    
-    private String devolutionDate;
-            
+    private int devolutionId;
 
-    public Loan() {
-        this.entityId = 0;
-        this.studentId = 0;
-        this.bookId = 0;
-        this.loanDate = "";
-        this.status = "";
-        this.devolutionDate = "";
+    public Loan(int entityId, int studentId, int bookId, String loanDate, int devolutionId) {
+        this.entityId = entityId;
+        this.studentId = studentId;
+        this.bookId = bookId;
+        this.loanDate = loanDate;
+        this.devolutionId = devolutionId;
     }
-
+            
+    public Loan() {
+        
+    }
     public int getEntityId() {
         return entityId;
     }
 
-    public String getStatus() {
-        return status;
+    public int getDevolutionId() {
+        return devolutionId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getDevolutionDate() {
-        return devolutionDate;
-    }
-
-    public void setDevolutionDate(String devolutionDate) {
-        this.devolutionDate = devolutionDate;
+    public void setDevolutionId(int devolutionId) {
+        this.devolutionId = devolutionId;
     }
 
     public void setEntityId(int entityId) {

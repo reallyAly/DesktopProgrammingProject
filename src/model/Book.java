@@ -14,11 +14,15 @@ public class Book {
     
     private String author;
 
+    public Book(int entityId, String name, String isbn, String author) {
+        this.entityId = entityId;
+        this.name = name;
+        this.isbn = isbn;
+        this.author = author;
+    }
+    
     public Book() {
-        this.entityId = 0;
-        this.name = "";
-        this.isbn = "";
-        this.author = "";
+        
     }
 
     public int getEntityId(){
