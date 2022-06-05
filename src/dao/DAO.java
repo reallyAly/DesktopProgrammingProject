@@ -16,11 +16,17 @@ public abstract class DAO<E> {
     
     protected static final String GET_QUERY = "SELECT * FROM ? ";
     
+    protected static final String DELETE_QUERY = "DELETE FROM ? WHERE entity_id = ?";
+    
     protected Connection dbConnection;
     
     protected PreparedStatement preparedStatement;
     
     protected ResultSet resultSet;
+    
+    protected int type = ResultSet.TYPE_SCROLL_SENSITIVE;
+    
+    protected int competition = ResultSet.CONCUR_UPDATABLE;
 
     public DAO() {
         this.dbConnection = JDBCUtil.getConnection();
@@ -32,4 +38,9 @@ public abstract class DAO<E> {
     
     public abstract boolean save(E obj) throws Exception;
     
+    public abstract boolean delete(E obj) throws Exception;
+    
+    public abstract String getInsertQuery();
+    
+    public abstract String getUpdateQuery();
 }
