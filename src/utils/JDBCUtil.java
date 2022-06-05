@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.Properties;
+import java.sql.DriverManager;
 
 /**
  * A simple data source for getting database connections.
@@ -48,7 +49,7 @@ public class JDBCUtil {
             Class.forName(driver);
         }
         
-        conn = getConnection();
+        conn = DriverManager.getConnection(url, username, password);
         
         conn.setAutoCommit(false);
     }
