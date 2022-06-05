@@ -86,6 +86,7 @@ public class LoanDAO extends DAO<Loan>{
             this.preparedStatement = this.dbConnection.prepareStatement(this.getUpdateQuery(), this.type, this.competition);
             this.preparedStatement.setInt(3, loan.getDevolutionId());
             this.preparedStatement.setString(4, loan.getLoanDate());
+            this.preparedStatement.setInt(5, loan.getEntityId());
         }else{
             this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery(), this.type, this.competition);
             this.preparedStatement.setString(3, loan.getLoanDate());
@@ -149,7 +150,8 @@ public class LoanDAO extends DAO<Loan>{
                 +", "
                 + Loan.COLUMN_DEVOLUTION_ID + " = ?"
                 +", "
-                + Loan.COLUMN_CREATED_AT + " = ?";
+                + Loan.COLUMN_CREATED_AT + " = ? "
+                +"WHERE entity_id = ?";
     }
     
     private Loan getObjectByRs(ResultSet rs) throws SQLException {
