@@ -27,14 +27,6 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace min="0" pref="352" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="myLoansButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
-                  <Component id="loanBookButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="322" max="-2" attributes="0"/>
-          </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -48,6 +40,15 @@
                   </Group>
               </Group>
           </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="0" pref="352" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="myAccountButton" min="-2" pref="526" max="-2" attributes="0"/>
+                  <Component id="myLoansButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
+                  <Component id="loanBookButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="322" max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -59,7 +60,9 @@
               <Component id="loanBookButton" min="-2" pref="69" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
               <Component id="myLoansButton" min="-2" pref="69" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="319" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
+              <Component id="myAccountButton" min="-2" pref="69" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="192" max="-2" attributes="0"/>
               <Component id="logoutButton" min="-2" pref="69" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
           </Group>
@@ -97,6 +100,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="myAccountButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="My Account "/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myAccountButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
