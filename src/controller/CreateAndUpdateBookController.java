@@ -1,12 +1,11 @@
 package controller;
 
-import model.repository.BookRepository;
+import dao.BookDAO;
 import model.Book;
-import java.util.ArrayList;
 
 public class CreateAndUpdateBookController {
 
-    private BookRepository bookRepository;
+    private BookDAO bookDAO;
 
     private Book book;
     
@@ -14,7 +13,7 @@ public class CreateAndUpdateBookController {
 
     public CreateAndUpdateBookController(int librarianId){
         this.librarianId = librarianId;
-        this.bookRepository = new BookRepository();
+        this.bookDAO = new BookDAO();
         this.book = new Book();
     }
 
@@ -22,12 +21,11 @@ public class CreateAndUpdateBookController {
            
         this.validateFields(name, isbn, author);
         
-        this.book.setEntityId(this.getBookNewUniqueId());
         this.book.setName(name);
         this.book.setIsbn(isbn);
         this.book.setAuthor(author);
         
-        Boolean result = this.bookRepository.save(this.book);
+        Boolean result = this.bookDAO.save(this.book);
         
         if(!result){
             throw new Exception("Error trying to save the new book");
@@ -49,7 +47,7 @@ public class CreateAndUpdateBookController {
         book.setIsbn(isbn);
         book.setAuthor(author);
         
-        boolean result = this.bookRepository.save(book);
+        boolean result = this.bookDAO.save(book);
 
         if(!result){
             throw new Exception("Error trying to update the book");
@@ -82,19 +80,5 @@ public class CreateAndUpdateBookController {
             );
             
         }
-    }
-
-    private int getBookNewUniqueId(){
-
-        ArrayList<Book> books = this.bookRepository.get();
-
-        if(books.isEmpty()){
-            return 1;
-        }
-
-        int lastId = books.get(books.size()-1).getEntityId();
-        lastId+=1;
-
-        return lastId;
     }
 }
