@@ -91,20 +91,6 @@ public class StudentDAO extends DAO<Student>{
         return false;
     }
 
-    private Student getObjectByRs(ResultSet rs) throws SQLException {
-        
-        Student student = new Student();
-
-        student.setEntityId(rs.getInt(Student.COLUMN_ENTITY_ID));
-        student.setFirstname(rs.getString(Student.COLUMN_FIRSTNAME));
-        student.setLastname(rs.getString(Student.COLUMN_LASTNAME));
-        student.setEmail(rs.getString(Student.COLUMN_EMAIL));
-        student.setPassword(rs.getString(Student.COLUMN_PASSWORD));
-        student.setRA(rs.getString(Student.COLUMN_RA));
-           
-        return student;
-    }
-
     @Override
     public String getInsertQuery() {
         return "INSERT INTO "+Student.TABLE_NAME+" VALUES (?, ?, ?, ?, ?)";
@@ -119,6 +105,20 @@ public class StudentDAO extends DAO<Student>{
                 + Student.COLUMN_EMAIL + " = ?"
                 + Student.COLUMN_PASSWORD + " = ?"
                 + Student.COLUMN_RA + " = ?";
+    }
+    
+    private Student getObjectByRs(ResultSet rs) throws SQLException {
+        
+        Student student = new Student();
+
+        student.setEntityId(rs.getInt(Student.COLUMN_ENTITY_ID));
+        student.setFirstname(rs.getString(Student.COLUMN_FIRSTNAME));
+        student.setLastname(rs.getString(Student.COLUMN_LASTNAME));
+        student.setEmail(rs.getString(Student.COLUMN_EMAIL));
+        student.setPassword(rs.getString(Student.COLUMN_PASSWORD));
+        student.setRA(rs.getString(Student.COLUMN_RA));
+           
+        return student;
     }
      
 }
