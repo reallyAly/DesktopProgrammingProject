@@ -1,8 +1,10 @@
 package controller;
 
+import dao.LoanDAO;
+import dao.DevolutionDAO;
 import exception.LoanNotExistException;
-import model.repository.LoanRepository;
 import model.Loan;
+import model.Devolution;
 import java.time.format.DateTimeFormatter;  
 import java.time.LocalDateTime;    
 import javax.naming.CannotProceedException;
@@ -11,37 +13,46 @@ public class ReturnBookController {
 
     private int librarianId;
     
-    private LoanRepository loanRepository;
+    private LoanDAO loanDAO;
+    
+    private DevolutionDAO devolutionDAO; 
 
     public ReturnBookController(int librarianId){
         this.librarianId = librarianId;
-        this.loanRepository = new LoanRepository();
+        this.loanDAO = new LoanDAO();
+        this.devolutionDAO = new DevolutionDAO();
     }
 
-    public void returnBook(String loanId) throws CannotProceedException, Exception{
+    public boolean returnBook(String loanId) throws CannotProceedException, Exception{
         
-        if(this.loanRepository.findById(Integer.parseInt(loanId)) == null){
+        Loan loan = this.loanDAO.findById(Integer.parseInt(loanId));
+       
+        if(loan.getEntityId() == 0){
             throw new LoanNotExistException("The loan specified does not exist");
         }
         
-        this.validateFields(loanId);
-        
-        Loan loan = this.loanRepository.findById(Integer.parseInt(loanId));
-        
-        if(this.validateLoanStatus(loan)){
-            loan.setStatus("RETURNED");
-            loan.setDevolutionDate(this.getCurrentDate());
-        }else{
+        if(loan.getDevolutionId() != 0){
             throw new CannotProceedException("The book was returned previously");
         }
+        
+        Devolution devolution = new Devolution();
+         
+        devolution.setLibrarianId(this.librarianId);
+        devolution.setDevolutionDate(this.getCurrentDate());
 
-        this.loanRepository.save(loan);
+        this.validateFields(loanId);
+ 
+        boolean devolutionResult = this.devolutionDAO.save(devolution);   
+       
+        if(devolutionResult) {
+            boolean loanResult = this.loanDAO.save(loan);
+            
+            return loanResult;
+        }
+
+        return devolutionResult;
     }
 
-    private Boolean validateLoanStatus(Loan loan){
-        return loan.getStatus().equals("LOAN");
-    }
-    
     private void validateFields(String id) throws IllegalArgumentException {
         if(id.isBlank()){
             throw new IllegalArgumentException(
