@@ -186,7 +186,7 @@ public class CreateAccountView extends javax.swing.JFrame {
         try{
             
             if(this.RAField.getText().equals("00000")){
-                this.createAccountController.createUser(
+               this.createAccountController.createUser(
                         this.firstnameField.getText(), 
                         this.lastnameField.getText(), 
                         this.emailField.getText(),

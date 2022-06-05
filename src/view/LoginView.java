@@ -184,17 +184,14 @@ public class LoginView extends javax.swing.JFrame {
             Filter filter = new Filter("email", this.emailField.getText());
             
             ArrayList<Librarian> librarians = this.librarianDAO.get(filter);
+            ArrayList<Student> students = this.studentDAO.get(filter);
 
             if(!librarians.isEmpty()){
                new LibrarianDashboardView(userId).setVisible(true);
+            }else if(!students.isEmpty()) {
+              new StudentDashboardView(userId).setVisible(true);
             }
-            
-            ArrayList<Student> students = this.studentDAO.get(filter);
-            
-            if(!students.isEmpty()){
-                new StudentDashboardView(userId).setVisible(true);
-            }
-            
+
             dispose();
  
         }catch(IllegalAccessException e){
