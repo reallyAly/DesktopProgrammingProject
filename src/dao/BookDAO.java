@@ -18,14 +18,12 @@ public class BookDAO extends DAO<Book>{
     
     protected static final String DELETE_QUERY = "DELETE FROM "+Book.TABLE_NAME+" WHERE entity_id = ?";
     
-    public BookDAO() {
-        super();
-    }
-    
     @Override
     public Book findById(int id) {
         
         try{
+            
+            this.startConnection();
             
             this.preparedStatement = this.dbConnection.prepareStatement(FIND_BY_ID_QUERY, this.type, this.competition);
         
@@ -35,10 +33,14 @@ public class BookDAO extends DAO<Book>{
             
             this.first(this.resultSet);
             
-            return this.getObjectByRs(this.resultSet);
+            Book book = this.getObjectByRs(this.resultSet);
             
-        }catch(SQLException ex){
-            System.out.println(ex.getMessage());
+            this.closeConnection();
+            
+            return book;
+            
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
             return new Book();
         }
 
@@ -50,6 +52,9 @@ public class BookDAO extends DAO<Book>{
         ArrayList<Book> books = new ArrayList<>();
         
         try{
+            
+            this.startConnection();
+            
             if(filter != null) {
                 String getWithFilterQuery = 
                         "SELECT * FROM "
@@ -72,55 +77,78 @@ public class BookDAO extends DAO<Book>{
                 books.add(this.getObjectByRs(this.resultSet));
             }
             
+            this.closeConnection();
+            
             return books;
-        }catch(SQLException ex) {
-            System.out.println(ex);
+        }catch(SQLException e) {
+            System.out.println(e.getMessage());
             return books;
         }
     }
 
     @Override
-    public boolean save(Book book) throws Exception {
-        
-        if(book.getEntityId() != 0) {
+    public boolean save(Book book) {
+        try{
+            
+            this.startConnection();
+            
+            if(book.getEntityId() != 0) {
             this.preparedStatement = this.dbConnection.prepareStatement(this.getUpdateQuery(), this.type, this.competition);
             this.preparedStatement.setInt(4, book.getEntityId());
-        }else{
-            this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery(), this.type, this.competition);
-        }
-        
-        this.preparedStatement.setString(1, book.getName());
-        this.preparedStatement.setString(2, book.getIsbn());
-        this.preparedStatement.setString(3, book.getAuthor());
+            }else{
+                this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery(), this.type, this.competition);
+            }
 
-        int result = this.preparedStatement.executeUpdate();
+            this.preparedStatement.setString(1, book.getName());
+            this.preparedStatement.setString(2, book.getIsbn());
+            this.preparedStatement.setString(3, book.getAuthor());
+
+            int result = this.preparedStatement.executeUpdate();
+
+            if(result == 1) {
+                this.dbConnection.commit();
+                return true;
+            }
         
-        if(result == 1) {
-            this.dbConnection.commit();
-            return true;
+            this.dbConnection.rollback();
+            
+            this.closeConnection();
+            
+            return false;
+            
+        }catch(SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
         }
-        
-        this.dbConnection.rollback();
-        
-        return false;
     }
     
     @Override
     public boolean delete(Book book) throws Exception {
-        this.preparedStatement = this.dbConnection.prepareStatement(DELETE_QUERY, this.type, this.competition);
+        try{
+            
+            this.startConnection();
+            
+            this.preparedStatement = this.dbConnection.prepareStatement(DELETE_QUERY, this.type, this.competition);
         
-        this.preparedStatement.setInt(1, book.getEntityId());
+            this.preparedStatement.setInt(1, book.getEntityId());
          
-        int result = this.preparedStatement.executeUpdate();
+            int result = this.preparedStatement.executeUpdate();
         
-        if(result == 1) {
-            this.dbConnection.commit();
-            return true;
+            if(result == 1) {
+                this.dbConnection.commit();
+                return true;
+            }
+        
+            this.dbConnection.rollback();
+        
+            this.closeConnection();
+            
+            return false;
+            
+        }catch(SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
         }
-        
-        this.dbConnection.rollback();
-        
-        return false;
     }
 
     @Override

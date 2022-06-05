@@ -18,14 +18,12 @@ public class DevolutionDAO extends DAO<Devolution>{
     
     protected static final String DELETE_QUERY = "DELETE FROM "+Devolution.TABLE_NAME+" WHERE entity_id = ?";
     
-    public DevolutionDAO() {
-        super();
-    }
-    
     @Override
     public Devolution findById(int id) {
         
         try{
+            
+            this.startConnection();
             
             this.preparedStatement = this.dbConnection.prepareStatement(FIND_BY_ID_QUERY, this.type, this.competition);
         
@@ -35,10 +33,14 @@ public class DevolutionDAO extends DAO<Devolution>{
             
             this.first(this.resultSet);
             
-            return this.getObjectByRs(this.resultSet);
+            Devolution devolution = this.getObjectByRs(this.resultSet);
             
-        }catch(SQLException ex){
-            System.out.println(ex.getMessage());
+            this.closeConnection();
+                
+            return devolution;
+            
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
             return new Devolution();
         }
 
@@ -50,6 +52,9 @@ public class DevolutionDAO extends DAO<Devolution>{
         ArrayList<Devolution> devolutions = new ArrayList<>();
         
         try{
+            
+            this.startConnection();
+            
             if(filter != null) {
                 String getWithFilterQuery = 
                         "SELECT * FROM "
@@ -72,6 +77,8 @@ public class DevolutionDAO extends DAO<Devolution>{
                 devolutions.add(this.getObjectByRs(this.resultSet));
             }
             
+            this.closeConnection();
+            
             return devolutions;
         }catch(SQLException ex) {
             System.out.println(ex);
@@ -80,46 +87,66 @@ public class DevolutionDAO extends DAO<Devolution>{
     }
 
     @Override
-    public boolean save(Devolution devolution) throws Exception {
+    public boolean save(Devolution devolution) {
         
-        if(devolution.getEntityId() != 0) {
-            this.preparedStatement = this.dbConnection.prepareStatement(this.getUpdateQuery(), this.type, this.competition);
-        }else{
-            this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery(), this.type, this.competition);
-        }
-        
-        this.preparedStatement.setInt(1, devolution.getLibrarianId());
-        this.preparedStatement.setInt(2, devolution.getLoanId());
-        this.preparedStatement.setString(3, devolution.getDevolutionDate());
+        try{
+            
+            this.startConnection();
+            
+            if(devolution.getEntityId() != 0) {
+                this.preparedStatement = this.dbConnection.prepareStatement(this.getUpdateQuery(), this.type, this.competition);
+            }else{
+                this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery(), this.type, this.competition);
+            }
 
-        int result = this.preparedStatement.executeUpdate();
-        
-        if(result == 1) {
-            this.dbConnection.commit();
-            return true;
+            this.preparedStatement.setInt(1, devolution.getLibrarianId());
+            this.preparedStatement.setInt(2, devolution.getLoanId());
+            this.preparedStatement.setString(3, devolution.getDevolutionDate());
+
+            int result = this.preparedStatement.executeUpdate();
+
+            if(result == 1) {
+                this.dbConnection.commit();
+                return true;
+            }
+
+            this.dbConnection.rollback();
+            
+            this.closeConnection();
+
+            return false;
+            
+        }catch(SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
         }
         
-        this.dbConnection.rollback();
-        
-        return false;
     }
     
     @Override
-    public boolean delete(Devolution devolution) throws Exception {
-        this.preparedStatement = this.dbConnection.prepareStatement(DELETE_QUERY, this.type, this.competition);
+    public boolean delete(Devolution devolution) {
+        try{
+            
+            this.preparedStatement = this.dbConnection.prepareStatement(DELETE_QUERY, this.type, this.competition);
         
-        this.preparedStatement.setInt(1, devolution.getEntityId());
-         
-        int result = this.preparedStatement.executeUpdate();
-        
-        if(result == 1) {
-            this.dbConnection.commit();
-            return true;
+            this.preparedStatement.setInt(1, devolution.getEntityId());
+
+            int result = this.preparedStatement.executeUpdate();
+
+            if(result == 1) {
+                this.dbConnection.commit();
+                return true;
+            }
+
+            this.dbConnection.rollback();
+
+            return false;
+            
+        }catch(SQLException e) {
+            System.out.println(e.getMessage());
+            return false;   
         }
         
-        this.dbConnection.rollback();
-        
-        return false;
     }
 
     @Override

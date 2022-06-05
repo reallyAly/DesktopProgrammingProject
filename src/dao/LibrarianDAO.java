@@ -18,14 +18,12 @@ public class LibrarianDAO extends DAO<Librarian>{
     
     protected static final String DELETE_QUERY = "DELETE FROM "+Librarian.TABLE_NAME+" WHERE entity_id = ?";
     
-    public LibrarianDAO() {
-        super();
-    }
-    
     @Override
     public Librarian findById(int id) {
         
         try{
+            
+            this.startConnection();
             
             this.preparedStatement = this.dbConnection.prepareStatement(FIND_BY_ID_QUERY, this.type, this.competition);
         
@@ -34,8 +32,12 @@ public class LibrarianDAO extends DAO<Librarian>{
             this.resultSet = this.preparedStatement.executeQuery();
             
             this.first(this.resultSet);
+
+            Librarian librarian = this.getObjectByRs(this.resultSet);
             
-            return this.getObjectByRs(this.resultSet);
+            this.closeConnection();
+            
+            return librarian;
             
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
@@ -50,6 +52,9 @@ public class LibrarianDAO extends DAO<Librarian>{
         ArrayList<Librarian> librarians = new ArrayList<>();
         
         try{
+            
+            this.startConnection();
+            
             if(filter != null) {
                 String getWithFilterQuery = 
                         "SELECT * FROM "
@@ -72,55 +77,79 @@ public class LibrarianDAO extends DAO<Librarian>{
                 librarians.add(this.getObjectByRs(this.resultSet));
             }
             
+            this.closeConnection();
+            
             return librarians;
-        }catch(SQLException ex) {
-            System.out.println(ex);
+        }catch(SQLException e) {
+            System.out.println(e.getMessage());
             return librarians;
         }
     }
 
     @Override
-    public boolean save(Librarian librarian) throws Exception {
+    public boolean save(Librarian librarian){
         
-        if(librarian.getEntityId() != 0) {
-            this.preparedStatement = this.dbConnection.prepareStatement(this.getUpdateQuery(), this.type, this.competition);
-        }else{
-            this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery(), this.type, this.competition);
-        }
-        
-        this.preparedStatement.setString(1, librarian.getFirstname());
-        this.preparedStatement.setString(2, librarian.getLastname());
-        this.preparedStatement.setString(3, librarian.getEmail());
-        this.preparedStatement.setString(4, librarian.getPassword());
+        try{
+            
+            this.startConnection();
+            
+            if(librarian.getEntityId() != 0) {
+                this.preparedStatement = this.dbConnection.prepareStatement(this.getUpdateQuery(), this.type, this.competition);
+            }else{
+                this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery(), this.type, this.competition);
+            }
 
-        int result = this.preparedStatement.executeUpdate();
-        
-        if(result == 1) {
-            this.dbConnection.commit();
-            return true;
+            this.preparedStatement.setString(1, librarian.getFirstname());
+            this.preparedStatement.setString(2, librarian.getLastname());
+            this.preparedStatement.setString(3, librarian.getEmail());
+            this.preparedStatement.setString(4, librarian.getPassword());
+
+            int result = this.preparedStatement.executeUpdate();
+
+            if(result == 1) {
+                this.dbConnection.commit();
+                return true;
+            }
+
+            this.dbConnection.rollback();
+            
+            this.closeConnection();
+
+            return false;
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            return false;
         }
         
-        this.dbConnection.rollback();
-        
-        return false;
     }
     
     @Override
-    public boolean delete(Librarian librarian) throws Exception {
-        this.preparedStatement = this.dbConnection.prepareStatement(DELETE_QUERY, this.type, this.competition);
+    public boolean delete(Librarian librarian) {
         
-        this.preparedStatement.setInt(1, librarian.getEntityId());
-         
-        int result = this.preparedStatement.executeUpdate();
+        try{
+            this.startConnection();
+            
+            this.preparedStatement = this.dbConnection.prepareStatement(DELETE_QUERY, this.type, this.competition);
         
-        if(result == 1) {
-            this.dbConnection.commit();
-            return true;
+            this.preparedStatement.setInt(1, librarian.getEntityId());
+
+            int result = this.preparedStatement.executeUpdate();
+
+            if(result == 1) {
+                this.dbConnection.commit();
+                return true;
+            }
+        
+            this.dbConnection.rollback();
+
+            this.closeConnection();
+            
+            return false;
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            return false;
         }
         
-        this.dbConnection.rollback();
-        
-        return false;
     }
 
     @Override

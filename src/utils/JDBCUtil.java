@@ -48,10 +48,7 @@ public class JDBCUtil {
         if (driver != null) {
             Class.forName(driver);
         }
-        
-        conn = DriverManager.getConnection(url, username, password);
-        
-        conn.setAutoCommit(false);
+
     }
 
     /**
@@ -60,7 +57,10 @@ public class JDBCUtil {
      * @return the database connection
      *
      */
-    public static Connection getConnection(){
+    public static Connection getConnection() throws SQLException{
+        conn = DriverManager.getConnection(url, username, password);
+        conn.setAutoCommit(false);
         return conn;
     }
+    
 }

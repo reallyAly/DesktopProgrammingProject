@@ -18,14 +18,12 @@ public class LoanDAO extends DAO<Loan>{
     
     protected static final String DELETE_QUERY = "DELETE FROM "+Loan.TABLE_NAME+" WHERE entity_id = ?";
     
-    public LoanDAO() {
-        super();
-    }
-    
     @Override
     public Loan findById(int id) {
         
         try{
+            
+            this.startConnection();
             
             this.preparedStatement = this.dbConnection.prepareStatement(FIND_BY_ID_QUERY, this.type, this.competition);
         
@@ -35,7 +33,11 @@ public class LoanDAO extends DAO<Loan>{
             
             this.first(this.resultSet);
             
-            return this.getObjectByRs(this.resultSet);
+            Loan loan = this.getObjectByRs(this.resultSet);
+            
+            this.closeConnection();
+            
+            return loan;
             
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
@@ -50,6 +52,8 @@ public class LoanDAO extends DAO<Loan>{
         ArrayList<Loan> loans = new ArrayList<>();
         
         try{
+            this.startConnection();
+            
             if(filter != null) {
                 String getWithFilterQuery = 
                         "SELECT * FROM "
@@ -72,6 +76,8 @@ public class LoanDAO extends DAO<Loan>{
                 loans.add(this.getObjectByRs(this.resultSet));
             }
             
+            this.closeConnection();
+            
             return loans;
         }catch(SQLException ex) {
             System.out.println(ex);
@@ -80,51 +86,71 @@ public class LoanDAO extends DAO<Loan>{
     }
 
     @Override
-    public boolean save(Loan loan) throws Exception {
-        
-        if(loan.getEntityId() != 0) {
-            this.preparedStatement = this.dbConnection.prepareStatement(this.getUpdateQuery(), this.type, this.competition);
-            this.preparedStatement.setInt(3, loan.getDevolutionId());
-            this.preparedStatement.setString(4, loan.getLoanDate());
-            this.preparedStatement.setInt(5, loan.getEntityId());
-        }else{
-            this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery(), this.type, this.competition);
-            this.preparedStatement.setString(3, loan.getLoanDate());
-        }
-        
-        this.preparedStatement.setInt(1, loan.getStudentId());
-        this.preparedStatement.setInt(2, loan.getBookId());
-        
+    public boolean save(Loan loan) {
+        try{
+            this.startConnection();
+            
+            if(loan.getEntityId() != 0) {
+                this.preparedStatement = this.dbConnection.prepareStatement(this.getUpdateQuery(), this.type, this.competition);
+                this.preparedStatement.setInt(3, loan.getDevolutionId());
+                this.preparedStatement.setString(4, loan.getLoanDate());
+                this.preparedStatement.setInt(5, loan.getEntityId());
+            }else{
+                this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery(), this.type, this.competition);
+                this.preparedStatement.setString(3, loan.getLoanDate());
+            }
 
-        int result = this.preparedStatement.executeUpdate();
+            this.preparedStatement.setInt(1, loan.getStudentId());
+            this.preparedStatement.setInt(2, loan.getBookId());
+
+
+            int result = this.preparedStatement.executeUpdate();
+
+            if(result == 1) {
+                this.dbConnection.commit();
+                return true;
+            }
         
-        if(result == 1) {
-            this.dbConnection.commit();
-            return true;
+            this.dbConnection.rollback();
+            
+            this.closeConnection();
+        
+            return false;
+            
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            return false;
         }
-        
-        this.dbConnection.rollback();
-        
-        return false;
     }
     
     @Override
-    public boolean delete(Loan loan) throws Exception {
-        this.preparedStatement = this.dbConnection.prepareStatement(DELETE_QUERY, this.type, this.competition);
+    public boolean delete(Loan loan) {
+        try{
+            
+            this.startConnection();
+            
+            this.preparedStatement = this.dbConnection.prepareStatement(DELETE_QUERY, this.type, this.competition);
         
-        this.preparedStatement.setInt(1, loan.getEntityId());
-         
-        int result = this.preparedStatement.executeUpdate();
+            this.preparedStatement.setInt(1, loan.getEntityId());
+
+            int result = this.preparedStatement.executeUpdate();
+
+            if(result == 1) {
+                this.dbConnection.commit();
+                return true;
+            }
         
-        if(result == 1) {
-            this.dbConnection.commit();
-            return true;
+            this.dbConnection.rollback();
+            
+            this.closeConnection();
+        
+            return false;
+            
+        }catch(SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
         }
-        
-        this.dbConnection.rollback();
-        
-        return false;
-    }
+    } 
 
     @Override
     public String getInsertQuery() {

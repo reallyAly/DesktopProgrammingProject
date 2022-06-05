@@ -18,14 +18,12 @@ public class StudentDAO extends DAO<Student>{
     
     protected static final String DELETE_QUERY = "DELETE FROM "+Student.TABLE_NAME+" WHERE entity_id = ?";
     
-    public StudentDAO() {
-        super();
-    }
-    
     @Override
     public Student findById(int id) {
         
         try{
+            
+            this.startConnection();
             
             this.preparedStatement = this.dbConnection.prepareStatement(FIND_BY_ID_QUERY, this.type, this.competition);
         
@@ -35,7 +33,11 @@ public class StudentDAO extends DAO<Student>{
             
             this.first(this.resultSet);
             
-            return this.getObjectByRs(this.resultSet);
+            Student student = this.getObjectByRs(this.resultSet);
+            
+            this.closeConnection();
+            
+            return student;
             
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
@@ -50,6 +52,8 @@ public class StudentDAO extends DAO<Student>{
         ArrayList<Student> students = new ArrayList<>();
         
         try{
+            
+            this.startConnection();
             
             if(filter != null) {
                 String getWithFilterQuery = 
@@ -73,6 +77,8 @@ public class StudentDAO extends DAO<Student>{
                 students.add(this.getObjectByRs(this.resultSet));
             }
             
+            this.closeConnection();
+            
             return students;
         }catch(SQLException ex) {
             System.out.println(ex);
@@ -83,46 +89,67 @@ public class StudentDAO extends DAO<Student>{
     @Override
     public boolean save(Student student) throws Exception {
         
-        if(student.getEntityId() != 0) {
-            this.preparedStatement = this.dbConnection.prepareStatement(this.getUpdateQuery(), this.type, this.competition);
-        }else{
-            this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery(), this.type, this.competition);
-        }
+        try{
+            
+            this.startConnection();
+            
+            if(student.getEntityId() != 0) {
+                this.preparedStatement = this.dbConnection.prepareStatement(this.getUpdateQuery(), this.type, this.competition);
+            }else{
+                this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery(), this.type, this.competition);
+            }
         
-        this.preparedStatement.setString(1, student.getFirstname());
-        this.preparedStatement.setString(2, student.getLastname());
-        this.preparedStatement.setString(3, student.getEmail());
-        this.preparedStatement.setString(4, student.getPassword());
-        this.preparedStatement.setString(5, student.getRA());
+            this.preparedStatement.setString(1, student.getFirstname());
+            this.preparedStatement.setString(2, student.getLastname());
+            this.preparedStatement.setString(3, student.getEmail());
+            this.preparedStatement.setString(4, student.getPassword());
+            this.preparedStatement.setString(5, student.getRA());
 
-        int result = this.preparedStatement.executeUpdate();
+            int result = this.preparedStatement.executeUpdate();
         
-        if(result == 1) {
-            this.dbConnection.commit();
-            return true;
+            if(result == 1) {
+                this.dbConnection.commit();
+                return true;
+            }
+        
+            this.dbConnection.rollback();
+            
+            this.closeConnection();
+            
+            return false;
+        }catch(SQLException e) {
+            System.out.println(e);
+            return false;
         }
         
-        this.dbConnection.rollback();
-        
-        return false;
     }
     
     @Override
-    public boolean delete(Student student) throws Exception {
-        this.preparedStatement = this.dbConnection.prepareStatement(DELETE_QUERY, this.type, this.competition);
+    public boolean delete(Student student){
+        try{
+            
+            this.startConnection();
+            
+            this.preparedStatement = this.dbConnection.prepareStatement(DELETE_QUERY, this.type, this.competition);
         
-        this.preparedStatement.setInt(1, student.getEntityId());
+            this.preparedStatement.setInt(1, student.getEntityId());
          
-        int result = this.preparedStatement.executeUpdate();
+            int result = this.preparedStatement.executeUpdate();
         
-        if(result == 1) {
-            this.dbConnection.commit();
-            return true;
+            if(result == 1) {
+                this.dbConnection.commit();
+                return true;
+            }
+        
+            this.dbConnection.rollback();
+            
+            this.closeConnection();
+            
+            return false;
+        }catch(SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
         }
-        
-        this.dbConnection.rollback();
-        
-        return false;
     }
     
     @Override

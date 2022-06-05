@@ -23,10 +23,6 @@ public abstract class DAO<E> {
     protected int type = ResultSet.TYPE_SCROLL_SENSITIVE;
     
     protected int competition = ResultSet.CONCUR_UPDATABLE;
-
-    public DAO() {
-        this.dbConnection = JDBCUtil.getConnection();
-    }
     
     public abstract E findById(int id) throws Exception;
     
@@ -98,5 +94,13 @@ public abstract class DAO<E> {
             return false;
         }
         return false;
+    }
+    
+    public void startConnection() throws SQLException {
+        this.dbConnection = JDBCUtil.getConnection();
+    }
+    
+    public void closeConnection() throws SQLException {
+        this.dbConnection.close();
     }
 }
