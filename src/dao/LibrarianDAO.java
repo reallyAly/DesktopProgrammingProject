@@ -122,7 +122,7 @@ public class LibrarianDAO extends DAO<Librarian>{
                 +", "
                 +Librarian.COLUMN_PASSWORD
                 +") "
-                +"VALUES (?, ?, ?, ?, ?)";
+                +"VALUES (?, ?, ?, ?)";
     }
 
     @Override
