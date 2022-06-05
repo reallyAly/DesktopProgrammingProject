@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import model.Devolution;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import model.Filter;
 
 /**
  *
@@ -44,7 +45,7 @@ public class DevolutionDAO extends DAO<Devolution>{
     }
 
     @Override
-    public ArrayList<Devolution> get() {
+    public ArrayList<Devolution> get(Filter filter) {
         
         ArrayList<Devolution> devolutions = new ArrayList<>();
         

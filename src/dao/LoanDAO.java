@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import model.Loan;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import model.Filter;
 
 /**
  *
@@ -44,7 +45,7 @@ public class LoanDAO extends DAO<Loan>{
     }
 
     @Override
-    public ArrayList<Loan> get() {
+    public ArrayList<Loan> get(Filter filter) {
         
         ArrayList<Loan> loans = new ArrayList<>();
         
@@ -69,14 +70,16 @@ public class LoanDAO extends DAO<Loan>{
         
         if(loan.getEntityId() != 0) {
             this.preparedStatement = this.dbConnection.prepareStatement(this.getUpdateQuery(), this.type, this.competition);
+            this.preparedStatement.setInt(3, loan.getDevolutionId());
+            this.preparedStatement.setString(4, loan.getLoanDate());
         }else{
             this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery(), this.type, this.competition);
+            this.preparedStatement.setString(3, loan.getLoanDate());
         }
         
         this.preparedStatement.setInt(1, loan.getStudentId());
         this.preparedStatement.setInt(2, loan.getBookId());
-        this.preparedStatement.setInt(3, loan.getDevolutionId());
-        this.preparedStatement.setString(4, loan.getLoanDate());
+        
 
         int result = this.preparedStatement.executeUpdate();
         
@@ -117,11 +120,9 @@ public class LoanDAO extends DAO<Loan>{
                 +", "
                 +Loan.COLUMN_BOOK_ID
                 +", "
-                +Loan.COLUMN_DEVOLUTION_ID
-                +", "
                 +Loan.COLUMN_CREATED_AT
                 +") "
-                +"VALUES (?, ?, ?, ?)";
+                +"VALUES (?, ?, ?)";
     }
 
     @Override
@@ -143,8 +144,8 @@ public class LoanDAO extends DAO<Loan>{
 
         loan.setEntityId(rs.getInt(Loan.COLUMN_ENTITY_ID));
         loan.setStudentId(rs.getInt(Loan.COLUMN_STUDENT_ID));
-        loan.setBookId(rs.getInt(Loan.COLUMN_BOOK_ID));
-        loan.setDevolutionId(rs.getInt(Loan.COLUMN_DEVOLUTION_ID));       
+        loan.setBookId(rs.getInt(Loan.COLUMN_BOOK_ID));  
+        loan.setDevolutionId(rs.getInt(Loan.COLUMN_DEVOLUTION_ID));  
         loan.setLoanDate(rs.getString(Loan.COLUMN_CREATED_AT)); 
         
         return loan;
