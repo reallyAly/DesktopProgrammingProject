@@ -38,6 +38,7 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
         viewBooksButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
         viewStudentsButton = new javax.swing.JButton();
+        myAccountButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -81,6 +82,13 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
             }
         });
 
+        myAccountButton.setText("My Account");
+        myAccountButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myAccountButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,6 +105,7 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 352, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(myAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(viewStudentsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(viewBooksButton, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addNewBookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -108,7 +117,7 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(titleLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addGap(68, 68, 68)
                 .addComponent(addNewBookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55)
                 .addComponent(viewBooksButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -116,7 +125,9 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
                 .addComponent(viewLoansButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addComponent(viewStudentsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addComponent(myAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
                 .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
         );
@@ -149,9 +160,15 @@ public class LibrarianDashboardView extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_viewStudentsButtonActionPerformed
 
+    private void myAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myAccountButtonActionPerformed
+        new LibrarianMyAccountView(librarianId).setVisible(true);
+        dispose();
+    }//GEN-LAST:event_myAccountButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addNewBookButton;
     private javax.swing.JButton logoutButton;
+    private javax.swing.JButton myAccountButton;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JButton viewBooksButton;
     private javax.swing.JButton viewLoansButton;

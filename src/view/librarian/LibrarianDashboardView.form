@@ -43,6 +43,7 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="0" pref="352" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="myAccountButton" min="-2" pref="526" max="-2" attributes="0"/>
                   <Component id="viewStudentsButton" min="-2" pref="526" max="-2" attributes="0"/>
                   <Component id="viewBooksButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
                   <Component id="addNewBookButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
@@ -57,7 +58,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               <Component id="titleLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="130" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
               <Component id="addNewBookButton" min="-2" pref="69" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
               <Component id="viewBooksButton" min="-2" pref="69" max="-2" attributes="0"/>
@@ -65,7 +66,9 @@
               <Component id="viewLoansButton" min="-2" pref="69" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
               <Component id="viewStudentsButton" min="-2" pref="69" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+              <EmptySpace pref="40" max="32767" attributes="0"/>
+              <Component id="myAccountButton" min="-2" pref="69" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               <Component id="logoutButton" min="-2" pref="69" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
           </Group>
@@ -119,6 +122,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewStudentsButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="myAccountButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="My Account"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myAccountButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

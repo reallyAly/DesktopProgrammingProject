@@ -12,7 +12,6 @@ import model.Student;
  *
  * @author alysson
  */
-import javax.swing.JFrame;
 public class UpdateStudentController {
     
     private StudentDAO studentDAO;
