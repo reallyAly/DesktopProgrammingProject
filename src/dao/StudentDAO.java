@@ -11,47 +11,66 @@ import java.sql.SQLException;
  */
 public class StudentDAO extends DAO<Student>{
     
+    protected static final String FIND_BY_ID_QUERY = "SELECT * FROM "+Student.TABLE_NAME+" WHERE entity_id = ?";
+    
+    protected static final String GET_QUERY = "SELECT * FROM "+Student.TABLE_NAME;
+    
+    protected static final String DELETE_QUERY = "DELETE FROM "+Student.TABLE_NAME+" WHERE entity_id = ?";
+    
     public StudentDAO() {
         super();
     }
     
     @Override
-    public Student findById(int id) throws SQLException {
-        this.preparedStatement = this.dbConnection.prepareStatement(DAO.FIND_BY_ID_QUERY);
+    public Student findById(int id) {
         
-        this.preparedStatement.setString(1, Student.TABLE_NAME);
-        this.preparedStatement.setInt(2, id);
+        try{
+            
+            this.preparedStatement = this.dbConnection.prepareStatement(FIND_BY_ID_QUERY, this.type, this.competition);
+        
+            this.preparedStatement.setInt(1, id);
+        
+            this.resultSet = this.preparedStatement.executeQuery();
+            
+            this.first(this.resultSet);
+            
+            return this.getObjectByRs(this.resultSet);
+            
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+            return new Student();
+        }
 
-        return this.getObjectByRs(this.preparedStatement.executeQuery());
     }
 
     @Override
-    public ArrayList<Student> get() throws SQLException {
-         
-        this.preparedStatement = this.dbConnection.prepareStatement(DAO.GET_QUERY);
-            
-        this.preparedStatement.setString(1, Student.TABLE_NAME);
-            
+    public ArrayList<Student> get() {
+        
         ArrayList<Student> students = new ArrayList<>();
-            
-        this.resultSet = this.preparedStatement.executeQuery();
+        
+        try{
+            this.preparedStatement = this.dbConnection.prepareStatement(GET_QUERY, this.type, this.competition);
 
-        int size = this.resultSet.getFetchSize();
+            this.resultSet = this.preparedStatement.executeQuery();
             
-        for(int i = 0; i < size; i++) {
-            students.add(this.getObjectByRs(this.resultSet));
+            while(this.next(this.resultSet)){
+                students.add(this.getObjectByRs(this.resultSet));
+            }
+            
+            return students;
+        }catch(SQLException ex) {
+            System.out.println(ex);
+            return students;
         }
-            
-        return students;
     }
 
     @Override
     public boolean save(Student student) throws Exception {
         
         if(student.getEntityId() != 0) {
-            this.preparedStatement = this.dbConnection.prepareStatement(this.getUpdateQuery());
+            this.preparedStatement = this.dbConnection.prepareStatement(this.getUpdateQuery(), this.type, this.competition);
         }else{
-            this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery());
+            this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery(), this.type, this.competition);
         }
         
         this.preparedStatement.setString(1, student.getFirstname());
@@ -74,10 +93,9 @@ public class StudentDAO extends DAO<Student>{
     
     @Override
     public boolean delete(Student student) throws Exception {
-        this.preparedStatement = this.dbConnection.prepareStatement(DAO.DELETE_QUERY);
+        this.preparedStatement = this.dbConnection.prepareStatement(DELETE_QUERY, this.type, this.competition);
         
-        this.preparedStatement.setString(1, Student.TABLE_NAME);
-        this.preparedStatement.setInt(2, student.getEntityId());
+        this.preparedStatement.setInt(1, student.getEntityId());
          
         int result = this.preparedStatement.executeUpdate();
         
@@ -93,7 +111,20 @@ public class StudentDAO extends DAO<Student>{
 
     @Override
     public String getInsertQuery() {
-        return "INSERT INTO "+Student.TABLE_NAME+" VALUES (?, ?, ?, ?, ?)";
+        return "INSERT INTO "
+                +Student.TABLE_NAME
+                +"( "
+                +Student.COLUMN_FIRSTNAME
+                +", "
+                +Student.COLUMN_LASTNAME
+                +", "
+                +Student.COLUMN_EMAIL
+                +", "
+                +Student.COLUMN_PASSWORD
+                +", "
+                +Student.COLUMN_RA
+                +") "
+                +"VALUES (?, ?, ?, ?, ?)";
     }
 
     @Override
@@ -101,9 +132,13 @@ public class StudentDAO extends DAO<Student>{
         return "UPDATE "+Student.TABLE_NAME
                 + " SET "
                 + Student.COLUMN_FIRSTNAME + " = ?"
+                +", "
                 + Student.COLUMN_LASTNAME + " = ?"
+                +", "
                 + Student.COLUMN_EMAIL + " = ?"
+                +", "
                 + Student.COLUMN_PASSWORD + " = ?"
+                +", "
                 + Student.COLUMN_RA + " = ?";
     }
     
