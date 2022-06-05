@@ -6,6 +6,18 @@ package model;
  */
 public class Loan {
     
+    public static final String TABLE_NAME = "loan";
+    
+    public static final String COLUMN_ENTITY_ID = "entity_id";
+    
+    public static final String COLUMN_STUDENT_ID = "student_id";
+    
+    public static final String COLUMN_BOOK_ID = "book_id";
+    
+    public static final String COLUMN_DEVOLUTION_ID = "devolution_id";
+    
+    public static final String COLUMN_CREATED_AT = "created_at";
+    
     private int entityId;
     
     private int studentId;
