@@ -2,7 +2,6 @@ package utils;
 
 import java.io.File;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,6 +16,7 @@ public class JDBCUtil {
     private static String url;
     private static String username;
     private static String password;
+    private static Connection conn;
 
     /**
      * Initializes the data source.
@@ -26,7 +26,7 @@ public class JDBCUtil {
      * @throws java.io.IOException
      * @throws java.lang.ClassNotFoundException
      */
-    public static void init(File fileName) throws IOException, ClassNotFoundException {
+    public static void init(File fileName) throws IOException, ClassNotFoundException, SQLException {
 
         Properties props = new Properties();
         FileInputStream in = new FileInputStream(fileName);
@@ -47,17 +47,19 @@ public class JDBCUtil {
         if (driver != null) {
             Class.forName(driver);
         }
+        
+        conn = getConnection();
     }
 
     /**
-     * Gets a connection to the database.
+     * Get connection to the database.
      *
      * @return the database connection
      *
      * @throws java.sql.SQLException
      */
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, username, password);
+        return conn;
     }
 
     public static boolean next(ResultSet rsdados) {
