@@ -23,6 +23,6 @@ public class FileController {
     public void setFile(String filename) {
         file = null;
         String initialDir = System.getProperty("user.dir");
-        this.file = new File(initialDir+"/src/"+filename);
+        this.file = new File(initialDir+"/src/files/"+filename);
     }
 }
