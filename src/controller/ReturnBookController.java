@@ -36,8 +36,9 @@ public class ReturnBookController {
         }
         
         Devolution devolution = new Devolution();
-         
+        
         devolution.setLibrarianId(this.librarianId);
+        devolution.setLoanId(loan.getEntityId());
         devolution.setDevolutionDate(this.getCurrentDate());
 
         this.validateFields(loanId);
@@ -62,7 +63,7 @@ public class ReturnBookController {
     }
 
     private String getCurrentDate(){
-         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");  
+         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
          LocalDateTime now = LocalDateTime.now();  
          return dtf.format(now);
     }
