@@ -5,6 +5,18 @@ package model;
  * @author alysson
  */
 public class Student extends Person {
+    
+    public static final String COLUMN_ENTITY_ID = "entity_id";
+    
+    public static final String COLUMN_FIRSTNAME = "firstname";
+    
+    public static final String COLUMN_LASTNAME = "lastname";
+    
+    public static final String COLUMN_EMAIL = "email";
+    
+    public static final String COLUMN_PASSWORD = "pass";
+    
+    public static final String COLUMN_RA = "ra";
    
     private String RA;
 
