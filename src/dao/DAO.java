@@ -5,18 +5,13 @@ import utils.JDBCUtil;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  *
  * @author alysson
  */
 public abstract class DAO<E> {
-    
-    protected static final String FIND_BY_ID_QUERY = "SELECT * FROM ? WHERE entity_id = ?";
-    
-    protected static final String GET_QUERY = "SELECT * FROM ? ";
-    
-    protected static final String DELETE_QUERY = "DELETE FROM ? WHERE entity_id = ?";
     
     protected Connection dbConnection;
     
@@ -43,4 +38,64 @@ public abstract class DAO<E> {
     public abstract String getInsertQuery();
     
     public abstract String getUpdateQuery();
+    
+    public boolean next(ResultSet rsdados) {
+        try {
+            if (rsdados != null) {
+                if (!rsdados.isLast()) {
+                    rsdados.next();
+                    return true;
+                }               
+            }
+        } catch (SQLException erro) {
+            System.out.println(erro);
+            return false;
+        }
+        return false;
+    }
+
+    public boolean previous(ResultSet rsdados) {
+        try {
+            if (rsdados != null) {
+                if (!rsdados.isFirst()) {
+                    rsdados.previous();
+                    return true;
+                }
+            }
+        } catch (SQLException erro) {
+            System.out.println(erro);
+            return false;
+        }
+        return false;
+    }
+
+    public boolean last(ResultSet rsdados) {
+        try {
+            if (rsdados != null) {
+                if (!rsdados.isLast()) {
+                    rsdados.last();
+                    return true;
+                }
+            }
+        } catch (SQLException erro) {
+            System.out.println(erro);
+            return false;
+        }
+        return false;
+    }
+
+    public boolean first(ResultSet rsdados) {
+        try {
+            if (rsdados != null) {
+                if (!rsdados.isFirst()) {
+                    rsdados.first();
+                    return true;
+                }
+            }
+        } catch (SQLException erro) {
+            System.out.println(erro);
+            return false;
+        }
+        return false;
+    }
 }
