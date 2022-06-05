@@ -37,7 +37,7 @@ public class CreateAccountController {
     ) throws Exception {
         // Validations
         this.validateFields(firstname, lastname, email, password, RA);
-        this.checkIfEmailIsAvailable(email, "student");
+        this.checkIfEmailIsAvailable(email);
         this.checkIfRAIsAvailable(RA);
 
         this.student.setFirstname(firstname);
@@ -58,7 +58,7 @@ public class CreateAccountController {
         
         // Validations
         this.validateFields(firstname, lastname, email, password, "00000");
-        this.checkIfEmailIsAvailable(email, "librarian");
+        this.checkIfEmailIsAvailable(email);
         
         this.librarian.setFirstname(firstname);
         this.librarian.setLastname(lastname);
@@ -111,7 +111,7 @@ public class CreateAccountController {
         
     }
     
-    private void checkIfEmailIsAvailable(String email, String table) throws IllegalArgumentException{
+    private void checkIfEmailIsAvailable(String email) throws IllegalArgumentException{
         
         Filter filter = new Filter("email", email);
         
@@ -119,13 +119,13 @@ public class CreateAccountController {
         
         ArrayList<Librarian> librarians = this.librarianDAO.get(filter);
         
-        if(!students.isEmpty() && table.equals("student")) {
+        if(!students.isEmpty()) {
             throw new IllegalArgumentException(
                 "The email was registered previously, try another"
             );
         }
         
-        if(!librarians.isEmpty() && table.equals("librarian")) {
+        if(!librarians.isEmpty()) {
             throw new IllegalArgumentException(
                 "The email was registered previously, try another"
             );
