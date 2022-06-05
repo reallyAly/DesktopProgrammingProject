@@ -91,10 +91,10 @@ public class LibrarianDAO extends DAO<Librarian>{
     }
     
     @Override
-    public boolean delete(Librarian student) throws Exception {
+    public boolean delete(Librarian librarian) throws Exception {
         this.preparedStatement = this.dbConnection.prepareStatement(DELETE_QUERY, this.type, this.competition);
         
-        this.preparedStatement.setInt(1, student.getEntityId());
+        this.preparedStatement.setInt(1, librarian.getEntityId());
          
         int result = this.preparedStatement.executeUpdate();
         
