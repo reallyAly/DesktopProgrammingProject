@@ -82,7 +82,7 @@ public class LoanBookController {
             
             Loan loan = loans.get(i);
             
-            if((loan.getBookId() == bookId) || loan.getDevolutionId() != 0){
+            if((loan.getBookId() == bookId) && loan.getDevolutionId() != 0){
                 isLoan = true;
                 break;
             }

@@ -7,7 +7,9 @@ import model.Loan;
 import model.Devolution;
 import java.time.format.DateTimeFormatter;  
 import java.time.LocalDateTime;    
+import java.util.ArrayList;
 import javax.naming.CannotProceedException;
+import model.Filter;
 
 public class ReturnBookController {
 
@@ -46,6 +48,13 @@ public class ReturnBookController {
         boolean devolutionResult = this.devolutionDAO.save(devolution);   
        
         if(devolutionResult) {
+            
+            Filter filter = new Filter(Devolution.COLUMN_LOAN_ID, String.valueOf(loan.getEntityId()));
+            
+            ArrayList<Devolution> devolutions = this.devolutionDAO.get(filter);
+            
+            loan.setDevolutionId(devolutions.get(0).getEntityId());
+            
             boolean loanResult = this.loanDAO.save(loan);
             
             return loanResult;

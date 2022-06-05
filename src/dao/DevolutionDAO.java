@@ -89,7 +89,8 @@ public class DevolutionDAO extends DAO<Devolution>{
         }
         
         this.preparedStatement.setInt(1, devolution.getLibrarianId());
-        this.preparedStatement.setString(2, devolution.getDevolutionDate());
+        this.preparedStatement.setInt(2, devolution.getLoanId());
+        this.preparedStatement.setString(3, devolution.getDevolutionDate());
 
         int result = this.preparedStatement.executeUpdate();
         
@@ -128,15 +129,19 @@ public class DevolutionDAO extends DAO<Devolution>{
                 +"( "
                 +Devolution.COLUMN_LIBRARIAN_ID
                 +", "
+                +Devolution.COLUMN_LOAN_ID
+                +", "
                 +Devolution.COLUMN_CREATEAD_AT
                 +") "
-                +"VALUES (?, ?)";
+                +"VALUES (?, ?, ?)";
     }
 
     @Override
     public String getUpdateQuery(){
         return "UPDATE "+Devolution.TABLE_NAME
                 + " SET "
+                + Devolution.COLUMN_LIBRARIAN_ID + " = ?"
+                +", "
                 + Devolution.COLUMN_LIBRARIAN_ID + " = ?"
                 +", "
                 + Devolution.COLUMN_CREATEAD_AT + " = ?";
