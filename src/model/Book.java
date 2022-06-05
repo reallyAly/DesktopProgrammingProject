@@ -32,7 +32,10 @@ public class Book {
     }
     
     public Book() {
-        
+        this.entityId = 0;
+        this.name = "";
+        this.isbn = "";
+        this.author = "";
     }
 
     public int getEntityId(){
