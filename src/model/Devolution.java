@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 /**
@@ -10,17 +6,30 @@ package model;
  */
 public class Devolution {
     
+    public static final String TABLE_NAME = "devolution";
+    
+    public static final String COLUMN_ENTITY_ID = "entity_id";
+    
+    public static final String COLUMN_LIBRARIAN_ID = "librarian_id";
+    
+    public static final String COLUMN_CREATEAD_AT = "created_at";
+    
     private int entityId;
+    
+    private int librarianId;
     
     private String devolutionDate;
 
-    public Devolution(int entityId, String devolutionDate) {
+    public Devolution(int entityId, int librarianId, String devolutionDate) {
         this.entityId = entityId;
+        this.librarianId = librarianId;
         this.devolutionDate = devolutionDate;
     }
     
     public Devolution() {
-        
+        this.entityId = 0;
+        this.librarianId = 0;
+        this.devolutionDate = "";
     }
 
     public int getEntityId() {
@@ -37,6 +46,14 @@ public class Devolution {
 
     public void setDevolutionDate(String devolutionDate) {
         this.devolutionDate = devolutionDate;
+    }
+
+    public int getLibrarianId() {
+        return librarianId;
+    }
+
+    public void setLibrarianId(int librarianId) {
+        this.librarianId = librarianId;
     }
     
 }
