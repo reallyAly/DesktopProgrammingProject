@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view.librarian;
 
-import model.repository.StudentRepository;
+import dao.StudentDAO;
 import java.util.ArrayList;
 import model.Student;
 
@@ -14,16 +10,17 @@ import model.Student;
  */
 public class LibrarianStudentsView extends javax.swing.JFrame {
     
-    private StudentRepository studentRepository;
+    private StudentDAO studentDAO;
     
     private int librariaId;
     
     /**
      * Creates new form LibrarianBooksView
+     * @param librarianId
      */
     public LibrarianStudentsView(int librarianId) {
         this.librariaId = librarianId;
-        this.studentRepository = new StudentRepository();
+        this.studentDAO = new StudentDAO();
         initComponents();
         fillTable();
     }
@@ -161,9 +158,9 @@ public class LibrarianStudentsView extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_backButtonActionPerformed
 
-    private void fillTable(){
+    private void fillTable() {
         
-        ArrayList<Student> students = this.studentRepository.get();
+        ArrayList<Student> students = this.studentDAO.get(null);
 
         for(int i = 0; i < students.size(); i++){
             Student student = students.get(i);

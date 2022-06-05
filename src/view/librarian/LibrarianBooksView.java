@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view.librarian;
 
-import model.repository.BookRepository;
+import dao.BookDAO;
 import controller.CreateAndUpdateBookController;
 import exception.BookNotExistException;
 import exception.LoanNotExistException;
@@ -19,7 +15,7 @@ import model.Book;
  */
 public class LibrarianBooksView extends javax.swing.JFrame {
     
-    private BookRepository bookRepository;
+    private BookDAO bookDAO;
 
     private CreateAndUpdateBookController managementBookController;
     
@@ -27,10 +23,11 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     
     /**
      * Creates new form LibrarianBooksView
+     * @param librarianId
      */
     public LibrarianBooksView(int librarianId) {
         this.librarianId = librarianId;
-        this.bookRepository = new BookRepository();
+        this.bookDAO = new BookDAO();
         this.managementBookController = new CreateAndUpdateBookController(librarianId);
         initComponents();
         fillTable();
@@ -209,7 +206,7 @@ public class LibrarianBooksView extends javax.swing.JFrame {
             
             for(int i = 0; i < linesSelected.length; i++){
                 String bookId = this.bookTable.getModel().getValueAt(linesSelected[i], 0).toString();
-                this.bookRepository.delete(Integer.parseInt(bookId));
+                this.bookDAO.delete(this.bookDAO.findById(Integer.parseInt(bookId)));
             }
 
             this.jOptionPane1.showMessageDialog(this,
@@ -224,11 +221,16 @@ public class LibrarianBooksView extends javax.swing.JFrame {
                 e.getMessage(),
                 "Error trying to delete the book",
                 jOptionPane1.WARNING_MESSAGE);
+        } catch (Exception e) {
+           this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to delete the book",
+                jOptionPane1.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void fillTable(){
-        ArrayList<Book> books = this.bookRepository.get();
+        ArrayList<Book> books = this.bookDAO.get(null);
 
         for(int i = 0; i < books.size(); i++){
 

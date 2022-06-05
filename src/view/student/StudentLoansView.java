@@ -7,8 +7,11 @@ package view.student;
 import java.util.ArrayList;
 import model.Book;
 import model.Loan;
-import model.repository.LoanRepository;
-import model.repository.BookRepository;
+import dao.LoanDAO;
+import dao.BookDAO;
+import dao.DevolutionDAO;
+import model.Devolution;
+import model.Student;
 
 /**
  *
@@ -18,9 +21,11 @@ public class StudentLoansView extends javax.swing.JFrame {
     
     private int studentId;
     
-    private LoanRepository loanRepository;
+    private LoanDAO loanDAO;
     
-    private BookRepository bookRepository;
+    private BookDAO bookDAO;
+    
+    private DevolutionDAO devolutionDAO;
     
     /**
      * Creates new form StudentLoansView
@@ -28,8 +33,9 @@ public class StudentLoansView extends javax.swing.JFrame {
      */
     public StudentLoansView(int studentId) {
         this.studentId = studentId;
-        this.loanRepository = new LoanRepository();
-        this.bookRepository = new BookRepository();
+        this.loanDAO = new LoanDAO();
+        this.bookDAO = new BookDAO();
+        this.devolutionDAO = new DevolutionDAO();
         initComponents();
         fillTable();
     }
@@ -162,24 +168,31 @@ public class StudentLoansView extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_backButton1ActionPerformed
 
-    private void fillTable(){
-
-        ArrayList<Loan> loans = this.loanRepository.get();
+    private void fillTable(){ 
+        
+        ArrayList<Loan> loans = this.loanDAO.get(null);
+        
+        String devolutionDate = "";
 
         for(int i = 0; i < loans.size(); i++){
 
             Loan loan = loans.get(i);
             
-            Book book = this.bookRepository.findById(loan.getBookId());
+            Book book = this.bookDAO.findById(loan.getBookId());
+            Devolution devolution = this.devolutionDAO.findById(loan.getDevolutionId());
             
-            if(loan.getStudentId()== this.studentId){
+            if(devolution.getEntityId() == 0) {
+                devolutionDate = "###";
+            }else{
+                devolutionDate = devolution.getDevolutionDate();
+            }
+
+            if(loan.getStudentId() == this.studentId){
                 this.bookTable.setValueAt(loan.getEntityId(), i, 0);
                 this.bookTable.setValueAt(book.getName(), i, 1);
                 this.bookTable.setValueAt(loan.getLoanDate(), i, 2);
-                this.bookTable.setValueAt(loan.getDevolutionDate(), i, 3);
-                this.bookTable.setValueAt(loan.getStatus(), i, 4);
+                this.bookTable.setValueAt(devolutionDate, i, 3);
             }
-            
         }
         
     }

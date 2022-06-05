@@ -8,8 +8,9 @@ import controller.LoanBookController;
 import exception.BookNotExistException;
 import java.util.ArrayList;
 import model.Book;
-import model.repository.BookRepository;
-import model.repository.LoanRepository;
+import model.Loan;
+import dao.BookDAO;
+import dao.LoanDAO;
 
 /**
  *
@@ -19,9 +20,9 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
 
     private LoanBookController loanBookController;
     
-    private BookRepository bookRepository;
+    private BookDAO bookDAO;
     
-    private LoanRepository loanRepository;
+    private LoanDAO loanDAO;
     
     private int studentId;
     
@@ -31,8 +32,8 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
     public StudentBooksForLoanView(int studentId) {
         this.studentId = studentId;
         this.loanBookController = new LoanBookController(studentId);
-        this.bookRepository = new BookRepository();
-        this.loanRepository = new LoanRepository();
+        this.bookDAO = new BookDAO();
+        this.loanDAO = new LoanDAO();
         initComponents();
         fillTable();
     }
@@ -226,26 +227,25 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
 
     private void fillTable(){
         
-        ArrayList<Book> books = this.bookRepository.get();
+        ArrayList<Book> books = this.bookDAO.get(null);
            
-        if(books.isEmpty() != true){
+        if(books.isEmpty() != true) {
 
             for(int i = 0; i < books.size(); i++){
 
                Book book = books.get(i);
 
-                boolean isLoan = this.loanBookController.checkIfBookisLoan(book.getEntityId());
+               boolean isLoan = this.loanBookController.checkIfBookisLoan(book.getEntityId());
                 
-                if(isLoan != true){
-                    this.bookTable.setValueAt(book.getEntityId(), i, 0);
-                    this.bookTable.setValueAt(book.getName(), i, 1);
-                    this.bookTable.setValueAt(book.getIsbn(), i, 2);
-                    this.bookTable.setValueAt(book.getAuthor(), i, 3);
-                }
+               if(!isLoan){
+                   this.bookTable.setValueAt(book.getEntityId(), i, 0);
+                   this.bookTable.setValueAt(book.getName(), i, 1);
+                   this.bookTable.setValueAt(book.getIsbn(), i, 2);
+                   this.bookTable.setValueAt(book.getAuthor(), i, 3);
+               }
             }
-        
+            
         }
-        
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

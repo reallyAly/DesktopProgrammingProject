@@ -5,7 +5,7 @@
 package view.librarian;
 
 import controller.CreateAndUpdateBookController;
-import model.repository.BookRepository;
+import dao.BookDAO;
 import model.Book;
 
 /**
@@ -18,7 +18,7 @@ public class AddNewBookView extends javax.swing.JFrame {
     
     private Book book;
     
-    private BookRepository bookRepository;
+    private BookDAO bookDAO;
 
     private CreateAndUpdateBookController managementBookController;
 
@@ -30,14 +30,14 @@ public class AddNewBookView extends javax.swing.JFrame {
     public AddNewBookView(int librarianId, int bookId) {
         this.librarianId = librarianId;
         this.managementBookController = new CreateAndUpdateBookController(librarianId);
-        this.bookRepository = new BookRepository();
+        this.bookDAO = new BookDAO();
         initComponents();
         this.fillFields(bookId);
     }
         
     private void fillFields(int bookId){
         if(bookId > 0){
-            Book book = this.bookRepository.findById(bookId);
+            Book book = this.bookDAO.findById(bookId);
             
             this.bookNameField.setText(book.getName());
             this.isbnField.setText(book.getIsbn());
