@@ -56,9 +56,8 @@ public class JDBCUtil {
      *
      * @return the database connection
      *
-     * @throws java.sql.SQLException
      */
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnection(){
         return conn;
     }
 

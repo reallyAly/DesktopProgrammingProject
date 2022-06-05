@@ -3,7 +3,6 @@ package dao;
 import java.util.ArrayList;
 import utils.JDBCUtil;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  *
