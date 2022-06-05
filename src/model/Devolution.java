@@ -66,5 +66,13 @@ public class Devolution {
     public void setLibrarianId(int librarianId) {
         this.librarianId = librarianId;
     }
+
+    public int getLoanId() {
+        return loanId;
+    }
+
+    public void setLoanId(int loanId) {
+        this.loanId = loanId;
+    }
     
 }
