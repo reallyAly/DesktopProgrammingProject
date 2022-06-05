@@ -15,7 +15,7 @@ public class Loan {
     public static final String COLUMN_BOOK_ID = "book_id";
     
     public static final String COLUMN_DEVOLUTION_ID = "devolution_id";
-    
+
     public static final String COLUMN_CREATED_AT = "created_at";
     
     private int entityId;
@@ -28,16 +28,26 @@ public class Loan {
     
     private int devolutionId;
 
-    public Loan(int entityId, int studentId, int bookId, String loanDate, int devolutionId) {
+    public Loan(
+            int entityId,
+            int studentId, 
+            int bookId, 
+            int devolutionId, 
+            String loanDate
+    ) {
         this.entityId = entityId;
         this.studentId = studentId;
         this.bookId = bookId;
-        this.loanDate = loanDate;
         this.devolutionId = devolutionId;
+        this.loanDate = loanDate;
     }
             
     public Loan() {
-        
+        this.entityId = 0;
+        this.studentId = 0;
+        this.bookId = 0;
+        this.devolutionId = 0;
+        this.loanDate = "";
     }
     public int getEntityId() {
         return entityId;

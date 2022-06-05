@@ -12,23 +12,34 @@ public class Devolution {
     
     public static final String COLUMN_LIBRARIAN_ID = "librarian_id";
     
+    public static final String COLUMN_LOAN_ID = "loan_id";
+    
     public static final String COLUMN_CREATEAD_AT = "created_at";
     
     private int entityId;
     
     private int librarianId;
     
+    private int loanId;
+    
     private String devolutionDate;
 
-    public Devolution(int entityId, int librarianId, String devolutionDate) {
+    public Devolution(
+            int entityId, 
+            int librarianId, 
+            int loanId, 
+            String devolutionDate
+    ){
         this.entityId = entityId;
         this.librarianId = librarianId;
+        this.loanId = loanId;
         this.devolutionDate = devolutionDate;
     }
     
     public Devolution() {
         this.entityId = 0;
         this.librarianId = 0;
+        this.loanId = 0;
         this.devolutionDate = "";
     }
 
