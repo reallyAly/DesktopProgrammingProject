@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import model.Student;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import model.Filter;
 
 /**
  *
@@ -44,12 +45,27 @@ public class StudentDAO extends DAO<Student>{
     }
 
     @Override
-    public ArrayList<Student> get() {
+    public ArrayList<Student> get(Filter filter) {
         
         ArrayList<Student> students = new ArrayList<>();
         
         try{
-            this.preparedStatement = this.dbConnection.prepareStatement(GET_QUERY, this.type, this.competition);
+            
+            if(filter != null) {
+                String getWithFilterQuery = 
+                        "SELECT * FROM "
+                        +Student.TABLE_NAME
+                        +" WHERE "
+                        +filter.getColumnName()
+                        +" = ?";
+               
+                this.preparedStatement = this.dbConnection.prepareStatement(getWithFilterQuery, this.type, this.competition);
+                
+                this.preparedStatement.setString(1, filter.getColumnValue());
+                
+            }else{
+                this.preparedStatement = this.dbConnection.prepareStatement(GET_QUERY, this.type, this.competition);
+            }
 
             this.resultSet = this.preparedStatement.executeQuery();
             
@@ -108,7 +124,7 @@ public class StudentDAO extends DAO<Student>{
         
         return false;
     }
-
+    
     @Override
     public String getInsertQuery() {
         return "INSERT INTO "

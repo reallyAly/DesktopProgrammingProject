@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import model.Filter;
 
 /**
  *
@@ -29,7 +30,7 @@ public abstract class DAO<E> {
     
     public abstract E findById(int id) throws Exception;
     
-    public abstract ArrayList<E> get() throws Exception;
+    public abstract ArrayList<E> get(Filter filter) throws Exception;
     
     public abstract boolean save(E obj) throws Exception;
     
