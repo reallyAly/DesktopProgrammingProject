@@ -11,8 +11,10 @@ import java.sql.SQLException;
  */
 public abstract class DAO<E> {
     
-    public Connection getConnection() throws SQLException {
-        return JDBCUtil.getConnection();
+    protected Connection dbConnection;
+    
+    public DAO() {
+        this.dbConnection = JDBCUtil.getConnection();
     }
     
     public abstract E findById(int id) throws Exception;
