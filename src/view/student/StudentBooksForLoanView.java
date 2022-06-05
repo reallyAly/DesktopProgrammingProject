@@ -186,12 +186,13 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loanBookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loanBookButtonActionPerformed
-        
-        int lineSelected = this.bookTable.getSelectedRow();
-        String bookId = this.bookTable.getModel().getValueAt(lineSelected, 0).toString();
-        
+       
         try{
             
+            int lineSelected = this.bookTable.getSelectedRow();
+            
+            String bookId = this.bookTable.getModel().getValueAt(lineSelected, 0).toString();
+           
             this.loanBookController.loanBook(bookId);
                
             this.jOptionPane1.showMessageDialog(this,
@@ -210,6 +211,11 @@ public class StudentBooksForLoanView extends javax.swing.JFrame {
         }catch (BookNotExistException e) {
              this.jOptionPane1.showMessageDialog(this,
                 e.getMessage(),
+                "Error trying to loan the book",
+                jOptionPane1.WARNING_MESSAGE);
+        }catch (ArrayIndexOutOfBoundsException e) {
+             this.jOptionPane1.showMessageDialog(this,
+                "Please, select a book on the grid",
                 "Error trying to loan the book",
                 jOptionPane1.WARNING_MESSAGE);
         }catch (Exception e) {

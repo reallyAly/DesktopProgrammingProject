@@ -6,6 +6,7 @@ import exception.BookNotExistException;
 import exception.LoanNotExistException;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.naming.CannotProceedException;
 import model.Book;
 
@@ -188,10 +189,29 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        int lineSelected = this.bookTable.getSelectedRow();
-        String bookId = this.bookTable.getModel().getValueAt(lineSelected, 0).toString();
-        new AddNewBookView(librarianId, Integer.parseInt(bookId)).setVisible(true);
-        dispose();
+        
+        try{
+            
+            int lineSelected = this.bookTable.getSelectedRow();
+            
+            String bookId = this.bookTable.getModel().getValueAt(lineSelected, 0).toString();
+            
+            new AddNewBookView(librarianId, Integer.parseInt(bookId)).setVisible(true);
+            
+            dispose();
+            
+        }catch(ArrayIndexOutOfBoundsException e) {
+            this.jOptionPane1.showMessageDialog(this,
+                "Please, select a book on the grid",
+                "Error trying to edit the book",
+                jOptionPane1.WARNING_MESSAGE);
+        }catch(Exception e){
+            this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to edit the book",
+                jOptionPane1.WARNING_MESSAGE);
+        }
+
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void backButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton1ActionPerformed
@@ -200,9 +220,13 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     }//GEN-LAST:event_backButton1ActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        int[] linesSelected = this.bookTable.getSelectedRows();
-        
         try{
+            
+            int[] linesSelected = this.bookTable.getSelectedRows();
+            
+            if(linesSelected.length == 0) {
+                throw new ArrayIndexOutOfBoundsException("Please, select a book on the grid");
+            }
             
             for(int i = 0; i < linesSelected.length; i++){
                 String bookId = this.bookTable.getModel().getValueAt(linesSelected[i], 0).toString();
@@ -221,7 +245,12 @@ public class LibrarianBooksView extends javax.swing.JFrame {
                 e.getMessage(),
                 "Error trying to delete the book",
                 jOptionPane1.WARNING_MESSAGE);
-        } catch (Exception e) {
+        }catch(ArrayIndexOutOfBoundsException e) {
+            this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to delete the book",
+                jOptionPane1.WARNING_MESSAGE);
+        }catch (Exception e) {
            this.jOptionPane1.showMessageDialog(this,
                 e.getMessage(),
                 "Error trying to delete the book",

@@ -189,10 +189,10 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
 
     private void returnButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnButtonActionPerformed
         
-        int lineSelected = this.loanTable.getSelectedRow();
-        String loanId = this.loanTable.getModel().getValueAt(lineSelected, 0).toString();
-
         try{
+            
+            int lineSelected = this.loanTable.getSelectedRow();
+            String loanId = this.loanTable.getModel().getValueAt(lineSelected, 0).toString();
             
             this.returnBookController.returnBook(loanId);
                     
@@ -214,8 +214,12 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
                 e.getMessage(),
                 "Error trying to return the book",
                 jOptionPane1.WARNING_MESSAGE);
-        }
-        catch (Exception e) {
+        }catch(ArrayIndexOutOfBoundsException e) {
+            this.jOptionPane1.showMessageDialog(this,
+                "Please, select a loan on the grid",
+                "Error trying to edit the book",
+                jOptionPane1.WARNING_MESSAGE);
+        }catch (Exception e) {
              this.jOptionPane1.showMessageDialog(this,
                 e.getMessage(),
                 "Error trying to return the book",
