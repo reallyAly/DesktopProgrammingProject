@@ -50,8 +50,22 @@ public class DevolutionDAO extends DAO<Devolution>{
         ArrayList<Devolution> devolutions = new ArrayList<>();
         
         try{
-            this.preparedStatement = this.dbConnection.prepareStatement(GET_QUERY, this.type, this.competition);
-
+            if(filter != null) {
+                String getWithFilterQuery = 
+                        "SELECT * FROM "
+                        +Devolution.TABLE_NAME
+                        +" WHERE "
+                        +filter.getColumnName()
+                        +" = ?";
+               
+                this.preparedStatement = this.dbConnection.prepareStatement(getWithFilterQuery, this.type, this.competition);
+                
+                this.preparedStatement.setString(1, filter.getColumnValue());
+                
+            }else{
+                this.preparedStatement = this.dbConnection.prepareStatement(GET_QUERY, this.type, this.competition);
+            }
+            
             this.resultSet = this.preparedStatement.executeQuery();
             
             while(this.next(this.resultSet)){
