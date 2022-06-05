@@ -70,6 +70,7 @@ public class BookDAO extends DAO<Book>{
         
         if(book.getEntityId() != 0) {
             this.preparedStatement = this.dbConnection.prepareStatement(this.getUpdateQuery(), this.type, this.competition);
+            this.preparedStatement.setInt(4, book.getEntityId());
         }else{
             this.preparedStatement = this.dbConnection.prepareStatement(this.getInsertQuery(), this.type, this.competition);
         }
@@ -130,7 +131,8 @@ public class BookDAO extends DAO<Book>{
                 +", "
                 + Book.COLUMN_ISBN + " = ?"
                 +", "
-                + Book.COLUMN_AUTHOR + " = ?";
+                + Book.COLUMN_AUTHOR + " = ?"
+                +" WHERE entity_id = ?";
     }
     
     private Book getObjectByRs(ResultSet rs) throws SQLException {
