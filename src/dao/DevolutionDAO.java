@@ -115,7 +115,7 @@ public class DevolutionDAO extends DAO<Devolution>{
                 +", "
                 +Devolution.COLUMN_CREATEAD_AT
                 +") "
-                +"VALUES (?, ?, ?)";
+                +"VALUES (?, ?)";
     }
 
     @Override
