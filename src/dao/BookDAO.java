@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import model.Book;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import model.Filter;
 
 /**
  *
@@ -44,7 +45,7 @@ public class BookDAO extends DAO<Book>{
     }
 
     @Override
-    public ArrayList<Book> get() {
+    public ArrayList<Book> get(Filter filter) {
         
         ArrayList<Book> books = new ArrayList<>();
         
