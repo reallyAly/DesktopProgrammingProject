@@ -49,6 +49,8 @@ public class JDBCUtil {
         }
         
         conn = getConnection();
+        
+        conn.setAutoCommit(false);
     }
 
     /**
@@ -59,65 +61,5 @@ public class JDBCUtil {
      */
     public static Connection getConnection(){
         return conn;
-    }
-
-    public static boolean next(ResultSet rsdados) {
-        try {
-            if (rsdados != null) {
-                if (!rsdados.isLast()) {
-                    rsdados.next();
-                    return true;
-                }               
-            }
-        } catch (SQLException erro) {
-            System.out.println(erro);
-            return false;
-        }
-        return false;
-    }
-
-    public static boolean previous(ResultSet rsdados) {
-        try {
-            if (rsdados != null) {
-                if (!rsdados.isFirst()) {
-                    rsdados.previous();
-                    return true;
-                }
-            }
-        } catch (SQLException erro) {
-            System.out.println(erro);
-            return false;
-        }
-        return false;
-    }
-
-    public static boolean last(ResultSet rsdados) {
-        try {
-            if (rsdados != null) {
-                if (!rsdados.isLast()) {
-                    rsdados.last();
-                    return true;
-                }
-            }
-        } catch (SQLException erro) {
-            System.out.println(erro);
-            return false;
-        }
-        return false;
-    }
-
-    public static boolean first(ResultSet rsdados) {
-        try {
-            if (rsdados != null) {
-                if (!rsdados.isFirst()) {
-                    rsdados.first();
-                    return true;
-                }
-            }
-        } catch (SQLException erro) {
-            System.out.println(erro);
-            return false;
-        }
-        return false;
     }
 }
