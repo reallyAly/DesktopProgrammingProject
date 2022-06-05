@@ -8,8 +8,10 @@ import exception.LibrarianNotExistException;
 import exception.StudentNotExistException;
 import model.Librarian;
 import model.Student;
-import model.repository.LibrarianRepository;
-import model.repository.StudentRepository;
+import dao.LibrarianDAO;
+import dao.StudentDAO;
+import java.util.ArrayList;
+import model.Filter;
 
 /**
  *
@@ -17,13 +19,13 @@ import model.repository.StudentRepository;
  */
 public class LoginController {
     
-    private LibrarianRepository librarianRepository;
+    private LibrarianDAO librarianDAO;
     
-    private StudentRepository studentRepository;
+    private StudentDAO studentDAO;
     
     public LoginController(){
-        this.librarianRepository = new LibrarianRepository();
-        this.studentRepository = new StudentRepository();
+        this.librarianDAO = new LibrarianDAO();
+        this.studentDAO = new StudentDAO();
     }
     
     public int login(String email, String password) 
@@ -31,25 +33,27 @@ public class LoginController {
             StudentNotExistException, 
             LibrarianNotExistException
     {
-        Student stud = this.studentRepository.findByEmail(email);
+        Filter filter = new Filter("email", email);
         
-        if(stud != null){
-            if (this.validatePassword(stud, password)) {
-                return stud.getEntityId();
+        ArrayList<Student> students = this.studentDAO.get(filter);
+        
+        if(!students.isEmpty()){
+            if (this.validatePassword(students.get(0), password)) {
+                return students.get(0).getEntityId();
             }
         }
-             
-        Librarian lib = this.librarianRepository.findByEmail(email);
+  
+        ArrayList<Librarian> librarians = this.librarianDAO.get(filter);
 
-        if(lib != null){
-            if (this.validatePassword(lib, password)) {
-                return lib.getEntityId();
+        if(!librarians.isEmpty()){
+            if (this.validatePassword(librarians.get(0), password)) {
+                return librarians.get(0).getEntityId();
             }
         }
         
-        if(lib == null){
+        if(librarians.isEmpty()){
            throw new LibrarianNotExistException("Cannot find a user with this E-mail: "+email); 
-        }else if(stud == null){
+        }else if(students.isEmpty()){
            throw new StudentNotExistException("Cannot find a user with this E-mail: "+email);  
         }else{
             throw new IllegalAccessException(
