@@ -27,15 +27,6 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace min="0" pref="352" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="viewBooksButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
-                  <Component id="addNewBookButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
-                  <Component id="viewLoansButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="322" max="-2" attributes="0"/>
-          </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -49,6 +40,16 @@
                   </Group>
               </Group>
           </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="0" pref="352" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="viewStudentsButton" min="-2" pref="526" max="-2" attributes="0"/>
+                  <Component id="viewBooksButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
+                  <Component id="addNewBookButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
+                  <Component id="viewLoansButton" alignment="0" min="-2" pref="526" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="322" max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -60,9 +61,11 @@
               <Component id="addNewBookButton" min="-2" pref="69" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
               <Component id="viewBooksButton" min="-2" pref="69" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
               <Component id="viewLoansButton" min="-2" pref="69" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="190" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+              <Component id="viewStudentsButton" min="-2" pref="69" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
               <Component id="logoutButton" min="-2" pref="69" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
           </Group>
@@ -108,6 +111,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="viewStudentsButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="View Students"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewStudentsButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -1,7 +1,9 @@
 package view.librarian;
 
 import dao.StudentDAO;
+import exception.StudentNotExistException;
 import java.util.ArrayList;
+import javax.naming.CannotProceedException;
 import model.Student;
 
 /**
@@ -12,14 +14,14 @@ public class LibrarianStudentsView extends javax.swing.JFrame {
     
     private StudentDAO studentDAO;
     
-    private int librariaId;
+    private int librarianId;
     
     /**
      * Creates new form LibrarianBooksView
      * @param librarianId
      */
     public LibrarianStudentsView(int librarianId) {
-        this.librariaId = librarianId;
+        this.librarianId = librarianId;
         this.studentDAO = new StudentDAO();
         initComponents();
         fillTable();
@@ -34,10 +36,12 @@ public class LibrarianStudentsView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jOptionPane1 = new javax.swing.JOptionPane();
         titleLabel = new javax.swing.JLabel();
         backButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         studentsTable = new javax.swing.JTable();
+        deleteButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,6 +125,13 @@ public class LibrarianStudentsView extends javax.swing.JFrame {
             studentsTable.getColumnModel().getColumn(3).setResizable(false);
         }
 
+        deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -129,14 +140,16 @@ public class LibrarianStudentsView extends javax.swing.JFrame {
                 .addContainerGap(70, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(524, 524, 524))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(70, 70, 70))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(titleLabel)
-                        .addGap(459, 459, 459))))
+                        .addGap(459, 459, 459))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(49, 49, 49)
+                        .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(426, 426, 426))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,18 +158,54 @@ public class LibrarianStudentsView extends javax.swing.JFrame {
                 .addComponent(titleLabel)
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        new LibrarianDashboardView(this.librariaId).setVisible(true);
+        new LibrarianDashboardView(this.librarianId).setVisible(true);
         dispose();
     }//GEN-LAST:event_backButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        try{
+            
+            int[] linesSelected = this.studentsTable.getSelectedRows();
+            
+            if(linesSelected.length == 0) {
+                throw new ArrayIndexOutOfBoundsException("Please, select a student on the grid");
+            }
+            
+            for(int i = 0; i < linesSelected.length; i++){
+                String bookId = this.studentsTable.getModel().getValueAt(linesSelected[i], 0).toString();
+                this.studentDAO.delete(this.studentDAO.findById(Integer.parseInt(bookId)));
+            }
+
+            this.jOptionPane1.showMessageDialog(this,
+                "Your student(s) has been deleted!!",
+                "Book Status",
+                jOptionPane1.INFORMATION_MESSAGE);
+               
+               new LibrarianStudentsView(this.librarianId).setVisible(true);
+               dispose();
+        }catch(ArrayIndexOutOfBoundsException e) {
+            this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to delete the student",
+                jOptionPane1.WARNING_MESSAGE);
+        }catch (Exception e) {
+           this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to delete the student",
+                jOptionPane1.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void fillTable() {
         
@@ -175,6 +224,8 @@ public class LibrarianStudentsView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable studentsTable;
     private javax.swing.JLabel titleLabel;
