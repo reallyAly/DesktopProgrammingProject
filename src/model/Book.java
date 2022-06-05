@@ -5,6 +5,16 @@ package model;
  * @author alysson
  */
 public class Book {
+    
+    public static final String TABLE_NAME = "book";
+    
+    public static final String COLUMN_ENTITY_ID = "entity_id";
+    
+    public static final String COLUMN_BOOK_NAME = "book_name";
+    
+    public static final String COLUMN_ISBN = "isbn";
+    
+    public static final String COLUMN_AUTHOR = "author";
    
     private int entityId;
     
