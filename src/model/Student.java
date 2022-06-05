@@ -13,12 +13,7 @@ public class Student extends Person {
     private String RA;
 
     public Student() {
-        this.entityId = 0;
-        this.firstname = "";
-        this.lastname = "";
-        this.email = "";
-        this.password = "";
-        this.RA = "";
+        super();
     }
     
     public Student(

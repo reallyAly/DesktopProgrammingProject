@@ -5,9 +5,11 @@ package model;
  * @author alysson
  */
 public class Librarian extends Person{
+    
+    public static final String TABLE_NAME = "librarian";
    
     public Librarian() {
-        
+        super();
     }
     
     public Librarian(
