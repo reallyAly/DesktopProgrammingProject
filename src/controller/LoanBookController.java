@@ -72,7 +72,7 @@ public class LoanBookController {
     
     public boolean checkIfBookisLoan(int bookId){
         
-        Filter filter = new Filter("book_id", String.valueOf(bookId));
+        Filter filter = new Filter(Loan.COLUMN_BOOK_ID, String.valueOf(bookId));
         
         ArrayList<Loan> loans = this.loanDAO.get(filter);
         
@@ -82,7 +82,7 @@ public class LoanBookController {
             
             Loan loan = loans.get(i);
             
-            if((loan.getBookId() == bookId) && loan.getDevolutionId() != 0){
+            if(loan.getBookId() == bookId && loan.getDevolutionId() == 0){
                 isLoan = true;
                 break;
             }
