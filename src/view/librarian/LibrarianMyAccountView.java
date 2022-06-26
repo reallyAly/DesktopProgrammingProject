@@ -251,7 +251,7 @@ public class LibrarianMyAccountView extends javax.swing.JFrame {
     }//GEN-LAST:event_updateAccountButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        new StudentDashboardView(this.librarianId).setVisible(true);
+        new LibrarianDashboardView(this.librarianId).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
 
