@@ -6,9 +6,12 @@ import exception.BookNotExistException;
 import exception.LoanNotExistException;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.naming.CannotProceedException;
 import model.Book;
+import controller.GenerateReportController;
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -22,6 +25,8 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     
     private int librarianId;
     
+    private GenerateReportController generateReportController;
+    
     /**
      * Creates new form LibrarianBooksView
      * @param librarianId
@@ -30,6 +35,7 @@ public class LibrarianBooksView extends javax.swing.JFrame {
         this.librarianId = librarianId;
         this.bookDAO = new BookDAO();
         this.managementBookController = new CreateAndUpdateBookController(librarianId);
+        this.generateReportController = new GenerateReportController();
         initComponents();
         fillTable();
     }
@@ -271,7 +277,14 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void reportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportButtonActionPerformed
-        
+        try {
+            this.generateReportController.generateReport(Book.REPORT_BOOK_TEMPLATE_FILENAME);
+        } catch (SQLException | FileNotFoundException | JRException e) {
+            this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to generate a report",
+                jOptionPane1.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_reportButtonActionPerformed
 
     private void fillTable(){

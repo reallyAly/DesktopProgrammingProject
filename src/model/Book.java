@@ -15,6 +15,8 @@ public class Book {
     public static final String COLUMN_ISBN = "isbn";
     
     public static final String COLUMN_AUTHOR = "author";
+    
+    public static final String REPORT_BOOK_TEMPLATE_FILENAME = "books_report.jrxml";
    
     private int entityId;
     
