@@ -18,6 +18,8 @@ public class Loan {
 
     public static final String COLUMN_CREATED_AT = "created_at";
     
+    public static final String REPORT_LOAN_BY_STUDENT_TEMPLATE_FILENAME = "loans_by_student.jrxml";
+    
     private int entityId;
     
     private int studentId;

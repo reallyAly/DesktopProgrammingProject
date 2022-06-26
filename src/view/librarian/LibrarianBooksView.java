@@ -11,6 +11,7 @@ import model.Book;
 import controller.GenerateReportController;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import net.sf.jasperreports.engine.JRException;
 
 /**
@@ -278,7 +279,7 @@ public class LibrarianBooksView extends javax.swing.JFrame {
 
     private void reportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportButtonActionPerformed
         try {
-            this.generateReportController.generateReport(Book.REPORT_BOOK_TEMPLATE_FILENAME);
+            this.generateReportController.generateReport(Book.REPORT_BOOK_TEMPLATE_FILENAME, new HashMap());
         } catch (SQLException | FileNotFoundException | JRException e) {
             this.jOptionPane1.showMessageDialog(this,
                 e.getMessage(),

@@ -73,7 +73,7 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="168" max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" pref="151" max="-2" attributes="0"/>
+                          <Component id="generateReportByStudButton" min="-2" pref="151" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
@@ -92,7 +92,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="studentComboBox" min="-2" pref="51" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" pref="49" max="-2" attributes="0"/>
+                  <Component id="generateReportByStudButton" min="-2" pref="49" max="-2" attributes="0"/>
                   <EmptySpace pref="95" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -114,10 +114,13 @@
             <Property name="text" type="java.lang.String" value="Student"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="generateReportByStudButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Generate"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="generateReportByStudButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

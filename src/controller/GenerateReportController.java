@@ -10,6 +10,8 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import utils.JDBCUtil;
 
 /**
@@ -28,7 +30,7 @@ public class GenerateReportController {
         this.connection = null;
     }
     
-    public void generateReport(String templateFileName) throws SQLException, FileNotFoundException, JRException {
+    public void generateReport(String templateFileName, Map parameters) throws SQLException, FileNotFoundException, JRException {
         
         this.connection = JDBCUtil.getConnection();
         this.fileController.setFile(templateFileName);
@@ -39,14 +41,30 @@ public class GenerateReportController {
 
         JasperReport report = JasperCompileManager.compileReport(file);
 
-        impressao = JasperFillManager.fillReport(
+        if(parameters.isEmpty()) {
+            impressao = JasperFillManager.fillReport(
                 report,
                 null,
                 this.connection);
-
+        }else{
+            impressao = JasperFillManager.fillReport(
+                report,
+                parameters,
+                this.connection);
+        }
+       
         JasperViewer.viewReport(impressao);
 
         this.connection.close();       
+    }
+    
+    public void generateLoanReportByStudent(String templateFileName, int studentId) throws SQLException, FileNotFoundException, JRException {
+        
+        Map params = new HashMap();
+        
+        params.put("student_id", studentId);
+        
+        this.generateReport(templateFileName, params);
     }
    
 }

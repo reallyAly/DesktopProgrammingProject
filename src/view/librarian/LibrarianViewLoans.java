@@ -17,6 +17,12 @@ import model.Loan;
 import model.Student;
 import model.Devolution;
 import model.StudentsComboBoxModel;
+import controller.GenerateReportController;
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -34,6 +40,8 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
     
     private ReturnBookController returnBookController;
     
+    private GenerateReportController generateReportController;
+    
     private int librarianId;
     
     /**
@@ -47,6 +55,7 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
         this.bookDAO = new BookDAO();
         this.devolutionDAO = new DevolutionDAO();
         this.returnBookController = new ReturnBookController(librarianId);
+        this.generateReportController = new GenerateReportController();
         
         initComponents();
         fillTable();
@@ -68,7 +77,7 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
         reportByStudentParamDialog = new javax.swing.JDialog();
         studentComboBox = new javax.swing.JComboBox<>();
         studentLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        generateReportByStudButton = new javax.swing.JButton();
         titleLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         loanTable = new javax.swing.JTable();
@@ -117,7 +126,12 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
 
         studentLabel.setText("Student");
 
-        jButton1.setText("Generate");
+        generateReportByStudButton.setText("Generate");
+        generateReportByStudButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateReportByStudButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout reportByStudentParamDialogLayout = new javax.swing.GroupLayout(reportByStudentParamDialog.getContentPane());
         reportByStudentParamDialog.getContentPane().setLayout(reportByStudentParamDialogLayout);
@@ -130,7 +144,7 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
                         .addComponent(studentLabel))
                     .addGroup(reportByStudentParamDialogLayout.createSequentialGroup()
                         .addGap(168, 168, 168)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(generateReportByStudButton, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(reportByStudentParamDialogLayout.createSequentialGroup()
                         .addGap(82, 82, 82)
                         .addComponent(studentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -144,7 +158,7 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(studentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(generateReportByStudButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(95, Short.MAX_VALUE))
         );
 
@@ -333,6 +347,28 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
         this.reportByStudentParamDialog.setVisible(true);
     }//GEN-LAST:event_generateReportByStudentActionPerformed
 
+    private void generateReportByStudButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateReportByStudButtonActionPerformed
+        Student student = (Student) this.studentComboBox.getSelectedItem();
+        
+        if(student != null){
+           try {
+                this.generateReportController.generateLoanReportByStudent(Loan.REPORT_LOAN_BY_STUDENT_TEMPLATE_FILENAME, student.getEntityId());
+            }catch (SQLException | FileNotFoundException | JRException e) {
+                this.jOptionPane1.showMessageDialog(this,
+                    e.getMessage(),
+                    "Error trying to generate a report",
+                jOptionPane1.WARNING_MESSAGE
+                );
+            }
+        }else{
+            this.jOptionPane1.showMessageDialog(this,
+                    "Please, select a student",
+                    "Error trying to generate a report",
+                    jOptionPane1.WARNING_MESSAGE
+                );
+        }
+    }//GEN-LAST:event_generateReportByStudButtonActionPerformed
+
     private void fillTable(){ 
         
         ArrayList<Loan> loans = this.loanDAO.get(null);
@@ -367,8 +403,8 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
     private javax.swing.JButton backButton;
     private javax.swing.JButton generateReportAll;
     private javax.swing.JButton generateReportButton;
+    private javax.swing.JButton generateReportByStudButton;
     private javax.swing.JButton generateReportByStudent;
-    private javax.swing.JButton jButton1;
     private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable loanTable;
