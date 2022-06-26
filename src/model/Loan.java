@@ -1,17 +1,22 @@
 package model;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
  *
  * @author alysson
  */
-public class Loan implements java.io.Serializable {
+public class Loan {
     
-    public static final String FILENAME = "Loans.bin";
+    public static final String TABLE_NAME = "loan";
+    
+    public static final String COLUMN_ENTITY_ID = "entity_id";
+    
+    public static final String COLUMN_STUDENT_ID = "student_id";
+    
+    public static final String COLUMN_BOOK_ID = "book_id";
+    
+    public static final String COLUMN_DEVOLUTION_ID = "devolution_id";
+
+    public static final String COLUMN_CREATED_AT = "created_at";
     
     private int entityId;
     
@@ -21,38 +26,39 @@ public class Loan implements java.io.Serializable {
     
     private String loanDate;
     
-    private String status;
-    
-    private String devolutionDate;
-            
+    private int devolutionId;
 
+    public Loan(
+            int entityId,
+            int studentId, 
+            int bookId, 
+            int devolutionId, 
+            String loanDate
+    ) {
+        this.entityId = entityId;
+        this.studentId = studentId;
+        this.bookId = bookId;
+        this.devolutionId = devolutionId;
+        this.loanDate = loanDate;
+    }
+            
     public Loan() {
         this.entityId = 0;
         this.studentId = 0;
         this.bookId = 0;
+        this.devolutionId = 0;
         this.loanDate = "";
-        this.status = "";
-        this.devolutionDate = "";
     }
-
     public int getEntityId() {
         return entityId;
     }
 
-    public String getStatus() {
-        return status;
+    public int getDevolutionId() {
+        return devolutionId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getDevolutionDate() {
-        return devolutionDate;
-    }
-
-    public void setDevolutionDate(String devolutionDate) {
-        this.devolutionDate = devolutionDate;
+    public void setDevolutionId(int devolutionId) {
+        this.devolutionId = devolutionId;
     }
 
     public void setEntityId(int entityId) {

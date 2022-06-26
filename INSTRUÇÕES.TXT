@@ -1,0 +1,23 @@
+====> Como executar o projeto <=====
+
+Basta executar o projeto pelo botão disponível na IDE NetBeans ou executar a classe MyLibrary.java disponível no package principal do projeto.
+
+====> Banco de Dados <====
+
+MYSQL => 8.0.29 (O driver se encontra na pasta /lib do projeto)
+
+====> Como se registrar como bibliotecario <====
+
+Ao inserir suas informações na tela de cadastro, basta inserir o código 00000 no campo de RA para o sistema considerar que você é um bibliotecario
+
+Conta de exemplo: email: bibliotecario@gmail.com senha: Dev12@12
+
+====> Como se registrar como aluno <====
+
+Basta inserir normalmente as suas informações e colocar um número no campo de RA que seja diferente de 00000.
+
+Conta de exemplo: email: estudante@gmail.com senha: Dev12@12
+
+
+
+

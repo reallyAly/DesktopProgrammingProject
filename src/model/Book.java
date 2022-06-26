@@ -4,10 +4,18 @@ package model;
  *
  * @author alysson
  */
-public class Book implements java.io.Serializable{
+public class Book {
     
-    public static final String FILENAME = "Books.bin";
-
+    public static final String TABLE_NAME = "book";
+    
+    public static final String COLUMN_ENTITY_ID = "entity_id";
+    
+    public static final String COLUMN_BOOK_NAME = "book_name";
+    
+    public static final String COLUMN_ISBN = "isbn";
+    
+    public static final String COLUMN_AUTHOR = "author";
+   
     private int entityId;
     
     private String name;
@@ -16,6 +24,13 @@ public class Book implements java.io.Serializable{
     
     private String author;
 
+    public Book(int entityId, String name, String isbn, String author) {
+        this.entityId = entityId;
+        this.name = name;
+        this.isbn = isbn;
+        this.author = author;
+    }
+    
     public Book() {
         this.entityId = 0;
         this.name = "";

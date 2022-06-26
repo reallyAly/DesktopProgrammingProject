@@ -1,15 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view.librarian;
 
-import model.repository.BookRepository;
+import dao.BookDAO;
 import controller.CreateAndUpdateBookController;
 import exception.BookNotExistException;
 import exception.LoanNotExistException;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.naming.CannotProceedException;
 import model.Book;
 
@@ -19,7 +16,7 @@ import model.Book;
  */
 public class LibrarianBooksView extends javax.swing.JFrame {
     
-    private BookRepository bookRepository;
+    private BookDAO bookDAO;
 
     private CreateAndUpdateBookController managementBookController;
     
@@ -27,10 +24,11 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     
     /**
      * Creates new form LibrarianBooksView
+     * @param librarianId
      */
     public LibrarianBooksView(int librarianId) {
         this.librarianId = librarianId;
-        this.bookRepository = new BookRepository();
+        this.bookDAO = new BookDAO();
         this.managementBookController = new CreateAndUpdateBookController(librarianId);
         initComponents();
         fillTable();
@@ -191,10 +189,29 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        int lineSelected = this.bookTable.getSelectedRow();
-        String bookId = this.bookTable.getModel().getValueAt(lineSelected, 0).toString();
-        new AddNewBookView(librarianId, Integer.parseInt(bookId)).setVisible(true);
-        dispose();
+        
+        try{
+            
+            int lineSelected = this.bookTable.getSelectedRow();
+            
+            String bookId = this.bookTable.getModel().getValueAt(lineSelected, 0).toString();
+            
+            new AddNewBookView(librarianId, Integer.parseInt(bookId)).setVisible(true);
+            
+            dispose();
+            
+        }catch(ArrayIndexOutOfBoundsException e) {
+            this.jOptionPane1.showMessageDialog(this,
+                "Please, select a book on the grid",
+                "Error trying to edit the book",
+                jOptionPane1.WARNING_MESSAGE);
+        }catch(Exception e){
+            this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to edit the book",
+                jOptionPane1.WARNING_MESSAGE);
+        }
+
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void backButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton1ActionPerformed
@@ -203,13 +220,17 @@ public class LibrarianBooksView extends javax.swing.JFrame {
     }//GEN-LAST:event_backButton1ActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        int[] linesSelected = this.bookTable.getSelectedRows();
-        
         try{
+            
+            int[] linesSelected = this.bookTable.getSelectedRows();
+            
+            if(linesSelected.length == 0) {
+                throw new ArrayIndexOutOfBoundsException("Please, select a book on the grid");
+            }
             
             for(int i = 0; i < linesSelected.length; i++){
                 String bookId = this.bookTable.getModel().getValueAt(linesSelected[i], 0).toString();
-                this.bookRepository.delete(Integer.parseInt(bookId));
+                this.bookDAO.delete(this.bookDAO.findById(Integer.parseInt(bookId)));
             }
 
             this.jOptionPane1.showMessageDialog(this,
@@ -224,11 +245,21 @@ public class LibrarianBooksView extends javax.swing.JFrame {
                 e.getMessage(),
                 "Error trying to delete the book",
                 jOptionPane1.WARNING_MESSAGE);
+        }catch(ArrayIndexOutOfBoundsException e) {
+            this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to delete the book",
+                jOptionPane1.WARNING_MESSAGE);
+        }catch (Exception e) {
+           this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to delete the book",
+                jOptionPane1.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void fillTable(){
-        ArrayList<Book> books = this.bookRepository.get();
+        ArrayList<Book> books = this.bookDAO.get(null);
 
         for(int i = 0; i < books.size(); i++){
 

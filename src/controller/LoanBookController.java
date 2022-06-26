@@ -6,23 +6,24 @@ import java.util.ArrayList;
 import model.Loan;
 import java.time.format.DateTimeFormatter;  
 import java.time.LocalDateTime;    
-import model.repository.BookRepository;
-import model.repository.LoanRepository;
+import dao.BookDAO;
+import dao.LoanDAO;
+import model.Filter;
 
 public class LoanBookController {
 
-    private LoanRepository loanRepository;
+    private LoanDAO loanDAO;
     
-    private BookRepository bookRepository;
+    private BookDAO bookDAO;
 
     private Loan loan;
     
     private int studentId;
 
-    public LoanBookController(int studentId){
+    public LoanBookController(int studentId) {
         this.studentId = studentId;
-        this.loanRepository = new LoanRepository();
-        this.bookRepository = new BookRepository();
+        this.loanDAO = new LoanDAO();
+        this.bookDAO = new BookDAO();
         this.loan = new Loan();
     }
 
@@ -34,20 +35,17 @@ public class LoanBookController {
             );
         }
         
-        if(this.bookRepository.findById(Integer.parseInt(bookId)) == null){
+        if(this.bookDAO.findById(Integer.parseInt(bookId)).getEntityId() == 0){
             throw new BookNotExistException("The book specified does not exist");
         }
         
         this.validateFields(bookId);
         
-        this.loan.setEntityId(this.getLoanNewUniqueId());
         this.loan.setStudentId(this.studentId);
         this.loan.setBookId(Integer.parseInt(bookId));
-        this.loan.setStatus("LOAN");
         this.loan.setLoanDate(this.getCurrentDate());
-        this.loan.setDevolutionDate("0000000");
-        
-        Boolean result = this.loanRepository.save(this.loan);
+       
+        Boolean result = this.loanDAO.save(this.loan);
         
         if(!result){
             throw new Exception("Error trying to loan the book");
@@ -65,29 +63,18 @@ public class LoanBookController {
             
         }
     }
-
-    private int getLoanNewUniqueId(){
-        ArrayList<Loan> loans = this.loanRepository.get();
-
-        if(loans.isEmpty()){
-            return 1;
-        }
-
-        int lastId = loans.get(loans.size()-1).getEntityId();
-        lastId+=1;
-
-        return lastId;
-    }
     
     private String getCurrentDate(){
-         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");  
+         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
          LocalDateTime now = LocalDateTime.now();  
          return dtf.format(now);
     }
     
     public boolean checkIfBookisLoan(int bookId){
         
-        ArrayList<Loan> loans = this.loanRepository.get();
+        Filter filter = new Filter(Loan.COLUMN_BOOK_ID, String.valueOf(bookId));
+        
+        ArrayList<Loan> loans = this.loanDAO.get(filter);
         
         boolean isLoan = false;
         
@@ -95,7 +82,7 @@ public class LoanBookController {
             
             Loan loan = loans.get(i);
             
-            if((loan.getBookId()== bookId) && loan.getStatus().equals("LOAN")){
+            if(loan.getBookId() == bookId && loan.getDevolutionId() == 0){
                 isLoan = true;
                 break;
             }

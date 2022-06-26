@@ -11,8 +11,10 @@ import exception.LibrarianNotExistException;
 import exception.StudentNotExistException;
 import model.Librarian;
 import model.Student;
-import model.repository.LibrarianRepository;
-import model.repository.StudentRepository;
+import dao.StudentDAO;
+import dao.LibrarianDAO;
+import java.util.ArrayList;
+import model.Filter;
 
 /**
  *
@@ -22,17 +24,17 @@ public class LoginView extends javax.swing.JFrame {
     
     private LoginController loginController;
     
-    private StudentRepository studentRepository;
+    private StudentDAO studentDAO;
     
-    private LibrarianRepository librarianRepository;
+    private LibrarianDAO librarianDAO;
     
     /**
      * Creates new form NewLoginView
      */
     public LoginView() {
         this.loginController = new LoginController();
-        this.studentRepository = new StudentRepository();
-        this.librarianRepository = new LibrarianRepository();
+        this.studentDAO = new StudentDAO();
+        this.librarianDAO = new LibrarianDAO();
         initComponents();
     }
 
@@ -54,6 +56,7 @@ public class LoginView extends javax.swing.JFrame {
         emailLabel = new javax.swing.JLabel();
         emailField = new javax.swing.JTextField();
         titleLabel = new javax.swing.JLabel();
+        createAccountButton = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -89,6 +92,14 @@ public class LoginView extends javax.swing.JFrame {
         titleLabel.setFont(new java.awt.Font("Uroob", 1, 48)); // NOI18N
         titleLabel.setText("LIBRARY APP");
 
+        createAccountButton.setForeground(new java.awt.Color(102, 102, 255));
+        createAccountButton.setText("Não tem conta? Clique aqui");
+        createAccountButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                createAccountButtonMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -99,8 +110,16 @@ public class LoginView extends javax.swing.JFrame {
                 .addGap(92, 92, 92))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(titleLabel)
-                .addGap(236, 236, 236))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(titleLabel)
+                        .addGap(236, 236, 236))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(245, 245, 245))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(createAccountButton)
+                        .addGap(320, 320, 320))))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(88, 88, 88)
@@ -108,11 +127,7 @@ public class LoginView extends javax.swing.JFrame {
                         .addComponent(passLabel)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(emailLabel)
-                            .addComponent(passField, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(216, 216, 216)))
+                            .addComponent(passField, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)))
                     .addContainerGap(89, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
@@ -122,7 +137,11 @@ public class LoginView extends javax.swing.JFrame {
                 .addComponent(titleLabel)
                 .addGap(161, 161, 161)
                 .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(487, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
+                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(createAccountButton)
+                .addGap(211, 211, 211))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(213, 213, 213)
@@ -131,9 +150,7 @@ public class LoginView extends javax.swing.JFrame {
                     .addComponent(passLabel)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(61, 61, 61)
-                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(213, Short.MAX_VALUE)))
+                    .addContainerGap(344, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -164,21 +181,17 @@ public class LoginView extends javax.swing.JFrame {
                     this.passField.getText()
             );
             
-            Librarian lib = this.librarianRepository.
-                    findByEmail(this.emailField.getText());
+            Filter filter = new Filter("email", this.emailField.getText());
+            
+            ArrayList<Librarian> librarians = this.librarianDAO.get(filter);
+            ArrayList<Student> students = this.studentDAO.get(filter);
 
-            if(lib != null){
-               
+            if(!librarians.isEmpty()){
                new LibrarianDashboardView(userId).setVisible(true);
+            }else if(!students.isEmpty()) {
+              new StudentDashboardView(userId).setVisible(true);
             }
-            
-            Student stud = this.studentRepository.
-                    findByEmail(this.emailField.getText());
-            
-            if(stud != null){
-                new StudentDashboardView(userId).setVisible(true);
-            }
-            
+
             dispose();
  
         }catch(IllegalAccessException e){
@@ -193,6 +206,13 @@ public class LoginView extends javax.swing.JFrame {
                     jOptionPane1.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void createAccountButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createAccountButtonMouseClicked
+        
+        new CreateAccountView().setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_createAccountButtonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -231,6 +251,7 @@ public class LoginView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel createAccountButton;
     private javax.swing.JTextField emailField;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JOptionPane jOptionPane1;

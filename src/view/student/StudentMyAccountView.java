@@ -2,23 +2,50 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view;
+package view.student;
 
-import controller.CreateAccountController;
+import view.*;
+import dao.StudentDAO;
+import model.Student;
+import controller.UpdateStudentController;
 
 /**
  *
  * @author alysson
  */
-public class CreateAccountView extends javax.swing.JFrame {
+public class StudentMyAccountView extends javax.swing.JFrame {
     
-    private CreateAccountController createAccountController;
+    private int studentId;
+    
+    private Student student;
+    
+    private StudentDAO studentDAO;
+    
+    private UpdateStudentController updateStudentController;
+    
     /**
      * Creates new form NewCreateAccount
+     * @param studentId
      */
-    public CreateAccountView() {
-        this.createAccountController = new CreateAccountController();
+    public StudentMyAccountView(int studentId) {
+        this.studentId = studentId;
+        this.studentDAO = new StudentDAO();
+        this.updateStudentController = new UpdateStudentController();
         initComponents();
+        this.fillFields(studentId);
+    }
+    
+    private void fillFields(int studentId){
+        if(studentId > 0){
+            Student stud = this.studentDAO.findById(studentId);
+            
+            this.firstnameField.setText(stud.getFirstname());
+            this.lastnameField.setText(stud.getLastname());
+            this.emailField.setText(stud.getEmail());
+            this.passField.setText(stud.getPassword());
+            this.RAField.setText(stud.getRA());
+            this.student = stud;
+        }
     }
 
     /**
@@ -43,9 +70,9 @@ public class CreateAccountView extends javax.swing.JFrame {
         emailLabel = new javax.swing.JLabel();
         emailField = new javax.swing.JTextField();
         passLabel = new javax.swing.JLabel();
-        passField = new javax.swing.JPasswordField();
-        createAccountButton = new javax.swing.JButton();
-        loginButton = new javax.swing.JLabel();
+        updateAccountButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
+        passField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -66,7 +93,7 @@ public class CreateAccountView extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         titleLabel.setFont(new java.awt.Font("Uroob", 1, 48)); // NOI18N
-        titleLabel.setText("LIBRARY APP");
+        titleLabel.setText("MY ACCOUNT");
 
         firstnameLabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
         firstnameLabel.setText("Firstname");
@@ -83,18 +110,17 @@ public class CreateAccountView extends javax.swing.JFrame {
         passLabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
         passLabel.setText("Password");
 
-        createAccountButton.setText("CREATE");
-        createAccountButton.addActionListener(new java.awt.event.ActionListener() {
+        updateAccountButton.setText("Update");
+        updateAccountButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createAccountButtonActionPerformed(evt);
+                updateAccountButtonActionPerformed(evt);
             }
         });
 
-        loginButton.setForeground(new java.awt.Color(102, 102, 255));
-        loginButton.setText("Já tem conta? Clique aqui");
-        loginButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                loginButtonMouseClicked(evt);
+        backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
             }
         });
 
@@ -102,45 +128,43 @@ public class CreateAccountView extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(304, Short.MAX_VALUE)
-                .addComponent(titleLabel)
-                .addGap(327, 327, 327))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(127, 127, 127)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(RALabel)
-                    .addComponent(lastnameLabel)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lastnameField)
-                        .addComponent(emailField)
-                        .addComponent(emailLabel)
-                        .addComponent(passLabel)
-                        .addComponent(firstnameLabel)
-                        .addComponent(firstnameField)
-                        .addComponent(passField, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
-                        .addComponent(RAField, javax.swing.GroupLayout.Alignment.TRAILING)))
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(380, 380, 380)
-                        .addComponent(createAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(127, 127, 127)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(RALabel)
+                            .addComponent(lastnameLabel)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lastnameField, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
+                                .addComponent(emailField)
+                                .addComponent(emailLabel)
+                                .addComponent(passLabel)
+                                .addComponent(firstnameLabel)
+                                .addComponent(firstnameField)
+                                .addComponent(RAField, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(passField))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(402, 402, 402)
-                        .addComponent(loginButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(306, 306, 306)
+                        .addComponent(titleLabel)))
+                .addGap(0, 94, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(234, 234, 234)
+                .addComponent(updateAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(84, 84, 84)
+                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(271, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(titleLabel)
                 .addGap(24, 24, 24)
+                .addComponent(titleLabel)
+                .addGap(18, 18, 18)
                 .addComponent(firstnameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(firstnameField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(lastnameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lastnameField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -154,13 +178,13 @@ public class CreateAccountView extends javax.swing.JFrame {
                 .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(passLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(createAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(loginButton)
-                .addGap(16, 16, 16))
+                .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updateAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -181,34 +205,34 @@ public class CreateAccountView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void createAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAccountButtonActionPerformed
+    private void updateAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateAccountButtonActionPerformed
         
         try{
             
-            if(this.RAField.getText().equals("00000")){
-               this.createAccountController.createUser(
-                        this.firstnameField.getText(), 
-                        this.lastnameField.getText(), 
-                        this.emailField.getText(),
-                        this.passField.getText()
-               );
-            }else{
-                this.createAccountController.createUser(
+            boolean result = this.updateStudentController.updateStudent(
+                    this.studentId,
                     this.firstnameField.getText(), 
                     this.lastnameField.getText(), 
                     this.emailField.getText(),
                     this.passField.getText(),
                     this.RAField.getText()
-                );
-            }
-        
-            new LoginView().setVisible(true);
-            dispose();
+            );
             
-            this.jOptionPane1.showMessageDialog(this,
-                    "Your account has been created successfully",
-                    "Create Account",
+            if(result) {
+                this.jOptionPane1.showMessageDialog(this,
+                    "Your account has been updated successfully",
+                    "Update Account",
                     jOptionPane1.INFORMATION_MESSAGE);
+                
+                new StudentDashboardView(this.studentId).setVisible(true);
+                this.dispose();
+            }else{
+                this.jOptionPane1.showMessageDialog(this,
+                    "Error trying to update your account",
+                    "Update Account",
+                    jOptionPane1.WARNING_MESSAGE);
+            }
+            
         }catch(IllegalArgumentException e){
             this.jOptionPane1.showMessageDialog(this,
                     e.getMessage(),
@@ -216,60 +240,22 @@ public class CreateAccountView extends javax.swing.JFrame {
                     jOptionPane1.WARNING_MESSAGE);
         }catch(Exception e){
             this.jOptionPane1.showMessageDialog(this,
-                    e.getMessage(),
-                    "Error in save action",
-                    jOptionPane1.WARNING_MESSAGE);
+              e.getMessage(),
+                "Error in update action",
+                jOptionPane1.WARNING_MESSAGE);
         }
         
-    }//GEN-LAST:event_createAccountButtonActionPerformed
+    }//GEN-LAST:event_updateAccountButtonActionPerformed
 
-    private void loginButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseClicked
-
-        new LoginView().setVisible(true);
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        new StudentDashboardView(this.studentId).setVisible(true);
         this.dispose();
-
-    }//GEN-LAST:event_loginButtonMouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateAccountView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateAccountView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateAccountView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateAccountView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CreateAccountView().setVisible(true);
-            }
-        });
-    }
+    }//GEN-LAST:event_backButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField RAField;
     private javax.swing.JLabel RALabel;
-    private javax.swing.JButton createAccountButton;
+    private javax.swing.JButton backButton;
     private javax.swing.JTextField emailField;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField firstnameField;
@@ -279,9 +265,9 @@ public class CreateAccountView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField lastnameField;
     private javax.swing.JLabel lastnameLabel;
-    private javax.swing.JLabel loginButton;
-    private javax.swing.JPasswordField passField;
+    private javax.swing.JTextField passField;
     private javax.swing.JLabel passLabel;
     private javax.swing.JLabel titleLabel;
+    private javax.swing.JButton updateAccountButton;
     // End of variables declaration//GEN-END:variables
 }

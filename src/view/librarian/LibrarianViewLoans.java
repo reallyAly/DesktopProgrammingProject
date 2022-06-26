@@ -4,16 +4,18 @@
  */
 package view.librarian;
 
-import model.repository.BookRepository;
-import model.repository.LoanRepository;
-import model.repository.StudentRepository;
 import controller.ReturnBookController;
+import dao.BookDAO;
+import dao.LoanDAO;
+import dao.StudentDAO;
+import dao.DevolutionDAO;
 import exception.LoanNotExistException;
-import java.util.ArrayList;
 import javax.naming.CannotProceedException;
+import java.util.ArrayList;
 import model.Book;
 import model.Loan;
 import model.Student;
+import model.Devolution;
 
 /**
  *
@@ -21,25 +23,28 @@ import model.Student;
  */
 public class LibrarianViewLoans extends javax.swing.JFrame {
     
-    private BookRepository bookRepository;
+    private BookDAO bookDAO;
     
-    private LoanRepository loanRepository;
+    private LoanDAO loanDAO;
     
-    private StudentRepository studentRepository;
+    private StudentDAO studentDAO;
+    
+    private DevolutionDAO devolutionDAO;
     
     private ReturnBookController returnBookController;
     
     private int librarianId;
     
     /**
-     * Creates new form StudentLoansView
+     * Creates new form LibrarianViewLoans
      * @param librarianId
      */
     public LibrarianViewLoans(int librarianId) {
         this.librarianId = librarianId;
-        this.bookRepository = new BookRepository();
-        this.loanRepository = new LoanRepository();
-        this.studentRepository = new StudentRepository();
+        this.studentDAO = new StudentDAO();
+        this.loanDAO = new LoanDAO();
+        this.bookDAO = new BookDAO();
+        this.devolutionDAO = new DevolutionDAO();
         this.returnBookController = new ReturnBookController(librarianId);
         initComponents();
         fillTable();
@@ -69,53 +74,53 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
 
         loanTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Loan ID", "Student Name", "Book Name", "Loan Date", "Devolution Date", "Loan Status"
+                "Loan ID", "Student Name", "Book Name", "Loan Date", "Devolution Date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -129,7 +134,6 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
             loanTable.getColumnModel().getColumn(2).setResizable(false);
             loanTable.getColumnModel().getColumn(3).setResizable(false);
             loanTable.getColumnModel().getColumn(4).setResizable(false);
-            loanTable.getColumnModel().getColumn(5).setResizable(false);
         }
 
         returnButton.setText("Return a book");
@@ -185,10 +189,10 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
 
     private void returnButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnButtonActionPerformed
         
-        int lineSelected = this.loanTable.getSelectedRow();
-        String loanId = this.loanTable.getModel().getValueAt(lineSelected, 0).toString();
-
         try{
+            
+            int lineSelected = this.loanTable.getSelectedRow();
+            String loanId = this.loanTable.getModel().getValueAt(lineSelected, 0).toString();
             
             this.returnBookController.returnBook(loanId);
                     
@@ -210,8 +214,12 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
                 e.getMessage(),
                 "Error trying to return the book",
                 jOptionPane1.WARNING_MESSAGE);
-        }
-        catch (Exception e) {
+        }catch(ArrayIndexOutOfBoundsException e) {
+            this.jOptionPane1.showMessageDialog(this,
+                "Please, select a loan on the grid",
+                "Error trying to edit the book",
+                jOptionPane1.WARNING_MESSAGE);
+        }catch (Exception e) {
              this.jOptionPane1.showMessageDialog(this,
                 e.getMessage(),
                 "Error trying to return the book",
@@ -225,21 +233,30 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
     }//GEN-LAST:event_backButton2ActionPerformed
 
     private void fillTable(){ 
-        ArrayList<Loan> loans = this.loanRepository.get();
+        
+        ArrayList<Loan> loans = this.loanDAO.get(null);
+        
+        String devolutionDate = "";
 
         for(int i = 0; i < loans.size(); i++){
 
             Loan loan = loans.get(i);
             
-            Book book = this.bookRepository.findById(loan.getBookId());
-            Student stud = this.studentRepository.findById(loan.getStudentId());
+            Book book = this.bookDAO.findById(loan.getBookId());
+            Student stud = this.studentDAO.findById(loan.getStudentId());
+            Devolution devolution = this.devolutionDAO.findById(loan.getDevolutionId());
             
-                this.loanTable.setValueAt(loan.getEntityId(), i, 0);
-                this.loanTable.setValueAt(stud.getFirstname(), i, 1);
-                this.loanTable.setValueAt(book.getName(), i, 2);
-                this.loanTable.setValueAt(loan.getLoanDate(), i, 3);
-                this.loanTable.setValueAt(loan.getDevolutionDate(), i, 4);
-                this.loanTable.setValueAt(loan.getStatus(), i, 5);
+            if(devolution.getEntityId() == 0) {
+                devolutionDate = "###";
+            }else{
+                devolutionDate = devolution.getDevolutionDate();
+            }
+
+            this.loanTable.setValueAt(loan.getEntityId(), i, 0);
+            this.loanTable.setValueAt(stud.getFirstname(), i, 1);
+            this.loanTable.setValueAt(book.getName(), i, 2);
+            this.loanTable.setValueAt(loan.getLoanDate(), i, 3);
+            this.loanTable.setValueAt(devolutionDate, i, 4);
         }
         
     }

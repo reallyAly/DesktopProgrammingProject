@@ -1,4 +1,4 @@
-package controller.file;
+package controller;
 
 import java.io.File;
 
@@ -6,13 +6,9 @@ import java.io.File;
  *
  * @author alysson
  */
-public abstract class FileController {
+public class FileController {
     
     protected File file = null;
-    
-    public abstract boolean read();
-    
-    public abstract boolean write(boolean append);
     
     /**
      * @return File
