@@ -2,7 +2,6 @@
 <!-- Created with Jaspersoft Studio version 6.19.1.final using JasperReports Library version 6.19.1-867c00bf88cd4d784d404379d6c05e1b419e8a4c  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="loans_by_student" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="de0fe8ca-6500-450d-b459-05dc9edcdf58">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlConn"/>
 	<queryString>
 		<![CDATA[SELECT 
 loan.entity_id as loan_id,
@@ -118,7 +117,6 @@ ORDER BY book.book_name;]]>
 	</columnHeader>
 	<detail>
 		<band height="125" splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<rectangle>
 				<reportElement x="17" y="20" width="515" height="70" backcolor="#FFFFFF" uuid="a72eb100-c813-4b62-9710-4acb8e5281bb">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>

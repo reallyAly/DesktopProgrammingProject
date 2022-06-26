@@ -21,8 +21,6 @@ import controller.GenerateReportController;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JRException;
 
 /**
@@ -75,6 +73,7 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
         selectReportTypeDialog = new javax.swing.JDialog();
         generateReportByStudent = new javax.swing.JButton();
         generateReportAll = new javax.swing.JButton();
+        generateReportByStudent1 = new javax.swing.JButton();
         reportByStudentParamDialog = new javax.swing.JDialog();
         studentComboBox = new javax.swing.JComboBox<>();
         studentLabel = new javax.swing.JLabel();
@@ -89,7 +88,7 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
         selectReportTypeDialog.setMinimumSize(new java.awt.Dimension(512, 326));
         selectReportTypeDialog.setResizable(false);
 
-        generateReportByStudent.setText("Generate Report - By Student");
+        generateReportByStudent.setText("Generate Report - From Student");
         generateReportByStudent.setToolTipText("");
         generateReportByStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,25 +104,36 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
             }
         });
 
+        generateReportByStudent1.setText("Generate Report - Per Books");
+        generateReportByStudent1.setToolTipText("");
+        generateReportByStudent1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateReportByStudent1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout selectReportTypeDialogLayout = new javax.swing.GroupLayout(selectReportTypeDialog.getContentPane());
         selectReportTypeDialog.getContentPane().setLayout(selectReportTypeDialogLayout);
         selectReportTypeDialogLayout.setHorizontalGroup(
             selectReportTypeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(selectReportTypeDialogLayout.createSequentialGroup()
-                .addGap(137, 137, 137)
-                .addGroup(selectReportTypeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(generateReportAll, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(generateReportByStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(141, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, selectReportTypeDialogLayout.createSequentialGroup()
+                .addContainerGap(110, Short.MAX_VALUE)
+                .addGroup(selectReportTypeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(generateReportByStudent, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+                    .addComponent(generateReportByStudent1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(generateReportAll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(106, 106, 106))
         );
         selectReportTypeDialogLayout.setVerticalGroup(
             selectReportTypeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(selectReportTypeDialogLayout.createSequentialGroup()
-                .addGap(67, 67, 67)
+                .addGap(34, 34, 34)
                 .addComponent(generateReportByStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addGap(35, 35, 35)
+                .addComponent(generateReportByStudent1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addComponent(generateReportAll, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         reportByStudentParamDialog.setMinimumSize(new java.awt.Dimension(493, 308));
@@ -387,6 +397,18 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_generateReportAllActionPerformed
 
+    private void generateReportByStudent1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateReportByStudent1ActionPerformed
+        try {
+            this.generateReportController.generateReport(Loan.REPORT_LOAN_PER_BOOKS_TEMPLATE_FILENAME, new HashMap());
+        }catch (SQLException | FileNotFoundException | JRException e) {
+            this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to generate a report",
+            jOptionPane1.WARNING_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_generateReportByStudent1ActionPerformed
+
     private void fillTable(){ 
         
         ArrayList<Loan> loans = this.loanDAO.get(null);
@@ -423,6 +445,7 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
     private javax.swing.JButton generateReportButton;
     private javax.swing.JButton generateReportByStudButton;
     private javax.swing.JButton generateReportByStudent;
+    private javax.swing.JButton generateReportByStudent1;
     private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable loanTable;

@@ -22,6 +22,8 @@ public class Loan {
     
     public static final String REPORT_LOAN_TEMPLATE_FILENAME = "loans_report.jrxml";
     
+    public static final String REPORT_LOAN_PER_BOOKS_TEMPLATE_FILENAME = "loans_per_books.jrxml";
+    
     private int entityId;
     
     private int studentId;
