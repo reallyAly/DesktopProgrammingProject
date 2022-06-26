@@ -16,6 +16,7 @@ import model.Book;
 import model.Loan;
 import model.Student;
 import model.Devolution;
+import model.StudentsComboBoxModel;
 
 /**
  *
@@ -46,6 +47,7 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
         this.bookDAO = new BookDAO();
         this.devolutionDAO = new DevolutionDAO();
         this.returnBookController = new ReturnBookController(librarianId);
+        
         initComponents();
         fillTable();
     }
@@ -64,7 +66,7 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
         generateReportByStudent = new javax.swing.JButton();
         generateReportAll = new javax.swing.JButton();
         reportByStudentParamDialog = new javax.swing.JDialog();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        studentComboBox = new javax.swing.JComboBox<>();
         studentLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         titleLabel = new javax.swing.JLabel();
@@ -111,7 +113,7 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
 
         reportByStudentParamDialog.setMinimumSize(new java.awt.Dimension(493, 308));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        studentComboBox.setModel(new StudentsComboBoxModel());
 
         studentLabel.setText("Student");
 
@@ -131,7 +133,7 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(reportByStudentParamDialogLayout.createSequentialGroup()
                         .addGap(82, 82, 82)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(studentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(82, Short.MAX_VALUE))
         );
         reportByStudentParamDialogLayout.setVerticalGroup(
@@ -140,7 +142,7 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
                 .addGap(48, 48, 48)
                 .addComponent(studentLabel)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(studentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(95, Short.MAX_VALUE))
@@ -367,13 +369,13 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
     private javax.swing.JButton generateReportButton;
     private javax.swing.JButton generateReportByStudent;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable loanTable;
     private javax.swing.JDialog reportByStudentParamDialog;
     private javax.swing.JButton returnButton;
     private javax.swing.JDialog selectReportTypeDialog;
+    private javax.swing.JComboBox<String> studentComboBox;
     private javax.swing.JLabel studentLabel;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
