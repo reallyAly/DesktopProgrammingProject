@@ -60,11 +60,91 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
     private void initComponents() {
 
         jOptionPane1 = new javax.swing.JOptionPane();
+        selectReportTypeDialog = new javax.swing.JDialog();
+        generateReportByStudent = new javax.swing.JButton();
+        generateReportAll = new javax.swing.JButton();
+        reportByStudentParamDialog = new javax.swing.JDialog();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        studentLabel = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         titleLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         loanTable = new javax.swing.JTable();
         returnButton = new javax.swing.JButton();
-        backButton2 = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
+        generateReportButton = new javax.swing.JButton();
+
+        selectReportTypeDialog.setMinimumSize(new java.awt.Dimension(512, 326));
+        selectReportTypeDialog.setResizable(false);
+
+        generateReportByStudent.setText("Generate Report - By Student");
+        generateReportByStudent.setToolTipText("");
+        generateReportByStudent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateReportByStudentActionPerformed(evt);
+            }
+        });
+
+        generateReportAll.setText("Generate Report - All");
+        generateReportAll.setToolTipText("");
+
+        javax.swing.GroupLayout selectReportTypeDialogLayout = new javax.swing.GroupLayout(selectReportTypeDialog.getContentPane());
+        selectReportTypeDialog.getContentPane().setLayout(selectReportTypeDialogLayout);
+        selectReportTypeDialogLayout.setHorizontalGroup(
+            selectReportTypeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(selectReportTypeDialogLayout.createSequentialGroup()
+                .addGap(137, 137, 137)
+                .addGroup(selectReportTypeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(generateReportAll, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(generateReportByStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(141, Short.MAX_VALUE))
+        );
+        selectReportTypeDialogLayout.setVerticalGroup(
+            selectReportTypeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(selectReportTypeDialogLayout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addComponent(generateReportByStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addComponent(generateReportAll, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(99, Short.MAX_VALUE))
+        );
+
+        reportByStudentParamDialog.setMinimumSize(new java.awt.Dimension(493, 308));
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        studentLabel.setText("Student");
+
+        jButton1.setText("Generate");
+
+        javax.swing.GroupLayout reportByStudentParamDialogLayout = new javax.swing.GroupLayout(reportByStudentParamDialog.getContentPane());
+        reportByStudentParamDialog.getContentPane().setLayout(reportByStudentParamDialogLayout);
+        reportByStudentParamDialogLayout.setHorizontalGroup(
+            reportByStudentParamDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reportByStudentParamDialogLayout.createSequentialGroup()
+                .addGroup(reportByStudentParamDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(reportByStudentParamDialogLayout.createSequentialGroup()
+                        .addGap(216, 216, 216)
+                        .addComponent(studentLabel))
+                    .addGroup(reportByStudentParamDialogLayout.createSequentialGroup()
+                        .addGap(168, 168, 168)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(reportByStudentParamDialogLayout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(82, Short.MAX_VALUE))
+        );
+        reportByStudentParamDialogLayout.setVerticalGroup(
+            reportByStudentParamDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reportByStudentParamDialogLayout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(studentLabel)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(95, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -143,10 +223,17 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
             }
         });
 
-        backButton2.setText("Back");
-        backButton2.addActionListener(new java.awt.event.ActionListener() {
+        backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backButton2ActionPerformed(evt);
+                backButtonActionPerformed(evt);
+            }
+        });
+
+        generateReportButton.setText("Generate Report");
+        generateReportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateReportButtonActionPerformed(evt);
             }
         });
 
@@ -161,14 +248,16 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(434, 434, 434)
+                        .addGap(314, 314, 314)
                         .addComponent(returnButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(62, 62, 62)
-                        .addComponent(backButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(64, 64, 64)
+                        .addComponent(generateReportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(76, 76, 76)
+                        .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(462, 462, 462)
                         .addComponent(titleLabel)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(250, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,7 +269,8 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(returnButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(backButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(generateReportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19))
         );
 
@@ -227,10 +317,19 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_returnButtonActionPerformed
 
-    private void backButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton2ActionPerformed
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         new LibrarianDashboardView(this.librarianId).setVisible(true);
         dispose();
-    }//GEN-LAST:event_backButton2ActionPerformed
+    }//GEN-LAST:event_backButtonActionPerformed
+
+    private void generateReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateReportButtonActionPerformed
+        this.selectReportTypeDialog.setVisible(true);
+    }//GEN-LAST:event_generateReportButtonActionPerformed
+
+    private void generateReportByStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateReportByStudentActionPerformed
+        this.selectReportTypeDialog.dispose();
+        this.reportByStudentParamDialog.setVisible(true);
+    }//GEN-LAST:event_generateReportByStudentActionPerformed
 
     private void fillTable(){ 
         
@@ -263,11 +362,19 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton backButton2;
+    private javax.swing.JButton backButton;
+    private javax.swing.JButton generateReportAll;
+    private javax.swing.JButton generateReportButton;
+    private javax.swing.JButton generateReportByStudent;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable loanTable;
+    private javax.swing.JDialog reportByStudentParamDialog;
     private javax.swing.JButton returnButton;
+    private javax.swing.JDialog selectReportTypeDialog;
+    private javax.swing.JLabel studentLabel;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }
