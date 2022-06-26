@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.1.final using JasperReports Library version 6.19.1-867c00bf88cd4d784d404379d6c05e1b419e8a4c  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="loans_by_student" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="de0fe8ca-6500-450d-b459-05dc9edcdf58">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString>
+		<![CDATA[SELECT 
+loan.entity_id as loan_id,
+student.firstname as student_name,
+book.book_name,
+loan.created_at as loan_date,
+devolution.created_at as devolution_date
+FROM loan
+INNER JOIN student 
+ON loan.student_id = student.entity_id
+INNER JOIN book
+ON loan.book_id = book.entity_id
+LEFT JOIN devolution
+ON loan.devolution_id = devolution.entity_id]]>
+	</queryString>
+	<field name="loan_id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="loan_id"/>
+		<property name="com.jaspersoft.studio.field.name" value="loan_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="loan"/>
+	</field>
+	<field name="student_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="student_name"/>
+		<property name="com.jaspersoft.studio.field.name" value="student_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="student"/>
+	</field>
+	<field name="book_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="book_name"/>
+		<property name="com.jaspersoft.studio.field.name" value="book_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="book"/>
+	</field>
+	<field name="loan_date" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="loan_date"/>
+		<property name="com.jaspersoft.studio.field.name" value="loan_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="loan"/>
+	</field>
+	<field name="devolution_date" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="devolution_date"/>
+		<property name="com.jaspersoft.studio.field.name" value="devolution_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="devolution"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="160" y="20" width="240" height="30" uuid="9a73b701-41fa-4eea-85f4-a94b8151a34c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font size="22" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Loans]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="48" splitType="Stretch">
+			<staticText>
+				<reportElement x="100" y="9" width="360" height="30" uuid="3afca62f-d7a8-4d6f-ba03-2a0df7f4b1b5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font size="16" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[List of registered loans]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="110" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="10" width="553" height="50" backcolor="#BDE0FF" uuid="bee8291d-7bb9-417d-9c3e-47bed1ace357"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="20" y="20" width="100" height="30" uuid="53ca4201-7403-40f9-8fa0-506b5242a37f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Loan ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="20" width="100" height="30" uuid="dbe9542d-1d03-48eb-94f7-fc28851316dc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Book Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="20" width="100" height="30" uuid="cc2a7f61-27b8-467a-af3e-bc1b57280dc1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Loan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="20" width="100" height="30" uuid="846da74b-7221-4782-9485-58a57739e3a0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Devolution]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="30" width="553" height="50" backcolor="#FFFFFF" uuid="a72eb100-c813-4b62-9710-4acb8e5281bb"/>
+			</rectangle>
+			<textField>
+				<reportElement x="20" y="40" width="100" height="30" uuid="98489ece-e109-4726-9638-dac9c1faf2b0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{loan_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="40" width="100" height="30" uuid="19951539-8cd0-49b5-8923-cac85e1851c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{book_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="40" width="100" height="30" uuid="8f8fa79d-d95c-465e-9985-7391467b9fa4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{loan_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="440" y="40" width="100" height="30" uuid="53f387fb-1314-4464-a896-c0ffbbbe1077"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{devolution_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="64" splitType="Stretch">
+			<textField>
+				<reportElement x="520" y="30" width="31" height="30" uuid="870dbefa-04ee-4d5a-b7ac-aa31f70a2009"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

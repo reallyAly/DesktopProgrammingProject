@@ -20,6 +20,7 @@ import model.StudentsComboBoxModel;
 import controller.GenerateReportController;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JRException;
@@ -98,6 +99,11 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
 
         generateReportAll.setText("Generate Report - All");
         generateReportAll.setToolTipText("");
+        generateReportAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateReportAllActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout selectReportTypeDialogLayout = new javax.swing.GroupLayout(selectReportTypeDialog.getContentPane());
         selectReportTypeDialog.getContentPane().setLayout(selectReportTypeDialogLayout);
@@ -368,6 +374,18 @@ public class LibrarianViewLoans extends javax.swing.JFrame {
                 );
         }
     }//GEN-LAST:event_generateReportByStudButtonActionPerformed
+
+    private void generateReportAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateReportAllActionPerformed
+        try {
+            this.generateReportController.generateReport(Loan.REPORT_LOAN_TEMPLATE_FILENAME, new HashMap());
+        }catch (SQLException | FileNotFoundException | JRException e) {
+            this.jOptionPane1.showMessageDialog(this,
+                e.getMessage(),
+                "Error trying to generate a report",
+            jOptionPane1.WARNING_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_generateReportAllActionPerformed
 
     private void fillTable(){ 
         
