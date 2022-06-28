@@ -2,6 +2,7 @@
 <!-- Created with Jaspersoft Studio version 6.19.1.final using JasperReports Library version 6.19.1-867c00bf88cd4d784d404379d6c05e1b419e8a4c  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="loans_by_student" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="de0fe8ca-6500-450d-b459-05dc9edcdf58">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlConn"/>
 	<parameter name="student_id" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[$P{student_id}]]></defaultValueExpression>
 	</parameter>
@@ -46,6 +47,9 @@ WHERE loan.student_id = $P{student_id}]]>
 		<property name="com.jaspersoft.studio.field.name" value="devolution_date"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="devolution"/>
 	</field>
+	<variable name="devolution" class="java.lang.String">
+		<variableExpression><![CDATA[String.valueOf($F{devolution_date}) != "null" ? String.valueOf($F{devolution_date}) : "Not returned"]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -72,7 +76,7 @@ WHERE loan.student_id = $P{student_id}]]>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="110" splitType="Stretch">
+		<band height="60" splitType="Stretch">
 			<rectangle>
 				<reportElement x="0" y="10" width="553" height="50" backcolor="#BDE0FF" uuid="bee8291d-7bb9-417d-9c3e-47bed1ace357"/>
 			</rectangle>
@@ -99,7 +103,7 @@ WHERE loan.student_id = $P{student_id}]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="80" splitType="Stretch">
 			<rectangle>
 				<reportElement x="0" y="30" width="553" height="50" backcolor="#FFFFFF" uuid="a72eb100-c813-4b62-9710-4acb8e5281bb"/>
 			</rectangle>
@@ -121,7 +125,7 @@ WHERE loan.student_id = $P{student_id}]]>
 			<textField>
 				<reportElement x="440" y="40" width="100" height="30" uuid="53f387fb-1314-4464-a896-c0ffbbbe1077"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{devolution_date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{devolution}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

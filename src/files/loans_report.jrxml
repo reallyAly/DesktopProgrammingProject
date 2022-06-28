@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.19.1.final using JasperReports Library version 6.19.1-867c00bf88cd4d784d404379d6c05e1b419e8a4c  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="loans_by_student" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="de0fe8ca-6500-450d-b459-05dc9edcdf58">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="loans_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="de0fe8ca-6500-450d-b459-05dc9edcdf58">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlConn"/>
 	<queryString>
 		<![CDATA[SELECT 
 loan.entity_id as loan_id,
@@ -16,9 +15,7 @@ ON loan.student_id = student.entity_id
 INNER JOIN book
 ON loan.book_id = book.entity_id
 LEFT JOIN devolution
-ON loan.devolution_id = devolution.entity_id
-GROUP BY book.book_name, loan.entity_id
-ORDER BY book.book_name;]]>
+ON loan.devolution_id = devolution.entity_id]]>
 	</queryString>
 	<field name="loan_id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.label" value="loan_id"/>
@@ -45,25 +42,9 @@ ORDER BY book.book_name;]]>
 		<property name="com.jaspersoft.studio.field.name" value="devolution_date"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="devolution"/>
 	</field>
-	<group name="GroupByBook">
-		<groupExpression><![CDATA[$F{book_name}]]></groupExpression>
-		<groupHeader>
-			<band height="55">
-				<rectangle>
-					<reportElement x="-2" y="2" width="553" height="50" backcolor="#BDE0FF" uuid="bd46a809-1f2f-4a01-b239-a9f357fb83da"/>
-				</rectangle>
-				<textField>
-					<reportElement x="190" y="10" width="180" height="30" uuid="6523d5a0-41b5-4de9-b9a2-2c025efc53da"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA["Book Name: "+$F{book_name}]]></textFieldExpression>
-					<patternExpression><![CDATA[$F{book_name}]]></patternExpression>
-				</textField>
-			</band>
-		</groupHeader>
-		<groupFooter>
-			<band height="50"/>
-		</groupFooter>
-	</group>
+	<variable name="devolution" class="java.lang.String">
+		<variableExpression><![CDATA[String.valueOf($F{devolution_date}) != "null" ? String.valueOf($F{devolution_date}) : "Not returned"]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -74,23 +55,23 @@ ORDER BY book.book_name;]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
 					<font size="22" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Loans]]></text>
+				<text><![CDATA[Registered loans]]></text>
 			</staticText>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="48" splitType="Stretch">
+		<band height="52" splitType="Stretch">
 			<staticText>
-				<reportElement x="100" y="9" width="360" height="30" uuid="3afca62f-d7a8-4d6f-ba03-2a0df7f4b1b5"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-					<font size="16" isItalic="true"/>
+				<reportElement x="200" y="10" width="172" height="30" uuid="a8c62e77-bf80-4bc5-a912-000fff3a358c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
 				</textElement>
-				<text><![CDATA[List of loans grouped by books]]></text>
+				<text><![CDATA[List of Loans]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="110" splitType="Stretch">
+		<band height="65" splitType="Stretch">
 			<rectangle>
 				<reportElement x="0" y="10" width="553" height="50" backcolor="#BDE0FF" uuid="bee8291d-7bb9-417d-9c3e-47bed1ace357"/>
 			</rectangle>
@@ -100,49 +81,56 @@ ORDER BY book.book_name;]]>
 				<text><![CDATA[Loan ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="300" y="20" width="100" height="30" uuid="cc2a7f61-27b8-467a-af3e-bc1b57280dc1"/>
+				<reportElement x="230" y="20" width="100" height="30" uuid="dbe9542d-1d03-48eb-94f7-fc28851316dc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Book Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="20" width="100" height="30" uuid="cc2a7f61-27b8-467a-af3e-bc1b57280dc1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Loan]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="430" y="20" width="100" height="30" uuid="846da74b-7221-4782-9485-58a57739e3a0"/>
+				<reportElement x="445" y="20" width="100" height="30" uuid="846da74b-7221-4782-9485-58a57739e3a0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Devolution]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="150" y="20" width="100" height="30" uuid="af7c9622-5c7d-4870-9b2b-531bfc49c16b"/>
+				<reportElement x="110" y="20" width="100" height="30" uuid="bb6c999e-ff0e-4d86-8ef1-c2da3219e7c0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Student Name]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		<band height="80" splitType="Stretch">
 			<rectangle>
-				<reportElement x="17" y="20" width="515" height="70" backcolor="#FFFFFF" uuid="a72eb100-c813-4b62-9710-4acb8e5281bb">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-				</reportElement>
+				<reportElement x="0" y="30" width="553" height="50" backcolor="#FFFFFF" uuid="a72eb100-c813-4b62-9710-4acb8e5281bb"/>
 			</rectangle>
 			<textField>
-				<reportElement x="20" y="40" width="90" height="30" uuid="98489ece-e109-4726-9638-dac9c1faf2b0"/>
+				<reportElement x="10" y="40" width="100" height="30" uuid="98489ece-e109-4726-9638-dac9c1faf2b0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{loan_id}]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Band">
-				<reportElement x="150" y="40" width="90" height="30" uuid="19951539-8cd0-49b5-8923-cac85e1851c8"/>
+			<textField>
+				<reportElement x="230" y="40" width="100" height="30" uuid="19951539-8cd0-49b5-8923-cac85e1851c8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{student_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{book_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="305" y="40" width="90" height="30" uuid="8f8fa79d-d95c-465e-9985-7391467b9fa4"/>
+				<reportElement x="340" y="40" width="100" height="30" uuid="8f8fa79d-d95c-465e-9985-7391467b9fa4"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{loan_date}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="435" y="40" width="90" height="30" uuid="53f387fb-1314-4464-a896-c0ffbbbe1077"/>
+			<textField>
+				<reportElement x="450" y="40" width="100" height="30" uuid="53f387fb-1314-4464-a896-c0ffbbbe1077"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{devolution_date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{devolution}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="40" width="100" height="30" uuid="f36eeac4-a4e5-465a-b28c-f28ccdf51232"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{student_name}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
