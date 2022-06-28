@@ -28,7 +28,7 @@ CREATE TABLE `book` (
   `isbn` varchar(255) NOT NULL,
   `author` varchar(255) NOT NULL,
   PRIMARY KEY (`entity_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `book` (
 
 LOCK TABLES `book` WRITE;
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
-INSERT INTO `book` VALUES (2,'Senhor das Moscas','00002','Willian Golding');
+INSERT INTO `book` VALUES (2,'Senhor das Moscas','00002','Willian Golding'),(3,'Eu sou a lenda','00002','Richard Matheson'),(4,'Deuses Americanos','000003','Neil Gaiman'),(5,'O Instituto','000004','Stephen King'),(6,'O Iluminado','00000054','Stephen King'),(7,'A Bussola de Ouro','000095','Phillip Pullman'),(8,'Coraline','000595','Neil Gaiman');
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,7 +58,7 @@ CREATE TABLE `devolution` (
   KEY `loan_id` (`loan_id`),
   CONSTRAINT `devolution_ibfk_1` FOREIGN KEY (`librarian_id`) REFERENCES `librarian` (`entity_id`) ON DELETE CASCADE,
   CONSTRAINT `devolution_ibfk_2` FOREIGN KEY (`loan_id`) REFERENCES `loan` (`entity_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,6 +67,7 @@ CREATE TABLE `devolution` (
 
 LOCK TABLES `devolution` WRITE;
 /*!40000 ALTER TABLE `devolution` DISABLE KEYS */;
+INSERT INTO `devolution` VALUES (1,1,2,'2022-06-26 18:25:29'),(2,1,3,'2022-06-26 20:15:36'),(3,1,4,'2022-06-26 20:15:39'),(4,1,5,'2022-06-26 20:15:41'),(5,1,6,'2022-06-26 20:15:43');
 /*!40000 ALTER TABLE `devolution` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +116,7 @@ CREATE TABLE `loan` (
   KEY `book_id` (`book_id`),
   CONSTRAINT `loan_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`entity_id`) ON DELETE CASCADE,
   CONSTRAINT `loan_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `book` (`entity_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,6 +125,7 @@ CREATE TABLE `loan` (
 
 LOCK TABLES `loan` WRITE;
 /*!40000 ALTER TABLE `loan` DISABLE KEYS */;
+INSERT INTO `loan` VALUES (2,2,2,1,'2022-06-26 18:15:32'),(3,2,4,2,'2022-06-26 18:21:04'),(4,3,8,3,'2022-06-26 20:03:02'),(5,3,5,4,'2022-06-26 20:03:09'),(6,3,2,5,'2022-06-26 20:03:19'),(7,2,2,0,'2022-06-26 20:16:30'),(8,2,8,0,'2022-06-26 20:16:40');
 /*!40000 ALTER TABLE `loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +144,7 @@ CREATE TABLE `student` (
   `pass` varchar(255) NOT NULL,
   `RA` varchar(255) NOT NULL,
   PRIMARY KEY (`entity_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +153,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (2,'Estudante','Estudante ','estudante@gmail.com','Dev12@12','2142341');
+INSERT INTO `student` VALUES (2,'Estudante','Estudante ','estudante@gmail.com','Dev12@12','2142341'),(3,'Alysson','Victor','alyssonsantos@alunos.utfpr.edu.br','Dev12@12','2142342');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -164,4 +166,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-06-06 12:53:57
+-- Dump completed on 2022-06-27 22:34:39
