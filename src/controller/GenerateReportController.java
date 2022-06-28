@@ -53,7 +53,7 @@ public class GenerateReportController {
                 this.connection);
         }
        
-        JasperViewer.viewReport(impressao);
+        JasperViewer.viewReport(impressao, false);
 
         this.connection.close();       
     }
